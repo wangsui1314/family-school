@@ -50,7 +50,7 @@ public class MD5Tools {
 	/**
 	 * 计算字符串的MD5
 	 * 
-	 * @param input[计算之前的字符串]
+	 * @param input [计算之前的字符串]
 	 * @return String [字符串MD5后]
 	 */
 	public static String getMD5Str(String input) {
@@ -112,4 +112,5 @@ public class MD5Tools {
 	private static byte charToByte(char c) {
 		return (byte) "0123456789ABCDEF".indexOf(c);
 	}
+
 }
