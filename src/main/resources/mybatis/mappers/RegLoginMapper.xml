@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bjwk.dao.RegLoginDao">
+    
+    
+    <insert id="insertReg" parameterType="com.bjwk.model.pojo.Users">
+    
+       <selectKey resultType="int" order="AFTER" keyProperty="userId">
+          SELECT LAST_INSERT_ID()
+      </selectKey>
+      insert into users(user_name,phone,pass_word,email,sign,head_portrait,sex,nick_name) values(
+      #{userName},#{phone},#{passWord},#{email},#{sign},#{headPortrait},#{sex},#{nickName})
+    </insert>
+    
+    <select id="queryUserIsTrue" resultType="String">
+     select user_name from users
+     <where>
+         <if test="userName!=null and userName!=''">
+             user_name =#{userName}
+         </if>
+         <if test="sign!=null and sign!=''">
+           and  sign =#{sign}
+         </if>
+     </where>
+    </select>
+
+    <select id="queryUserIsTrueByPhoneSign" resultType="int">
+        select count(1) from users where phone=#{phone} and sign=#{sign}
+    </select>
+
+
+    <select id="getUserIdByUserName"  resultType="java.lang.String">
+      select user_id from users where user_name=#{userName}
+    </select>
+    
+    <resultMap type="com.bjwk.model.pojo.Users" id="queryPassWordIsOk">
+        <id column="user_id" property="userId"/>
+        <result column="user_name" property="userName"/>
+        <result column="eamil" property="email"/>
+        <result column="phone" property="phone"/>
+        <result column="sign" property="sign"/>  
+        <result column="coin" property="coin"/>
+        <result column="head_portrait" property="headPortrait"/>
+        <result column="profession_id" property="professionId"/>
+        <result column="sex" property="sex"/>
+        <result column="nick_name" property="nickName"/>
+        <result column="background" property="background"/>
+        <result column="style_signature" property="styleSignTure"/>
+        <result column="gestrue_isok" property="gestrueIsOk"/>
+        <result column="created" property="created"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+    <select id="queryPassWordIsOk" resultMap="queryPassWordIsOk">
+     select * from users where user_name =#{userName} and pass_word=#{passWord} and sign=#{sign}
+    </select>
+    
+    <select id="gestureLogin" resultMap="queryPassWordIsOk">
+     select * from  users where user_name=#{userName}  and gesture_passWord=#{gesturePassWord}
+    </select>
+    
+    <select id="validaIsTrueByPhoneAndSign" resultMap="queryPassWordIsOk">
+     select * from users where phone =#{phone} and sign=#{sign}
+    </select>
+    
+    
+    
+    
+    <!-- 更改用户标签 （存在更改，不存在则插入）ON DUPLICATE KEY UPDATE labe_id=#{item}-->
+    <insert id="insrtLable">
+     REPLACE into  user_lable(user_id,labe_id) 
+     values
+     <foreach collection="array" index="index" item="item"
+             separator="," >
+            (
+            #{userId},#{item} 
+            )
+        </foreach>
+    </insert>
+    <update id="changeUserInfo">
+      update users 
+     <set>
+      <if test="headPortrait!=null and headPortrait!=''">
+       head_portrait=#{headPortrait} , 
+      </if>
+       <if test="sex!=null and sex!=''">
+       sex=#{sex}, 
+      </if>
+      <if test="nickName !=null and nickName !=''">
+       nick_name=#{nickName},
+      </if>
+      <if test="background!=null and background!=''">
+       background=#{background} , 
+      </if>
+      <if test="styleSignTure!=null and styleSignTure!=''">
+       style_signature=#{styleSignTure} , 
+      </if>
+     </set>
+     <where>
+        user_name =#{userName}
+     </where>
+    </update>
+   
+   
+   <resultMap type="com.bjwk.model.pojo.Users" id="queryUserInfoDetails">
+        <id column="user_id" property="userId"/>
+        <result column="user_name" property="userName"/>
+        <result column="email" property="email"/>
+        <result column="phone" property="phone"/>
+        <result column="sign" property="sign"/>  
+        <result column="coin" property="coin"/>
+        <result column="head_portrait" property="headPortrait"/>
+        <result column="sex" property="sex"/>
+        <result column="nick_name" property="nickName"/>
+        <result column="background" property="background"/>
+        <result column="style_signature" property="styleSignTure"/>
+        <result column="gestrue_isok" property="gestrueIsOk"/>
+        <result column="created" property="created"/>
+        <result column="update_time" property="updateTime"/>
+        <!-- lable -->
+        
+         <collection property="labelMap" ofType="java.util.Map">   
+            <result column="lable_name" property="lableName"/>  
+            <result column="lable_type" property="lableType"/> 
+        </collection>  
+    </resultMap>
+     
+    <!--  用户详情-->
+    <select id="queryUserInfoDetails" resultMap="queryUserInfoDetails">
+      select user.user_id,user.user_name,user.email,user.phone,user.sign,user.coin,user.head_portrait,
+      user.sex,user.nick_name,user.background,user.style_signature,user.created,user.update_time,user.gestrue_isok,
+      lable.lable_name,lable.lable_type
+       from users user  left join user_lable userlable on user.user_id=userlable.user_id 
+      left join lable lable on userlable.labe_id=lable.id
+      where user.user_name=#{userName} and user.sign=#{sign}
+    </select>
+
+    <!--用户更改密码验证阶段-->
+    <select id="updateUserPassWord" resultType="int">
+        select count(1) from users where phone=#{phone} and sign=#{sign}
+    </select>
+
+    <!--更改密码-->
+    <update id="userUpdateToPassWord">
+        update users set
+        pass_word=#{newPassWd}
+        where
+        user_name=#{userName} and sign=#{sign}
+    </update>
+
+</mapper>       
