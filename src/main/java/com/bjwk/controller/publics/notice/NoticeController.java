@@ -5,6 +5,7 @@ import com.bjwk.service.publics.notice.NoticeService;
 import com.bjwk.utils.CallStatusEnum;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ import java.util.List;
 @RequestMapping("api/public/notice")
 public class NoticeController {
 
-    private static final Log _logger = LogFactory.getLog(NoticeController.class);
+    private static Logger _logger = Logger.getLogger(NoticeController.class);
 
     @Autowired
     private NoticeService noticeService;
@@ -36,6 +37,7 @@ public class NoticeController {
     @RequestMapping("_pageNotice")
     @ResponseBody
     public DataWrapper<List> pageNotice() {
+        _logger.info(this.getClass().getSimpleName()+" 查询所有公告(最近10条)");
         List<NoticeEntity> list = noticeService.findAllNotice();
         DataWrapper<List> dataWrapper = new DataWrapper<List>();
         if (list == null) {
