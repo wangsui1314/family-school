@@ -5,6 +5,7 @@ all:
 	git pull https://github.com/wangsui1314/family-school.git master
 	rm -rf ./target
 	mvn clean package
+	mv /root/jjxy/family-school/target/family-school.war  /root/jjxy/family-school/family-school.war
 	docker rm -f familyschool
 	docker rmi familyschool
 	docker build -t familyschool .
