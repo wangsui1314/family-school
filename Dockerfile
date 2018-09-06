@@ -10,7 +10,7 @@ ENV WORK_PATH /usr/local/tomcat/conf
 #定义要替换的server.xml文件名
 ENV SERVER_CONF_FILE_NAME server.xml
 
-ADD /root/jjxy/family-school/target/*.war /usr/local/tomcat/webapps/family-school.war
+ADD family-school.war /usr/local/tomcat/webapps/family-school.war
 
 #删除原文件server.xml
 RUN rm $WORK_PATH/$SERVER_CONF_FILE_NAME
