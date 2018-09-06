@@ -10,3 +10,4 @@ all:
 	docker rmi familyschool
 	docker build -t familyschool .
 	docker run -p 7070:8080  --name familyschool  -d familyschool
+    docker logs -f --tail 100 familyschool
