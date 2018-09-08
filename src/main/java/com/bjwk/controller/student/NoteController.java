@@ -34,11 +34,45 @@ public class NoteController {
     @ResponseBody
     @TokenValidate
     public DataWrapper<Void> createNote(
-            @RequestParam(value = "noteTitle",defaultValue = "这是默认标题") String noteTitle,
+            @RequestParam(value = "noteTitle", defaultValue = "这是默认标题") String noteTitle,
             @RequestParam(value = "noteContent") String content,
             @RequestParam(value = "token") String token,
-            @RequestParam(value = "noteType",defaultValue = "0") Integer type
+            @RequestParam(value = "noteType", defaultValue = "0") Integer type
     ) {
-        return noteService.createNote(noteTitle,content,token,type);
+        return noteService.createNote(noteTitle, content, token, type);
+    }
+
+    /**
+     * @Description:删除笔记
+     * @Param: [noteId]
+     * @return: com.bjwk.utils.DataWrapper<java.lang.Void>
+     * @Author: liqitian
+     * @Date: 2018/9/7
+     */
+    @RequestMapping("/deleteNote")
+    @ResponseBody
+    @TokenValidate
+    public DataWrapper<Void> deleteNote(
+            @RequestParam(value = "noteTitle") Integer noteId
+    ) {
+        return noteService.deleteNote(noteId);
+    }
+
+    /**
+     * @Description:查询笔记
+     * @Param: [noteId]
+     * @return: com.bjwk.utils.DataWrapper<java.lang.Void>
+     * @Author: liqitian
+     * @Date: 2018/9/7
+     */
+    @RequestMapping("/queryNodeList")
+    @ResponseBody
+    @TokenValidate
+    public DataWrapper<Object> queryNodeList(
+            @RequestParam(value = "token") String token,
+            @RequestParam(value = "currentPage",defaultValue = "1")int currentPage,
+            @RequestParam(value = "numberPerPage",defaultValue = "10")int numberPerPage
+    ) {
+        return noteService.queryNodeList(token,currentPage,numberPerPage);
     }
 }

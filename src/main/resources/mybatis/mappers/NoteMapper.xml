@@ -5,4 +5,10 @@
 			<insert id="createNote">
 				insert into note(noteTitle,noteType,noteContent)values(#{noteTitle},#{noteType},#{noteContent})
 			</insert>
+
+	 		<delete id="deleteNote">
+				delete from note
+				where
+				id = #{id}
+			</delete>
 </mapper>

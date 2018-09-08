@@ -14,7 +14,7 @@
 	<!-- 配置数据源 使用的是Druid数据源 -->
 	<bean name="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
 		init-method="init" destroy-method="close">
-		<property name="url" value="jdbc:mysql://www.wangsui.top:3306/family-school?useUnicode=true" />
+		<property name="url" value="jdbc:mysql://www.liqitian.com:4406/family-school?useUnicode=true" />
 		<property name="username" value="root" />
 		<property name="password" value="root" />
 

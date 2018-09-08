@@ -2,7 +2,6 @@ package com.bjwk.service.student;
 
 import com.bjwk.utils.DataWrapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -14,8 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
  **/
 @Controller
 @RequestMapping("api/note")
-@Slf4j
 public interface NoteService {
 
     DataWrapper<Void> createNote( String noteTitle,String content, String token, Integer type);
+
+    DataWrapper<Void> deleteNote(Integer noteId);
+
+    DataWrapper<Object> queryNodeList(String token, int currentPage, int numberPerPage);
 }
