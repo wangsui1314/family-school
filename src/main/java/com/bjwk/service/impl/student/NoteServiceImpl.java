@@ -36,12 +36,10 @@ public class NoteServiceImpl implements NoteService {
      */
     @Override
     public DataWrapper<Void> createNote(String noteTitle, String content, String token, Integer type) {
-        log.info("创建笔记 [入参]:{", noteTitle, content, token, type + "}");
         DataWrapper<Void> dataWrapper = new DataWrapper<Void>();
         noteDao.createNote(noteTitle, content, token, type);
         dataWrapper.setMsg("创建成功");
         dataWrapper.setCallStatus(CallStatusEnum.SUCCEED);
-        log.info("创建笔记 [出参]:{", dataWrapper + "}");
         return dataWrapper;
     }
 
@@ -54,12 +52,10 @@ public class NoteServiceImpl implements NoteService {
      */
     @Override
     public DataWrapper<Void> deleteNote(Integer noteId) {
-        log.info("删除笔记 [入参]:{", noteId + "}");
         DataWrapper<Void> dataWrapper = new DataWrapper<Void>();
         noteDao.deleteNote(noteId);
         dataWrapper.setMsg("删除成功");
         dataWrapper.setCallStatus(CallStatusEnum.SUCCEED);
-        log.info("删除笔记 [出参]:{", dataWrapper + "}");
         return dataWrapper;
     }
 
@@ -72,7 +68,6 @@ public class NoteServiceImpl implements NoteService {
      */
     @Override
     public DataWrapper<Object> queryNodeList(String token, int currentPage, int numberPerPage) {
-        log.info("查询笔记 [入参]:{", token + "}");
         DataWrapper<Object> dataWrapper = new DataWrapper<Object>();
         PageHelper.startPage(currentPage, numberPerPage);
         List<HashMap<String, Object>> maplist = noteDao.queryNodeList(token);

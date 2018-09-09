@@ -1,5 +1,7 @@
 package com.bjwk.utils.annotation;
 
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.io.IOUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -18,6 +20,9 @@ import com.bjwk.utils.RedisClient;
 import redis.clients.jedis.Jedis;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
 /**
  * 
  * @ClassName: UserTokenValidateAspect s
@@ -41,8 +46,20 @@ public class TokenValidateAspect {
 	 */
 	@Around("tokenAspect()")
 	public Object around(ProceedingJoinPoint joinpoint) throws Throwable{
-		 System.out.println("12321312");
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+
+		//
+		BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()));
+		String str = "";
+		String wholeStr = "";
+		while((str = reader.readLine()) != null){//一行一行的读取body体里面的内容；
+			wholeStr += str;
+		}
+		System.out.println(wholeStr);
+
+
+
+		//
 		String token=request.getParameter("token");
 		 System.out.println(token);
 		//Object result=null;

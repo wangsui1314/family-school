@@ -1,22 +1,29 @@
 package com.bjwk.utils.annotation;
 
-import org.aspectj.lang.JoinPoint;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
-import java.util.Map;
 
 @Aspect
 @Component
+@Slf4j
 public class LogAspect {
+
+
+//    private static Logger logger = LoggerFactory.getLogger(LogAspect.class);
+
     /*
      * 在执行上面其他操作的同时也执行这个方法
      * */
@@ -26,43 +33,20 @@ public class LogAspect {
 
     }
 
-    @Before("controllerAspect()")
-    public void doAfter(JoinPoint joinPoint) throws Exception {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String url=request.getRequestURI();
-        String operate = getControllerMethodDescription(joinPoint);
-        System.out.println("url: "+url);
-        System.out.println("operate: "+operate);
-        /**
-         * some   code
-         */
 
-    }
+    @Around("controllerAspect()")
+    public Object aroundAdvice(ProceedingJoinPoint joinPoint) throws Throwable {
+        Object args[] = joinPoint.getArgs();
+        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+        Method method = signature.getMethod();
 
-    /**
-     *
-     * @param joinPoint
-     * @return
-     * @throws Exception
-     */
-    public String getControllerMethodDescription(JoinPoint joinPoint) throws Exception {
-        String targetName = joinPoint.getTarget().getClass().getName();
-        String methodName = joinPoint.getSignature().getName();
-        Object[] arguments = joinPoint.getArgs();
-        Class targetClass = Class.forName(targetName);
-        Method[] methods = targetClass.getMethods();
-        String description = "";
-        for (Method method : methods) {
+        log.info("调用开始--> {}.{} : 请求参数:{} ", method.getDeclaringClass().getName(), method.getName(), StringUtils.join(args, " ; "));
+        long start = System.currentTimeMillis();
+        Object result = joinPoint.proceed();
+        long timeConsuming = System.currentTimeMillis() - start;
 
-            if (method.getName().equals(methodName)) {
-                Class[] clazzs = method.getParameterTypes();
-                if (clazzs.length == arguments.length) {
-                    description = method.getAnnotation(com.bjwk.utils.annotation.MyLog.class).description();
-                    break;
-                }
-            }
-        }
-        return description;
+        log.info("调用结束--> 返回值:{} 耗时:{}ms", JSONObject.toJSONString(result, SerializerFeature.WriteMapNullValue), timeConsuming);
+        return result;
     }
 
 }
