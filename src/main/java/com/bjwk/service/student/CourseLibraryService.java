@@ -10,4 +10,6 @@ public interface CourseLibraryService {
     DataWrapper<Object> getCourseClassType();
 
     DataWrapper<PageInfo<CourseVideoBankVO>> queryVideoCourse(String categoryId, Integer isCharge,int currentPage, int numberPerPage, String token);
+
+    DataWrapper<Object> queryVideoDetails(Integer courseVideoBankId, String token);
 }

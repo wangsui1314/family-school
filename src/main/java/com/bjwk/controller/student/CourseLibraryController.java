@@ -48,23 +48,40 @@ public class CourseLibraryController {
     /**
      * @Description:查询视屏课程列表
      * @Param: [categoryId, isCharge]
-     * @return: com.bjwk.utils.DataWrapper<List < CourseVideoBankVO>>
+     * @return: com.bjwk.utils.DataWrapper<List   <   CourseVideoBankVO>>
      * @Author: liqitian
      * @Date: 2018/9/9
      */
     @RequestMapping("/queryVideoCourse")
     @ResponseBody
     @MyLog
-    @TokenValidate
+    //@TokenValidate
     public DataWrapper<PageInfo<CourseVideoBankVO>> queryVideoCourse(
-            @RequestParam(value = "token",required = false) String token,
+            @RequestParam(value = "token", required = false) String token,
             @RequestParam("categoryId") String categoryId,
             @RequestParam(value = "isCharge", required = false, defaultValue = "0") Integer isCharge,
-            @RequestParam(value = "currentPage",defaultValue = "1")int currentPage,
-            @RequestParam(value = "numberPerPage",defaultValue = "10")int numberPerPage
+            @RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
+            @RequestParam(value = "numberPerPage", defaultValue = "10") int numberPerPage
     ) {
 
-        return courseLibraryService.queryVideoCourse(categoryId,isCharge,currentPage,numberPerPage,token);
+        return courseLibraryService.queryVideoCourse(categoryId, isCharge, currentPage, numberPerPage, token);
     }
 
+    /**
+     * @Description:
+     * @Param: [courseVideoBankId]
+     * @return: com.bjwk.utils.DataWrapper<java.lang.Object>
+     * @Author: liqitian
+     * @Date: 2018/9/10
+     */
+    @RequestMapping("/queryVideoDetails")
+    @ResponseBody
+    @MyLog
+    //@TokenValidate
+    public DataWrapper<Object> queryVideoDetails(
+            @RequestParam("courseVideoBankId") Integer courseVideoBankId,
+             @RequestParam(value = "token", required = false) String token
+    ) {
+        return courseLibraryService.queryVideoDetails(courseVideoBankId,token);
+    }
 }
