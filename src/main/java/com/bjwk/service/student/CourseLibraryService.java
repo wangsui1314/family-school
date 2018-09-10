@@ -12,4 +12,6 @@ public interface CourseLibraryService {
     DataWrapper<PageInfo<CourseVideoBankVO>> queryVideoCourse(String categoryId, Integer isCharge,int currentPage, int numberPerPage, String token);
 
     DataWrapper<Object> queryVideoDetails(Integer courseVideoBankId, String token);
+
+    DataWrapper<Void> deleteVideoCourse(String courseVideoBankIds);
 }

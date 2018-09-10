@@ -23,4 +23,6 @@ public interface CourseLibraryDao {
     CourseVideoBankDetailVO queryVideoDetails(@Param("courseVideoBankId")Integer courseVideoBankId);
 
     List<CourseVideoBankCatalogDTO> queryVideoCourseCatalog(@Param("packageNum")String packageNum);
+
+    Integer deleteVideoCourse(@Param("array") String[] courseVideoBankStrIds);
 }

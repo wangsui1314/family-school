@@ -3,6 +3,7 @@ package com.bjwk.controller.student;
 import com.bjwk.model.CourseVideoBankVO;
 import com.bjwk.service.student.CourseLibraryService;
 import com.bjwk.utils.DataWrapper;
+import com.bjwk.utils.annotation.AdminTokenValidate;
 import com.bjwk.utils.annotation.MyLog;
 import com.bjwk.utils.annotation.TokenValidate;
 import com.github.pagehelper.PageInfo;
@@ -48,7 +49,7 @@ public class CourseLibraryController {
     /**
      * @Description:查询视屏课程列表
      * @Param: [categoryId, isCharge]
-     * @return: com.bjwk.utils.DataWrapper<List   <   CourseVideoBankVO>>
+     * @return: com.bjwk.utils.DataWrapper<List       <       CourseVideoBankVO>>
      * @Author: liqitian
      * @Date: 2018/9/9
      */
@@ -68,7 +69,7 @@ public class CourseLibraryController {
     }
 
     /**
-     * @Description:
+     * @Description:查询视屏课程详情
      * @Param: [courseVideoBankId]
      * @return: com.bjwk.utils.DataWrapper<java.lang.Object>
      * @Author: liqitian
@@ -80,8 +81,25 @@ public class CourseLibraryController {
     //@TokenValidate
     public DataWrapper<Object> queryVideoDetails(
             @RequestParam("courseVideoBankId") Integer courseVideoBankId,
-             @RequestParam(value = "token", required = false) String token
+            @RequestParam(value = "token", required = false) String token
     ) {
-        return courseLibraryService.queryVideoDetails(courseVideoBankId,token);
+        return courseLibraryService.queryVideoDetails(courseVideoBankId, token);
+    }
+
+    /**
+     * @Description:删除视屏课程
+     * @Param: [courseVideoBankId] 字符串 拼接 1,2,4
+     * @return: com.bjwk.utils.DataWrapper<java.lang.Void>
+     * @Author: liqitian
+     * @Date: 2018/9/10
+     */
+    @RequestMapping("/deleteVideoCourse")
+    @ResponseBody
+    @MyLog
+    //@AdminTokenValidate
+    public DataWrapper<Void> deleteVideoCourse(
+            @RequestParam("courseVideoBankIds") String courseVideoBankIds
+    ) {
+        return courseLibraryService.deleteVideoCourse(courseVideoBankIds);
     }
 }

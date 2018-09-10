@@ -17,7 +17,7 @@
                 </foreach>
                 and
             </if>
-            isCharge = #{isCharge}
+            isCharge = #{isCharge} and   status = 1
         </where>
 
     </select>
@@ -57,7 +57,17 @@
     <select id="queryVideoCourseCatalog" resultType="com.bjwk.model.CourseVideoBankCatalogDTO">
         select  id courseVideoBankId,title,videoTime,packageNum
         from course_video_bank
-        where packageNum = #{packageNum}
+        where packageNum = #{packageNum} and status = 1
         order by  page desc
     </select>
+
+    <update id="deleteVideoCourse">
+        update course_video_bank set status = 0
+        where
+        id in
+        <foreach collection="array" index="index" item="courseVideoBankId" open="(" close=")" separator=",">
+            #{courseVideoBankId}
+        </foreach>
+    </update>
+
 </mapper>

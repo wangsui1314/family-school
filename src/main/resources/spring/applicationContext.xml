@@ -11,7 +11,8 @@
 	</bean> 
 	<bean id="TokenValidateAspect" class="com.bjwk.utils.annotation.TokenValidateAspect"/>
 	<bean id="MyLog" class="com.bjwk.utils.annotation.LogAspect"/>
-	
+
+
 	<bean id="exceptionResolver" class="com.bjwk.utils.exception.ExceptionHandler"/>
 	
 	<bean class="org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator" />

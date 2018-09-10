@@ -1,5 +1,6 @@
 package com.bjwk.utils;
 
+import org.aspectj.lang.annotation.SuppressAjWarnings;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -26,9 +27,9 @@ public class RedisClient {
 	            // 是否启用pool的jmx管理功能, 默认true
 	            config.setJmxEnabled(true);
 	            // 最大空闲连接数, 默认8个 控制一个pool最多有多少个状态为idle(空闲的)的jedis实例。
-	            config.setMaxIdle(8);
+	            config.setMaxIdle(10);
 	            // 最大连接数, 默认8个
-	            config.setMaxTotal(200);
+	            config.setMaxTotal(400);
 	            // 表示当borrow(引入)一个jedis实例时，最大的等待时间，如果超过等待时间，则直接抛出JedisConnectionException；
 	            config.setMaxWaitMillis(1000 * 100);
 	            // 在borrow一个jedis实例时，是否提前进行validate操作；如果为true，则得到的jedis实例均是可用的；
@@ -43,6 +44,7 @@ public class RedisClient {
 	     * 
 	     * @return
 	     */
+	    @SuppressAjWarnings("all")
 	    public synchronized static Jedis getJedis() {
 	        try {
 	            if (jedisPool != null) {
