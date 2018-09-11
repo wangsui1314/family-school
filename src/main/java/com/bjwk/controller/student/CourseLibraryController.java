@@ -78,7 +78,7 @@ public class CourseLibraryController {
     @RequestMapping("/queryVideoDetails")
     @ResponseBody
     @MyLog
-    //@TokenValidate
+    @TokenValidate
     public DataWrapper<Object> queryVideoDetails(
             @RequestParam("courseVideoBankId") Integer courseVideoBankId,
             @RequestParam(value = "token", required = false) String token

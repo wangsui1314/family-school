@@ -10,11 +10,11 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
+import java.util.Map;
 
 @Aspect
 @Component
@@ -22,11 +22,10 @@ import java.lang.reflect.Method;
 public class LogAspect {
 
 
-//    private static Logger logger = LoggerFactory.getLogger(LogAspect.class);
+    @Autowired
+    private TokenValidateAspect tokenValidateAspect;
 
-    /*
-     * 在执行上面其他操作的同时也执行这个方法
-     * */
+
     //controller层切入点
     @Pointcut("@annotation(com.bjwk.utils.annotation.MyLog)")
     public void controllerAspect() {
@@ -36,11 +35,21 @@ public class LogAspect {
 
     @Around("controllerAspect()")
     public Object aroundAdvice(ProceedingJoinPoint joinPoint) throws Throwable {
-        Object args[] = joinPoint.getArgs();
+
+        String classType = joinPoint.getTarget().getClass().getName();
+        Class<?> clazz = Class.forName(classType);
+        String clazzName = clazz.getName();
+        //获取方法名称
+        String methodName = joinPoint.getSignature().getName();
+        //参数
+        Object[] args = joinPoint.getArgs();
+
+        Map<String, Object> map = tokenValidateAspect.getFieldsName(this.getClass(), clazzName, methodName, args);
+
+
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
-
-        log.info("调用开始--> {}.{} : 请求参数:{} ", method.getDeclaringClass().getName(), method.getName(), StringUtils.join(args, " ; "));
+        log.info("调用开始--> {}.{} : 请求参数:{} ", method.getDeclaringClass().getName(), method.getName(), map);
         long start = System.currentTimeMillis();
         Object result = joinPoint.proceed();
         long timeConsuming = System.currentTimeMillis() - start;
