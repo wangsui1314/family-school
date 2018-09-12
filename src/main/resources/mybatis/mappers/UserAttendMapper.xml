@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bjwk.dao.UserAttendDao">
+
+    <insert id="attend">
+		insert into user_attendance(userId,attendType) values (#{userId},#{attendType})
+	</insert>
+
+
+    <select id="queryAttendSituation" resultType="java.lang.String">
+		select DATE_FORMAT(attendTime,'%Y-%m-%d %h:%i:%s') from user_attendance
+		where
+		userId = #{userId} and attendType = #{attendType}
+		and DATE_FORMAT( attendTime, '%Y-%m' ) = #{month}
+	</select>
+
+    <select id="checkTodayIsAttend" resultType="java.lang.Integer">
+
+      select id from user_attendance
+       where
+       to_days(attendTime) = to_days(now())
+       and  userId = #{userId}
+
+       and attendType = #{attendType}
+
+	</select>
+</mapper>

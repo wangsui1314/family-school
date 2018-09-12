@@ -4,6 +4,7 @@ import com.bjwk.dao.CourseLibraryDao;
 import com.bjwk.dao.RegLoginDao;
 import com.bjwk.utils.DataWrapper;
 import com.bjwk.utils.RedisClient;
+import com.bjwk.utils.annotation.MyLog;
 import com.bjwk.utils.annotation.TokenValidate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,6 +32,7 @@ public class UserCollectionController {
     @TokenValidate
     @ResponseBody
     @RequestMapping("/collection")
+    @MyLog
     public DataWrapper<Void> userCollection(
             @RequestParam("token") String token,
             @RequestParam("thingId") Integer thingId,

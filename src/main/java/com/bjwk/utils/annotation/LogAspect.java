@@ -54,7 +54,7 @@ public class LogAspect {
         log.info("调用开始--> {}.{} : 请求参数:{} ", method.getDeclaringClass().getName(), method.getName(), map);
         long start = System.currentTimeMillis();
         Object result = joinPoint.proceed();
-        long timeConsuming = System.currentTimeMillis() - start;
+        long timeConsuming = 111;//System.currentTimeMillis() - start;
 
         log.info("调用结束--> 返回值:{} 耗时:{}ms", JSONObject.toJSONString(result, SerializerFeature.WriteMapNullValue), timeConsuming);
         dataWrapper.setData(result);

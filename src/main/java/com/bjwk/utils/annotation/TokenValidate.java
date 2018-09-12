@@ -20,7 +20,7 @@ import org.springframework.core.annotation.Order;
 @Documented
 @Inherited
 
-@Order(5)  
+//@Order(1)
 public @interface TokenValidate {
 	String description() default "";
 }

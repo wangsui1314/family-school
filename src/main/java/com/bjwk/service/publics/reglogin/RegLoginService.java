@@ -25,4 +25,5 @@ public interface RegLoginService {
 	DataWrapper<Users> queryUserInfoDetails(String token,Integer sign);
 
 	DataWrapper<Void> userUpdateToPassWord(String passWdVoucher,String newPassWd);
+
 }

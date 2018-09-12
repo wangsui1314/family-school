@@ -73,31 +73,20 @@ public class TokenValidateAspect {
 
         String token = (String) nameAndArgs.get("token");
 
-        DataWrapper<Object> dataWrapper = new DataWrapper<Object>();
         /**
          * 1.验证该用户是否已登录，通过是否包含此token来判断
          */
         Jedis jedis = RedisClient.getJedis();
         String userName = jedis.hget("loginStatus", token);
         Object obj = null;
-        try {
-            if (userName != null) {
-                log.info("用户权限检查结果通知...--> {}.{} : token:{}。通过！", method.getDeclaringClass().getName(), methodName, nameAndArgs.get("token"));
-                //放行
-                obj = joinpoint.proceed();
-                dataWrapper.setData(obj);
-            } else {
-                log.error("用户权限检查结果通知...--> {}.{} : token:{}。失败！", method.getDeclaringClass().getName(), methodName, nameAndArgs.get("token"));
-                dataWrapper.setCallStatus(CallStatusEnum.FAILED);
-                dataWrapper.setMsg("token验证失败");
-            }
-        } catch (Exception e) {
-            // TODO: handle exception
-        } finally {
-
+        if (userName != null) {
+            log.info("用户权限检查结果通知...--> {}.{} : token:{}。通过！", method.getDeclaringClass().getName(), methodName, nameAndArgs.get("token"));
+            //放行
+            obj = joinpoint.proceed();
+        } else {
+            log.error("用户权限检查结果通知...--> {}.{} : token:{}。失败！", method.getDeclaringClass().getName(), methodName, nameAndArgs.get("token"));
         }
-
-        return dataWrapper;
+        return obj;
     }
 
     /**
