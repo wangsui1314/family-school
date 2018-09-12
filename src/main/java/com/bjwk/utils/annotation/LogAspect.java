@@ -2,6 +2,7 @@ package com.bjwk.utils.annotation;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.bjwk.utils.DataWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
@@ -35,6 +36,7 @@ public class LogAspect {
 
     @Around("controllerAspect()")
     public Object aroundAdvice(ProceedingJoinPoint joinPoint) throws Throwable {
+        DataWrapper<Object> dataWrapper = new DataWrapper<Object>();
 
         String classType = joinPoint.getTarget().getClass().getName();
         Class<?> clazz = Class.forName(classType);
@@ -55,6 +57,7 @@ public class LogAspect {
         long timeConsuming = System.currentTimeMillis() - start;
 
         log.info("调用结束--> 返回值:{} 耗时:{}ms", JSONObject.toJSONString(result, SerializerFeature.WriteMapNullValue), timeConsuming);
+        dataWrapper.setData(result);
         return result;
     }
 

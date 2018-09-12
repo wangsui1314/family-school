@@ -7,6 +7,7 @@ import com.bjwk.model.CourseVideoBankCatalogDTO;
 import com.bjwk.model.CourseVideoBankDetailVO;
 import com.bjwk.model.CourseVideoBankVO;
 import com.bjwk.model.pojo.UserCollection;
+import com.bjwk.service.publics.reglogin.RegLoginService;
 import com.bjwk.service.student.CourseLibraryService;
 import com.bjwk.utils.CallStatusEnum;
 import com.bjwk.utils.DataWrapper;
@@ -38,7 +39,7 @@ public class CourseLibraryServiceImpl implements CourseLibraryService {
     private AppConfigDao appConfigDao;
 
     @Autowired
-    private RegLoginDao regLoginDao;
+    private RegLoginService regLoginService;
 
 
     @Override
@@ -96,10 +97,8 @@ public class CourseLibraryServiceImpl implements CourseLibraryService {
         if (token == null) {
             courseVideoBankDetailVO.setIsCollection(false);
         } else {
-            String userName = jedis.hget("loginStatus", token);
-            jedis.close();
-            String userId = regLoginDao.getUserIdByUserName(userName);
-            if (userName == null) {
+            String userId = regLoginService.getUserIdByToken(token);
+            if (userId == null) {
                 courseVideoBankDetailVO.setIsCollection(false);
             } else {
                 if (courseLibraryDao.queryIsCollection(userId, courseVideoBankId, 0) != null) {
@@ -145,13 +144,11 @@ public class CourseLibraryServiceImpl implements CourseLibraryService {
      */
     public boolean checkCourseIsCollection(List<CourseVideoBankVO> courseVideoBankVOList, String token) {
         if (token != null) {
-            Jedis jedis = RedisClient.getJedis();
-            String userName = jedis.hget("loginStatus", token);
-            jedis.close();
-            if (userName == null) {
+            String userId =regLoginService.getUserIdByToken(token);
+            log.error("userId : "+userId);
+            if (userId == null) {
                 return false;
             }
-            String userId = regLoginDao.getUserIdByUserName(userName);
             //query user_collection  type == 1
             List<UserCollection> userCollectionPOList = courseLibraryDao.queryVideoCollection(userId);
             if (userCollectionPOList != null && !userCollectionPOList.isEmpty()) {

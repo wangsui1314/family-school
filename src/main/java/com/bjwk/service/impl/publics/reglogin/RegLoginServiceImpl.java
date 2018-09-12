@@ -34,29 +34,49 @@ import redis.clients.jedis.Jedis;
 
 @Service
 public class RegLoginServiceImpl implements RegLoginService {
-    private static final Log _logger = LogFactory.getLog(RegLoginServiceImpl.class);
     @Autowired
     private RegLoginDao regLoginDao;
 
+    /**
+     * 获取用户userId
+     *
+     * @param token
+     * @return
+     */
+    public String getUserIdByToken(String token) {
+        Jedis jedis = RedisClient.getJedis();
+        try {
+            String userName = jedis.hget("loginStatus", token);
+            if (userName == null) {
+                return userName;
+            }
+            return regLoginDao.getUserIdByUserName(userName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (jedis != null)
+                jedis.close();
+        }
+        return null;
+    }
 
     @Override
     @Transactional
     public DataWrapper<Users> insertReg(Users user, String code) {
-        _logger.info("注册实现，接收到的数据为：User" + user.toString());
         DataWrapper<Users> dataWrapper = new DataWrapper<Users>();
 
         /**
          * 判断账号是否存在和正确性  用户名限制 7位以上 不包括七位
          * insert some code
          */
-        String userName=user.getUserName();
-        if (regLoginDao.queryUserIsTrue(userName, null) != null||userName.length()<=7) {
+        String userName = user.getUserName();
+        if (regLoginDao.queryUserIsTrue(userName, null) != null || userName.length() <= 7) {
             dataWrapper.setCallStatus(CallStatusEnum.FAILED);
             dataWrapper.setMsg("用户名已存在或用户名长度异常，用户名必须大于七位不包括七位");
             return dataWrapper;
         }
         //密码长度验证
-        if(user.getPassWord().length()<=7){
+        if (user.getPassWord().length() <= 7) {
             dataWrapper.setMsg("密码必须大于七位不包括七位");
             dataWrapper.setCallStatus(CallStatusEnum.FAILED);
             return dataWrapper;
@@ -69,12 +89,12 @@ public class RegLoginServiceImpl implements RegLoginService {
             dataWrapper.setMsg("该手机号对应角色已存在");
             return dataWrapper;
         }
-		ErrorCodeEnum codeEnum= VerifiCodeValidateUtil.verifiCodeValidate(user.getPhone(),code);
-		if(!codeEnum.equals(ErrorCodeEnum.No_Error)){
-			//验证码错误
-			dataWrapper.setErrorCode(codeEnum);
-			return dataWrapper;
-		}
+        ErrorCodeEnum codeEnum = VerifiCodeValidateUtil.verifiCodeValidate(user.getPhone(), code);
+        if (!codeEnum.equals(ErrorCodeEnum.No_Error)) {
+            //验证码错误
+            dataWrapper.setErrorCode(codeEnum);
+            return dataWrapper;
+        }
         //获取默认用户昵称与性别 ...
         Map<String, String> map = getDefaultMessage(user.getUserName(), user.getPhone());
         user.setNickName(map.get("nickname"));
@@ -102,7 +122,6 @@ public class RegLoginServiceImpl implements RegLoginService {
 
     @Override
     public DataWrapper<Users> login(String userName, String passWord, String sign) {
-        _logger.info("用户登录实现，接收到的数据为：userName=" + userName + ",passWord=" + passWord);
         DataWrapper<Users> dataWrapper = new DataWrapper<Users>();
 
         //检测用户账号密码是否正确
@@ -131,7 +150,6 @@ public class RegLoginServiceImpl implements RegLoginService {
         dataWrapper.setMsg("登录成功");
 
         //为当前注册成功的用户分配一个token，放在redis中
-        _logger.info("当前用户：" + userName + ",分配的token为：" + token);
         jedis.close();
 
         return dataWrapper;
@@ -168,7 +186,6 @@ public class RegLoginServiceImpl implements RegLoginService {
      */
     @Override
     public DataWrapper<Void> logout(String token) {
-        // TODO Auto-generated method stub
         DataWrapper<Void> dataWrapper = new DataWrapper<Void>();
         Jedis jedis = RedisClient.getJedis();
 
@@ -290,7 +307,7 @@ public class RegLoginServiceImpl implements RegLoginService {
         if (userName != null) {
             //强制退出登录
 
-            String token = (String) jedis.hget("statusLogin", userName);
+            String token =  jedis.hget("statusLogin", userName);
             /**
              * if 该用户名已经登录强制该用户下线
              */
@@ -301,7 +318,7 @@ public class RegLoginServiceImpl implements RegLoginService {
 
             //为该用户颁发更改密码凭证(一次性)
             String uuid = UUID.fromString(userName).toString();
-            String value = userName +","+sign+","+uuid;
+            String value = userName + "," + sign + "," + uuid;
             jedis.set(uuid, value);
             //失效时间 30分钟
             jedis.expire(uuid, 60 * 10);
@@ -324,26 +341,25 @@ public class RegLoginServiceImpl implements RegLoginService {
      * @Date: 2018/6/14
      */
     @Override
-    public DataWrapper<Void> userUpdateToPassWord(String passWdVoucher,String newPassWd) {
+    public DataWrapper<Void> userUpdateToPassWord(String passWdVoucher, String newPassWd) {
         DataWrapper<Void> dataWrapper = new DataWrapper<Void>();
         Jedis jedis = RedisClient.getJedis();
         //value = userName +","+sign+","+uuid;
-        String value =jedis.get(passWdVoucher);
-        if(value==null){
+        String value = jedis.get(passWdVoucher);
+        if (value == null) {
             dataWrapper.setMsg("错误");
             dataWrapper.setCallStatus(CallStatusEnum.FAILED);
             return dataWrapper;
         }
         //密码长度验证
-        if(newPassWd.length()<=7){
+        if (newPassWd.length() <= 7) {
             dataWrapper.setMsg("密码必须大于七位不包括七位");
             dataWrapper.setCallStatus(CallStatusEnum.FAILED);
             return dataWrapper;
         }
 
-        _logger.info("用户更改密码实现，value：" + value);
-        String[] params=value.split(",");
-        regLoginDao.userUpdateToPassWord(params[0],params[1],newPassWd);
+        String[] params = value.split(",");
+        regLoginDao.userUpdateToPassWord(params[0], params[1], newPassWd);
         dataWrapper.setMsg("更改密码成功");
         jedis.del(passWdVoucher);
         jedis.close();
@@ -371,7 +387,6 @@ public class RegLoginServiceImpl implements RegLoginService {
         jedis.close();
         return dataWrapper;
     }
-
 
 
     /**

@@ -15,7 +15,7 @@ public interface RegLoginService {
 
 	DataWrapper<Users> phoneVcodeLogin(String phone, String code, Integer sign);
 
-
+	String getUserIdByToken(String token);
 
 	DataWrapper<String> userUpdateToPassWordCheck(Integer sign, String phone, String code);
 

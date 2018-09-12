@@ -30,7 +30,6 @@ import com.bjwk.utils.annotation.TokenValidate;
 @RequestMapping("api/regLogin")
 public class RegLoginController {
 
-    private static final Log _logger = LogFactory.getLog(RegLoginController.class);
 
     @Autowired
 
@@ -43,6 +42,7 @@ public class RegLoginController {
      */
     @RequestMapping(value = "_reg")
     @ResponseBody
+    @MyLog
     public DataWrapper<Users> insertReg(
             @RequestParam(value = "userName", required = true) String userName,
             @RequestParam(value = "passWord", required = true) String passWord,
@@ -50,7 +50,6 @@ public class RegLoginController {
             @RequestParam(value = "phone", required = true) String phone,
             @RequestParam(value = "code", required = true) String code
     ) {
-        _logger.info("进入用户注册....");
         Users user = new Users();
         user.setUserName(userName);
         user.setPassWord(passWord);
@@ -72,7 +71,6 @@ public class RegLoginController {
             @RequestParam(value = "passWord", required = true) String passWord,
             @RequestParam(value = "sign", required = false) String sign
     ) {
-        _logger.info("用户账号登录...");
         return regLoginService.login(userName, passWord, sign);
     }
 
@@ -84,12 +82,12 @@ public class RegLoginController {
      */
     @RequestMapping(value = "_phoneVcodeLogin")
     @ResponseBody
+    @MyLog
     public DataWrapper<Users> phoneVcodeLogin(
             @RequestParam(value = "sign", required = true) Integer sign,
             @RequestParam(value = "phone", required = true) String phone,
             @RequestParam(value = "code", required = true) String code
     ) {
-        _logger.info("手机验证码登录...");
         return regLoginService.phoneVcodeLogin(phone, code, sign);
     }
 
@@ -100,11 +98,11 @@ public class RegLoginController {
      */
     @RequestMapping(value = "_gestureLogin")
     @ResponseBody
+    @MyLog
     public DataWrapper<Users> gestureLogin(
             @RequestParam(value = "token", required = true) String token,
             @RequestParam(value = "gesturePassWord", required = true) String gesturePassWord
     ) {
-        _logger.info("用户登录...");
 
         return regLoginService.gestureLogin(token, gesturePassWord);
     }
@@ -116,10 +114,10 @@ public class RegLoginController {
      */
     @RequestMapping(value = "_logout")
     @ResponseBody
+    @MyLog
     public DataWrapper<Void> logout(
             @RequestParam(value = "token", required = true) String token
     ) {
-        _logger.info("用户登出...");
         return regLoginService.logout(token);
     }
 
@@ -136,6 +134,7 @@ public class RegLoginController {
     @RequestMapping(value = "_changeUserInfo")
     @ResponseBody
     @TokenValidate
+    @MyLog
     public DataWrapper<Void> changeUserInfo(
             @RequestParam(value = "token", required = false) String token,
             @RequestParam(value = "headPortrait", required = false) String headPortrait,
@@ -145,7 +144,6 @@ public class RegLoginController {
             @RequestParam(value = "background", required = false) String background,
             @RequestParam(value = "styleSignTure", required = false) String styleSignTure
     ) {
-        _logger.info("用户更改个人信息...");
         System.out.println(styleSignTure);//Connector标签增加useBodyEncodingForURI="true"
         return regLoginService.changeUserInfo(token, headPortrait, sex, lableId, background, styleSignTure
                 , nickName);
@@ -159,12 +157,12 @@ public class RegLoginController {
      */
     @RequestMapping(value = "_userUpdateToPassWordCheck")
     @ResponseBody
+    @MyLog
     public DataWrapper<String> _userUpdateToPassWordCheck(
             @RequestParam(value = "sign", required = false) Integer sign,
             @RequestParam(value = "phone", required = false) String phone,
             @RequestParam(value = "code", required = false) String code
     ) {
-        _logger.info("用户更改个人密码验证...");
         return regLoginService.userUpdateToPassWordCheck(sign, phone, code);
     }
 
@@ -178,11 +176,11 @@ public class RegLoginController {
      */
     @RequestMapping(value = "_userUpdateToPassWord")
     @ResponseBody
+    @MyLog
     public DataWrapper<Void> _userUpdateToPassWord(
             @RequestParam(value = "passWdVoucher", required = true) String passWdVoucher,
             @RequestParam(value = "newPassWd", required = true) String newPassWd
     ) {
-        _logger.info("用户更改个人密码...");
         return regLoginService.userUpdateToPassWord(passWdVoucher,newPassWd);
     }
 
@@ -193,6 +191,7 @@ public class RegLoginController {
      */
     @RequestMapping(value = "_updateUser")
     @ResponseBody
+    @MyLog
     public DataWrapper<Void> _updateUser(
 //			@RequestParam(value="token",required=true)String token
     ) {
@@ -225,6 +224,7 @@ public class RegLoginController {
      */
     @RequestMapping(value = "_queryUserInfoDetails")
     @ResponseBody
+    @MyLog
     public DataWrapper<Users> queryUserInfoDetails(
             @RequestParam(value = "token", required = false) String token,
             @RequestParam(value = "sign", required = false) Integer sign
