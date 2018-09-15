@@ -73,6 +73,7 @@ public class TokenValidateAspect {
 
         String token = (String) nameAndArgs.get("token");
 
+        DataWrapper dataWrapper=new DataWrapper();
         /**
          * 1.验证该用户是否已登录，通过是否包含此token来判断
          */
@@ -83,10 +84,13 @@ public class TokenValidateAspect {
             log.info("用户权限检查结果通知...--> {}.{} : token:{}。通过！", method.getDeclaringClass().getName(), methodName, nameAndArgs.get("token"));
             //放行
             obj = joinpoint.proceed();
+            return obj;
         } else {
+            dataWrapper.setCallStatus(CallStatusEnum.FAILED);
+            dataWrapper.setMsg("用户权限检查结果通知:失败");
             log.error("用户权限检查结果通知...--> {}.{} : token:{}。失败！", method.getDeclaringClass().getName(), methodName, nameAndArgs.get("token"));
+            return dataWrapper;
         }
-        return obj;
     }
 
     /**
