@@ -61,8 +61,8 @@ public class CourseLibraryController {
             @RequestParam(value = "token", required = false) String token,
             @RequestParam("categoryId") String categoryId,
             @RequestParam(value = "isCharge", required = false, defaultValue = "0") Integer isCharge,
-            @RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
-            @RequestParam(value = "numberPerPage", defaultValue = "10") int numberPerPage
+            @RequestParam(value = "currentPage", required = false,defaultValue = "1") int currentPage,
+            @RequestParam(value = "numberPerPage", required = false,defaultValue = "10") int numberPerPage
     ) {
 
         return courseLibraryService.queryVideoCourse(categoryId, isCharge, currentPage, numberPerPage, token);

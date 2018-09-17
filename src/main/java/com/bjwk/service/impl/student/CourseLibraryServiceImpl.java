@@ -92,6 +92,7 @@ public class CourseLibraryServiceImpl implements CourseLibraryService {
         CourseVideoBankDetailVO courseVideoBankDetailVO = courseLibraryDao.queryVideoDetails(courseVideoBankId);
         Jedis jedis = RedisClient.getJedis();
         Long browseNumber = jedis.hincrBy("videoBrowseNumber", String.valueOf(courseVideoBankId), 1);
+        jedis.close();
         courseVideoBankDetailVO.setBrowseNumber(browseNumber);
         //是否收藏
         if (token == null) {

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bjwk.dao.SchoolNewsDao">
+
+
+	<insert id="addSchoolNews">
+		insert into school_news(newsTitle,newsContext,newsImage)
+		values
+		(#{newsTitle},#{newsContext},#{newsImage})
+	</insert>
+
+	<update id="updateSchoolNews">
+		update school_news
+		<set>
+			<if test="newsTitle != null">
+				,newsTitle = #{newsTitle}
+			</if>
+			<if test="newsContext != null">
+				,newsContext = #{newsContext}
+			</if>
+			<if test="newsImage != null">
+				,newsImage = #{newsImage}
+			</if>
+		</set>
+	   where id = #{id}
+	</update>
+
+	<delete id="deleteSchoolNews">
+		delete from school_news
+		where
+		id in
+		<foreach collection="array" item="id" separator="," open="(" close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<select id="querySchoolNewsList" resultType="java.util.Map">
+		select id ,newsTitle, concat (left(newsContext,30),'...') newsContextToList, newsImage,createTime
+		from school_news
+		order by createTime desc
+	</select>
+
+	<select id="querySchoolNewsDetail" resultType="java.util.Map">
+		select * from school_news
+		where id = #{id}
+	</select>
+</mapper>
