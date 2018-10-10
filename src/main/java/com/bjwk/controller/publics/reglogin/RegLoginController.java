@@ -57,9 +57,9 @@ public class RegLoginController {
         user.setPassWord(passWord);
         user.setSign(sign);
         user.setPhone(phone);
-        if (sign.equals("0")) {
-           user.setStudentId(getRandom(11));
-        }
+//        if (sign.equals("0")) {
+//           user.setStudentId(getRandom(11));
+//        }
 
         return regLoginService.insertReg(user, code);
     }
