@@ -10,8 +10,8 @@
        <selectKey resultType="int" order="AFTER" keyProperty="userId">
           SELECT LAST_INSERT_ID()
       </selectKey>
-      insert into users(user_name,phone,pass_word,email,sign,head_portrait,sex,nick_name) values(
-      #{userName},#{phone},#{passWord},#{email},#{sign},#{headPortrait},#{sex},#{nickName})
+      insert into users(user_name,phone,pass_word,email,sign,head_portrait,sex,nick_name,student_id) values(
+      #{userName},#{phone},#{passWord},#{email},#{sign},#{headPortrait},#{sex},#{nickName},#{studentId})
     </insert>
     
     <select id="queryUserIsTrue" resultType="String">
@@ -51,6 +51,7 @@
         <result column="gestrue_isok" property="gestrueIsOk"/>
         <result column="created" property="created"/>
         <result column="update_time" property="updateTime"/>
+        <result column="student_id" property="studentId"/>
     </resultMap>
     <select id="queryPassWordIsOk" resultMap="queryPassWordIsOk">
      select * from users where user_name =#{userName} and pass_word=#{passWord} and sign=#{sign}
@@ -118,6 +119,7 @@
         <result column="gestrue_isok" property="gestrueIsOk"/>
         <result column="created" property="created"/>
         <result column="update_time" property="updateTime"/>
+       <result column="student_id" property="studentId"/>
         <!-- lable -->
         
          <collection property="labelMap" ofType="java.util.Map">   
@@ -129,7 +131,7 @@
     <!--  用户详情-->
     <select id="queryUserInfoDetails" resultMap="queryUserInfoDetails">
       select user.user_id,user.user_name,user.email,user.phone,user.sign,user.coin,user.head_portrait,
-      user.sex,user.nick_name,user.background,user.style_signature,user.created,user.update_time,user.gestrue_isok,
+      user.sex,user.nick_name,user.background,user.style_signature,user.created,user.update_time,user.gestrue_isok,user.student_id,
       lable.lable_name,lable.lable_type
        from users user  left join user_lable userlable on user.user_id=userlable.user_id 
       left join lable lable on userlable.labe_id=lable.id

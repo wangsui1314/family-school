@@ -38,11 +38,17 @@ public class Users {
 	private  int gestrueIsOk; //是否启用手势密码
 	private Date created; //创建时间
 	private Date updateTime; //修改个人资料时间
+	private String studentId;
 
     private List<HashMap<String,Object>> labelMap;
-	
-	
-	
+
+	public String getStudentId() {
+		return studentId;
+	}
+
+	public void setStudentId(String studentId) {
+		this.studentId = studentId;
+	}
 
 	public List<HashMap<String, Object>> getLabelMap() {
 		return labelMap;

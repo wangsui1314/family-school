@@ -16,6 +16,8 @@ import com.bjwk.utils.DataWrapper;
 import com.bjwk.utils.annotation.MyLog;
 import com.bjwk.utils.annotation.TokenValidate;
 
+import java.util.Random;
+
 
 /**
  * @author liqitian
@@ -55,7 +57,11 @@ public class RegLoginController {
         user.setPassWord(passWord);
         user.setSign(sign);
         user.setPhone(phone);
-        return regLoginService.insertReg(user,code);
+        if (sign.equals("0")) {
+           user.setStudentId(getRandom(11));
+        }
+
+        return regLoginService.insertReg(user, code);
     }
 
     /**
@@ -65,7 +71,7 @@ public class RegLoginController {
      */
     @RequestMapping(value = "_login")
     @ResponseBody
-    @MyLog(description="用户账号密码登录")
+    @MyLog(description = "用户账号密码登录")
     public DataWrapper<Users> login(
             @RequestParam(value = "userName", required = true) String userName,
             @RequestParam(value = "passWord", required = true) String passWord,
@@ -148,6 +154,7 @@ public class RegLoginController {
         return regLoginService.changeUserInfo(token, headPortrait, sex, lableId, background, styleSignTure
                 , nickName);
     }
+
     /**
      * @Description: 主要获取更改密码凭证
      * @Param: [sign, phone, code]
@@ -181,7 +188,7 @@ public class RegLoginController {
             @RequestParam(value = "passWdVoucher", required = true) String passWdVoucher,
             @RequestParam(value = "newPassWd", required = true) String newPassWd
     ) {
-        return regLoginService.userUpdateToPassWord(passWdVoucher,newPassWd);
+        return regLoginService.userUpdateToPassWord(passWdVoucher, newPassWd);
     }
 
     /**
@@ -233,12 +240,24 @@ public class RegLoginController {
     }
 
 
-
     @MyLog(description = "测试的AAAAAAAAAAAAAA")
     @RequestMapping(value = "/UserDemo")
     public @ResponseBody
     Object UserDemo() {
         return null;
+    }
+
+
+    public  String getRandom(int count){
+        StringBuffer sb = new StringBuffer();
+        String str = "0123456789";
+        Random r = new Random();
+        for(int i=0;i<count;i++){
+            int num = r.nextInt(str.length());
+            sb.append(str.charAt(num));
+            str = str.replace((str.charAt(num)+""), "");
+        }
+        return sb.toString();
     }
 
 }
