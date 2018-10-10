@@ -57,9 +57,9 @@ public class RegLoginController {
         user.setPassWord(passWord);
         user.setSign(sign);
         user.setPhone(phone);
-//        if (sign.equals("0")) {
-//           user.setStudentId(getRandom(11));
-//        }
+        if (sign.equals("0")) {
+           user.setStudentId(getRandom());
+        }
 
         return regLoginService.insertReg(user, code);
     }
@@ -248,16 +248,8 @@ public class RegLoginController {
     }
 
 
-    public  String getRandom(int count){
-        StringBuffer sb = new StringBuffer();
-        String str = "0123456789";
-        Random r = new Random();
-        for(int i=0;i<count;i++){
-            int num = r.nextInt(str.length());
-            sb.append(str.charAt(num));
-            str = str.replace((str.charAt(num)+""), "");
-        }
-        return sb.toString();
+    public  String getRandom(){
+        return String.valueOf((int)((Math.random()*9+1)*1000000000));
     }
 
 }
