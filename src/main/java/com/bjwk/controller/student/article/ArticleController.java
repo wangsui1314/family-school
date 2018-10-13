@@ -39,7 +39,7 @@ public class ArticleController {
 	 */
 	@RequestMapping(value="_findArticle")
 	@ResponseBody
-	public DataWrapper<PageInfo<Article>> findArticle(int gradeId, int typeId, int numberPerPage, int currentPage){
+	public DataWrapper<PageInfo<Article>> findArticle(Integer gradeId, Integer typeId, Integer numberPerPage, Integer currentPage){
 		_logger.info("查询指定条件的所有美文");
 		_logger.info("查询年级id为："+gradeId+"，类型id为："+typeId+"的所有美文");
 		String categoryType = gradeId+","+typeId;
@@ -53,7 +53,7 @@ public class ArticleController {
 	 */
 	@RequestMapping(value="_getArticleDetails")
 	@ResponseBody
-	public DataWrapper<Article> getArticleDetails(int articleId){
+	public DataWrapper<Article> getArticleDetails(Integer articleId){
 		_logger.info("获取美文详情，接收的美文Id为："+articleId);
 		
 		return articleService.getArticleDetails(articleId);
@@ -90,7 +90,7 @@ public class ArticleController {
 	 */
 	@RequestMapping(value="_deleteArticle")
 	@ResponseBody
-	public DataWrapper<Boolean> deleteArticle(int articleId){
+	public DataWrapper<Boolean> deleteArticle(Integer articleId){
 		_logger.info("删除美文 ，删除的Id为："+articleId);
 		return articleService.deleteArticle(articleId);
 	}
