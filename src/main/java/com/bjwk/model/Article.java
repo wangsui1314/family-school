@@ -5,128 +5,135 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-/** 
-* @Description: 美文阅读实体类
-* @author  Desolation
-* @email:1071680460@qq.com
-* @date 创建时间：2018年4月29日 下午5:29:35 
-* @version 1.0  
-*/
-public class Article implements Serializable{
-	
-	private static final long serialVersionUID = 1L;
-	
-	private int articleId;
-	
-	private String articleTitle;
-	
-	private String articleContent;
-	
-	private String articleAuthor;
-	
-	private String articleFrom;
-	
-	private Date createTime;
-	
-	private Date updateTime;
-	
-	private int articleDownload;
-	
-	private int browseVolume;
-	
-	private String categoryType;
+/**
+ * @author Desolation
+ * @version 1.0
+ * @Description: 美文阅读实体类
+ * @email:1071680460@qq.com
+ * @date 创建时间：2018年4月29日 下午5:29:35
+ */
+public class Article implements Serializable {
 
-	public int getArticleId() {
-		return articleId;
-	}
+    private static final long serialVersionUID = 1L;
 
-	public void setArticleId(int articleId) {
-		this.articleId = articleId;
-	}
+    private int articleId;
 
-	public String getArticleTitle() {
-		return articleTitle;
-	}
+    private String articleTitle;
 
-	public void setArticleTitle(String articleTitle) {
-		this.articleTitle = articleTitle;
-	}
+    private String titleImg;
 
-	public String getArticleContent() {
-		return articleContent;
-	}
+    private String articleContent;
 
-	public void setArticleContent(String articleContent) {
-		this.articleContent = articleContent;
-	}
+    private String articleAuthor;
 
-	public String getArticleAuthor() {
-		return articleAuthor;
-	}
+    private String articleFrom;
 
-	public void setArticleAuthor(String articleAuthor) {
-		this.articleAuthor = articleAuthor;
-	}
+    private Date createTime;
 
-	public String getArticleFrom() {
-		return articleFrom;
-	}
+    private Date updateTime;
 
-	public void setArticleFrom(String articleFrom) {
-		this.articleFrom = articleFrom;
-	}
+    private int articleDownload;
 
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-	public Date getCreateTime() {
-		return createTime;
-	}
+    private int browseVolume;
 
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-	
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-	public Date getUpdateTime() {
-		return updateTime;
-	}
+    private String categoryType;
 
-	public void setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
-	}
+    public int getArticleId() {
+        return articleId;
+    }
 
-	
-	public int getArticleDownload() {
-		return articleDownload;
-	}
+    public void setArticleId(int articleId) {
+        this.articleId = articleId;
+    }
 
-	public void setArticleDownload(int articleDownload) {
-		this.articleDownload = articleDownload;
-	}
+    public String getArticleTitle() {
+        return articleTitle;
+    }
 
-	public int getBrowseVolume() {
-		return browseVolume;
-	}
+    public void setArticleTitle(String articleTitle) {
+        this.articleTitle = articleTitle;
+    }
 
-	public void setBrowseVolume(int browseVolume) {
-		this.browseVolume = browseVolume;
-	}
+    public String getTitleImg() {
+        return titleImg;
+    }
 
-	public String getCategoryType() {
-		return categoryType;
-	}
+    public void setTitleImg(String titleImg) {
+        this.titleImg = titleImg;
+    }
 
-	public void setCategoryType(String categoryType) {
-		this.categoryType = categoryType;
-	}
+    public String getArticleContent() {
+        return articleContent;
+    }
 
-	@Override
-	public String toString() {
-		return "Article [articleTitle=" + articleTitle + ", articleContent=" + articleContent + ", articleAuthor="
-				+ articleAuthor + ", articleFrom=" + articleFrom + ", categoryType=" + categoryType + "]";
-	}
-	
-	
-	
-	
-	
+    public void setArticleContent(String articleContent) {
+        this.articleContent = articleContent;
+    }
+
+    public String getArticleAuthor() {
+        return articleAuthor;
+    }
+
+    public void setArticleAuthor(String articleAuthor) {
+        this.articleAuthor = articleAuthor;
+    }
+
+    public String getArticleFrom() {
+        return articleFrom;
+    }
+
+    public void setArticleFrom(String articleFrom) {
+        this.articleFrom = articleFrom;
+    }
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+
+    public int getArticleDownload() {
+        return articleDownload;
+    }
+
+    public void setArticleDownload(int articleDownload) {
+        this.articleDownload = articleDownload;
+    }
+
+    public int getBrowseVolume() {
+        return browseVolume;
+    }
+
+    public void setBrowseVolume(int browseVolume) {
+        this.browseVolume = browseVolume;
+    }
+
+    public String getCategoryType() {
+        return categoryType;
+    }
+
+    public void setCategoryType(String categoryType) {
+        this.categoryType = categoryType;
+    }
+
+    @Override
+    public String toString() {
+        return "Article [articleTitle=" + articleTitle + ", articleContent=" + articleContent + ", articleAuthor="
+                + articleAuthor + ", articleFrom=" + articleFrom + ", categoryType=" + categoryType + "]";
+    }
+
+
 }

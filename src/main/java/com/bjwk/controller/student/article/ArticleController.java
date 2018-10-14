@@ -35,8 +35,8 @@ public class ArticleController {
     /**
      * 查询指定条件的所有美文
      *
-     * @param grade_id 年级id
-     * @param type_id  类型id
+     * @param gradeId 年级id
+     * @param typeId  类型id
      * @return
      */
     @RequestMapping(value = "_findArticle")

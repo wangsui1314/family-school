@@ -14,15 +14,20 @@ import com.github.pagehelper.PageInfo;
 * @version 1.0  
 */
 public interface ArticleService {
-	
-	public DataWrapper<PageInfo<Article>> findArticle(String categoryType, int numberPerPage, int currentPage);
 
-	public DataWrapper<Article> getArticleDetails(int articleId);
+	/**
+	 * @Desc : 查询美文列表
+	 * @param categoryType 美文查询字段
+	 * @return :
+	 **/
+	 DataWrapper<PageInfo<Article>> findArticle(String categoryType, int numberPerPage, int currentPage);
+
+	 DataWrapper<Article> getArticleDetails(int articleId);
 	
-	public DataWrapper<Boolean> addArticle(Article article);
+	 DataWrapper<Boolean> addArticle(Article article);
 	
-	public DataWrapper<Boolean> updateArticle(Article article);
+	 DataWrapper<Boolean> updateArticle(Article article);
 	
-	public DataWrapper<Boolean> deleteArticle(int articleId);
+	 DataWrapper<Boolean> deleteArticle(int articleId);
 
 }
