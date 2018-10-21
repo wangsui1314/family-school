@@ -99,7 +99,7 @@ public class RegLoginServiceImpl implements RegLoginService {
         Map<String, String> map = getDefaultMessage(user.getUserName(), user.getPhone());
         user.setNickName(map.get("nickname"));
         user.setHeadPortrait(map.get("headPortrait"));
-
+        user.setStudentId(user.getPhone());
         /**
          * 更改为注册成功 不是登录成功状态
          */
