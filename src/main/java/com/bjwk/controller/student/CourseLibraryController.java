@@ -33,7 +33,7 @@ public class CourseLibraryController {
 
     /**
      * @Description:课程分类图
-     * @Param: [test]
+     * @Param: [test1]
      * @return: com.bjwk.utils.DataWrapper<java.lang.Object>
      * @Author: liqitian
      * @Date: 2018/9/8
