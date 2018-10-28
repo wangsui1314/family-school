@@ -43,4 +43,5 @@ public class Users {
 	private String schoolName;
 	private Date updateTime; //修改个人资料时间
 	private String studentId;
+	private List<HashMap<String,Object>> labelMap;
 }
