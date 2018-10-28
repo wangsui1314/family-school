@@ -43,13 +43,15 @@
         <result column="sign" property="sign"/>  
         <result column="coin" property="coin"/>
         <result column="head_portrait" property="headPortrait"/>
-        <result column="profession_id" property="professionId"/>
         <result column="sex" property="sex"/>
         <result column="nick_name" property="nickName"/>
         <result column="background" property="background"/>
         <result column="style_signature" property="styleSignTure"/>
         <result column="gestrue_isok" property="gestrueIsOk"/>
         <result column="created" property="created"/>
+        <result column="class_name" property="className"/>
+        <result column="student_id" property="studentId"/>
+        <result column="school_name" property="schoolName"/>
         <result column="update_time" property="updateTime"/>
         <result column="student_id" property="studentId"/>
     </resultMap>
