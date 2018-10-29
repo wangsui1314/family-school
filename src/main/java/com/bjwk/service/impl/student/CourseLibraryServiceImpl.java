@@ -14,6 +14,7 @@ import com.bjwk.utils.DataWrapper;
 import com.bjwk.utils.RedisClient;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import redis.clients.jedis.Jedis;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @program: family-school
@@ -46,7 +48,12 @@ public class CourseLibraryServiceImpl implements CourseLibraryService {
     public DataWrapper<Object> getCourseClassType() {
         DataWrapper<Object> dataWrapper = new DataWrapper<Object>();
         String strConfig = appConfigDao.getCourseClassType();
-        dataWrapper.setData(strConfig);
+        Gson gson = new Gson();
+
+        Map map ;
+        map = gson.fromJson(strConfig, Map.class);
+
+        dataWrapper.setData(map);
         return dataWrapper;
     }
 
@@ -145,8 +152,8 @@ public class CourseLibraryServiceImpl implements CourseLibraryService {
      */
     public boolean checkCourseIsCollection(List<CourseVideoBankVO> courseVideoBankVOList, String token) {
         if (token != null) {
-            String userId =regLoginService.getUserIdByToken(token);
-            log.error("userId : "+userId);
+            String userId = regLoginService.getUserIdByToken(token);
+            log.error("userId : " + userId);
             if (userId == null) {
                 return false;
             }
