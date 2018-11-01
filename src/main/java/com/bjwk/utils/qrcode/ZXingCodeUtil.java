@@ -175,8 +175,8 @@ public class ZXingCodeUtil {
             ZXingConfig zxingconfig = new ZXingConfig();    // 实例化二维码配置参数
             zxingconfig.setHints(zp.getDecodeHintType());   // 设置二维码的格式参数
             zxingconfig.setContent(content);// 设置二维码生成内容
-           // zxingconfig.setLogoPath("C:\\Users\\HLi78\\Desktop\\docker.png"); // 设置Logo图片
-            zxingconfig.setLogoPath("/root/family-school/qrcode_data/logo/logo1.png"); // 设置Logo图片
+            zxingconfig.setLogoPath("/webapp/WEB-INF/resources/logo.png"); // 设置Logo图片
+            //zxingconfig.setLogoPath("/root/family-school/qrcode_data/logo/logo1.png"); // 设置Logo图片
             zxingconfig.setLogoConfig(new LogoConfig());    // Logo图片参数设置
             zxingconfig.setLogoFlg(true);   // 设置生成Logo图片
             BufferedImage bim = zp.getQR_CODEBufferedImage(zxingconfig);// 生成二维码
