@@ -164,40 +164,34 @@ public class ZXingCodeUtil {
      * ZXingCodeUtil 然后实例化参数 ZXingConfig 和 LogoConfig 通过下面的演示可以详细看参数是按照什么循序进行设置 最后调用
      * ZXingCodeUtil 中方法 getQR_CODEBufferedImage来生成二维码
      */
-    public static void getCodeTest(HttpServletResponse response) throws WriterException {
+    public  void getCodeTest(HttpServletResponse response) throws WriterException {
         String content = "http://www.baidu.com";
         System.out.println("inputParam:" + content);
         FileInputStream fis = null;
         try {
             // 生成二维码
-            //File file = new File("C://Users//HLi78//Desktop//docker.png");
+            File file = new File("C://Users//HLi78//Desktop//docker.png");
             ZXingCodeUtil zp = new ZXingCodeUtil(); // 实例化二维码工具
             ZXingConfig zxingconfig = new ZXingConfig();    // 实例化二维码配置参数
             zxingconfig.setHints(zp.getDecodeHintType());   // 设置二维码的格式参数
             zxingconfig.setContent(content);// 设置二维码生成内容
             zxingconfig.setLogoPath("/root/family-school/qrcode_data/logo/logo1.png"); // 设置Logo图片
+           // zxingconfig.setLogoPath("/root/family-school/qrcode_data/logo/logo1.png"); // 设置Logo图片
             zxingconfig.setLogoConfig(new LogoConfig());    // Logo图片参数设置
             zxingconfig.setLogoFlg(true);   // 设置生成Logo图片
             BufferedImage bim = zp.getQR_CODEBufferedImage(zxingconfig);// 生成二维码
-           // ImageIO.write(bim, "png", file);    // 图片写出
+            ImageIO.write(bim, "png", file);    // 图片写出
             Thread.sleep(200);  // 缓冲
             zp.parseQR_CODEImage(bim);  // 解析调用
-
-            response.setContentType("image/gif");
-
-            //
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            ImageIO.write(bim, "png", bos);
-
-              byte[] b = bos.toByteArray();
-            //
-                OutputStream out = response.getOutputStream();
-                //fis = new FileInputStream(file);
-                //byte[] b = new byte[fis.available()];
-               // fis.read(b);
-                out.write(b);
-                out.flush();
-
+            response.setContentType("image/png");
+            response.addHeader("Content-Disposition", "attachment;filename=image.png");
+            InputStream is = new FileInputStream(file);
+            OutputStream os = response.getOutputStream();
+                byte [] buffer = new byte[1024]; // 图片文件流缓存池
+                while(is.read(buffer) != -1){
+                    os.write(buffer);
+                }
+                os.flush();
         } catch (Exception e) {
             e.printStackTrace();
         }finally {
