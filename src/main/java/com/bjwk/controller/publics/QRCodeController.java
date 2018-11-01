@@ -20,42 +20,13 @@ public class QRCodeController {
     @ResponseBody
     @MyLog
     public void addSchoolNews (
-            HttpServletResponse response
+            HttpServletResponse response,
+            @RequestParam("url") String url
     ){
         try{
-            new ZXingCodeUtil().getCodeTest(response);
+            new ZXingCodeUtil().getCodeTest(response,url);
         }catch(Exception e){
         }
 
     }
-//
-//
-//    @RequestMapping("/getQrCodey")
-//    @ResponseBody
-//    @MyLog
-//    public void addSchoolNews (
-//            HttpServletResponse response
-//    ){
-//        FileInputStream fis = null;
-//        response.setContentType("image/gif");
-//        try {
-//            OutputStream out = response.getOutputStream();
-//            File file = new File("C://Users///HLi78//Desktop//docker.png");
-//            fis = new FileInputStream(file);
-//            byte[] b = new byte[fis.available()];
-//            fis.read(b);
-//            out.write(b);
-//            out.flush();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            if (fis != null) {
-//                try {
-//                    fis.close();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//    }
 }
