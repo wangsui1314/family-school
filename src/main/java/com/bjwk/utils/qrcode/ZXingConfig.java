@@ -8,7 +8,6 @@ import com.google.zxing.EncodeHintType;
 /**
  * 二维码配置信息
  *
- * @author X-rapido
  *
  */
 public class ZXingConfig {

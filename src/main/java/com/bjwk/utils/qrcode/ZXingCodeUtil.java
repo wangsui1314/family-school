@@ -25,7 +25,6 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * 二维码生成google zxing
  *
- * @author X-rapido
  *
  */
 public class ZXingCodeUtil {
@@ -171,7 +170,7 @@ public class ZXingCodeUtil {
         FileInputStream fis = null;
         try {
             // 生成二维码
-            File file = new File("C://Users//HLi78//Desktop//docker.png");
+            //File file = new File("C://Users//HLi78//Desktop//docker.png");
             ZXingCodeUtil zp = new ZXingCodeUtil(); // 实例化二维码工具
             ZXingConfig zxingconfig = new ZXingConfig();    // 实例化二维码配置参数
             zxingconfig.setHints(zp.getDecodeHintType());   // 设置二维码的格式参数
@@ -187,10 +186,10 @@ public class ZXingCodeUtil {
             response.setContentType("image/gif");
 
             //
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            ImageIO.write(bim, "png", out);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ImageIO.write(bim, "png", bos);
 
-              byte[] b = out.toByteArray();
+              byte[] b = bos.toByteArray();
             //
                 OutputStream out = response.getOutputStream();
                 //fis = new FileInputStream(file);
