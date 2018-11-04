@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * <p>
@@ -45,6 +46,7 @@ public class QuestionnaireController {
 
 
     @RequestMapping(value = "_addQuestionnaire")
+    @ResponseBody
     public DataWrapper<Boolean> addQuestionnaireInfo(@ModelAttribute(value = "questionnaire")Questionnaire questionnaire){
         _logger.info("收集问卷调查信息，数据为："+questionnaire.toString());
         return questionnaireService.insertQusetionnaireInfo(questionnaire);
