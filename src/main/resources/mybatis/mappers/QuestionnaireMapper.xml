@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.bjwk.dao.ArticleDao">
+<mapper namespace="com.bjwk.dao.QuestionnaireDao">
     <resultMap id="BaseResultMap" type="com.bjwk.model.questionnaire.Questionnaire">
         <id column="naire_id" property="naireId"/>
         <result column="student_name" property="studentName"/>
