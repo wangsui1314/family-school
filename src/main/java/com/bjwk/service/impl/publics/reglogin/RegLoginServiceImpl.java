@@ -21,12 +21,6 @@ import com.bjwk.utils.ErrorCodeEnum;
 import com.bjwk.utils.RedisClient;
 import com.bjwk.utils.sms.VerifiCodeValidateUtil;
 
-import com.bjwk.zrongcloud.io.RongCloudKeyAndSecret;
-import com.bjwk.zrongcloud.io.rong.RongCloud;
-import com.bjwk.zrongcloud.io.rong.methods.user.User;
-import com.bjwk.zrongcloud.io.rong.models.*;
-import com.bjwk.zrongcloud.io.rong.models.response.*;
-import com.bjwk.zrongcloud.io.rong.models.user.UserModel;
 
 import org.springframework.transaction.annotation.Transactional;
 import redis.clients.jedis.Jedis;
@@ -99,24 +93,12 @@ public class RegLoginServiceImpl implements RegLoginService {
         Map<String, String> map = getDefaultMessage(user.getUserName(), user.getPhone());
         user.setNickName(map.get("nickname"));
         user.setHeadPortrait(map.get("headPortrait"));
-
+        user.setStudentId(user.getPhone());
         /**
          * 更改为注册成功 不是登录成功状态
          */
         int sign = regLoginDao.insertReg(user);
-        if (sign != 0) {
-            //获取融云rongCloudToken
-            TokenResult tr = (TokenResult) getRongCloudToken(user.getUserId() + "", map.get("nickname"), map.get("headPortrait"), 1);
-            System.out.println(user);
-            System.out.println(tr);
-            if (tr != null) {
-                dataWrapper.setRongCloudToken(tr.getToken());
-            }
-            dataWrapper.setCallStatus(CallStatusEnum.SUCCEED);
-            dataWrapper.setData(user);
-            dataWrapper.setMsg("注册成功");
-            //注册成功并在融云建立用户关系
-        }
+
         return dataWrapper;
     }
 
@@ -273,11 +255,7 @@ public class RegLoginServiceImpl implements RegLoginService {
             /**
              * 更改rongcloud 用户信息主要包括昵称与头像
              */
-            Result res = getRongCloudToken(regLoginDao.getUserIdByUserName(userName), nickName, headPortrait, 2);
-            //测试 打印数据
-            if (res.getCode() != 200) {
-                System.out.println("更改rongcloud数据出错");
-            }
+
             dataWrapper.setCallStatus(CallStatusEnum.SUCCEED);
             jedis.close();
             return dataWrapper;
@@ -392,36 +370,36 @@ public class RegLoginServiceImpl implements RegLoginService {
     /**
      * API 文档: http://rongcloud.github.io/server-sdk-nodejs/docs/v1/user/user.html#register
      */
-    public Result getRongCloudToken(String userId, String nickName, String headPortrait, int type) {
-        try {
-
-            RongCloud rongCloud = RongCloud.getInstance(RongCloudKeyAndSecret.key, RongCloudKeyAndSecret.secret);
-            //自定义 api 地址方式
-            // RongCloud rongCloud = RongCloud.getInstance(appKey, appSecret,api);
-            User User = rongCloud.user;
-
-            UserModel user = new UserModel()
-                    .setId(userId)
-                    .setName(nickName)
-                    .setPortrait(headPortrait);
-            if (type == 1) {
-                //注册用户，生成用户在融云的唯一身份标识 Token
-                TokenResult result = User.register(user);
-                if (result.getCode() == 200) {
-                    return result;
-                }
-            } else if (type == 2) {
-                //刷新用户信息方法
-                Result refreshResult = User.update(user);
-                return refreshResult;
-
-            }
-
-        } catch (Exception e) {
-            // TODO: handle exception
-        }
-        return null;
-    }
+//    public Result getRongCloudToken(String userId, String nickName, String headPortrait, int type) {
+//        try {
+//
+//            RongCloud rongCloud = RongCloud.getInstance(RongCloudKeyAndSecret.key, RongCloudKeyAndSecret.secret);
+//            //自定义 api 地址方式
+//            // RongCloud rongCloud = RongCloud.getInstance(appKey, appSecret,api);
+//            User User = rongCloud.user;
+//
+//            UserModel user = new UserModel()
+//                    .setId(userId)
+//                    .setName(nickName)
+//                    .setPortrait(headPortrait);
+//            if (type == 1) {
+//                //注册用户，生成用户在融云的唯一身份标识 Token
+//                TokenResult result = User.register(user);
+//                if (result.getCode() == 200) {
+//                    return result;
+//                }
+//            } else if (type == 2) {
+//                //刷新用户信息方法
+//                Result refreshResult = User.update(user);
+//                return refreshResult;
+//
+//            }
+//
+//        } catch (Exception e) {
+//            // TODO: handle exception
+//        }
+//        return null;
+//    }
 
     /**
      * @param userName
