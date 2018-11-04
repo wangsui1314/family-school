@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bjwk.dao.ArticleDao">
+    <resultMap id="BaseResultMap" type="com.bjwk.model.questionnaire.Questionnaire">
+        <id column="naire_id" property="naireId"/>
+        <result column="student_name" property="studentName"/>
+        <result column="student_class" property="studentClass"/>
+        <result column="parent_phone" property="parentPhone"/>
+        <result column="address" property="address"/>
+        <result column="select_key" property="selectKey"/>
+        <result column="answer_key" property="answerKey"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+		naire_id,student_name,student_class,parent_phone,address,select_key,answer_key,create_time,update_time
+	</sql>
+    <sql id="Base_insert_List">
+		student_name,student_class,parent_phone,address,select_key,answer_key,create_time,update_time
+	</sql>
+    <!-- 添加文章 -->
+    <insert id="insertQusetionnaireInfo" parameterType="com.bjwk.model.questionnaire.Questionnaire">
+		insert into
+		questionnaire(student_name,student_class,parent_phone,address,select_key,answer_key,create_time,update_time)
+		values
+		( #{studentName},
+		#{studentClass},
+		#{parentPhone},
+		#{address},
+		#{selectKey},
+		#{answerKey},
+		now(),
+		now())
+	</insert>
+
+</mapper>

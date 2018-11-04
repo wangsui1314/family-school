@@ -18,7 +18,7 @@ import com.bjwk.utils.annotation.AdminTokenValidate;
 public class LableManageController {
 	@Autowired  
 	private LableManageService lableManageService;
-	
+
 	/**
 	 * @param 
 	 * @return

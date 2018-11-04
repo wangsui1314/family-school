@@ -23,13 +23,15 @@ public class NoticeServiceImpl implements NoticeService {
     /**
      * 查看公告详情
      **/
+    @Override
     public NoticeEntity findNoticeDetails(int noticeId) {
         return noticeDao.findNoticeById(noticeId);
     }
 
     /**
-     * 插入公告
+     * 添加阅读量
      **/
+    @Override
     public void addBrowseVolume(int noticeId) {
         noticeDao.addBrowseVolume(noticeId);
     }
@@ -37,6 +39,7 @@ public class NoticeServiceImpl implements NoticeService {
     /**
      * 插入公告
      **/
+    @Override
     public boolean insertNotice(NoticeEntity noticeEntity) {
 
         return noticeDao.insertNotice(noticeEntity);
@@ -45,6 +48,7 @@ public class NoticeServiceImpl implements NoticeService {
     /**
      * 删除指定公告
      **/
+    @Override
     public boolean deleteNoticeById(int noticeId) {
 
         return noticeDao.deleteNoticeById(noticeId);
@@ -53,6 +57,7 @@ public class NoticeServiceImpl implements NoticeService {
     /**
      * 查询所有公告
      **/
+    @Override
     public List<NoticeEntity> findAllNotice() {
         return noticeDao.findAllNotice();
     }
@@ -60,6 +65,7 @@ public class NoticeServiceImpl implements NoticeService {
     /**
      * 根据id更改公告信息
      **/
+    @Override
     public boolean updateNoticeById(NoticeEntity noticeEntity) {
         return noticeDao.updateNoticeById(noticeEntity);
     }
