@@ -37,7 +37,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 @RequestMapping("api/questionnaire")
-@MyLog
 public class QuestionnaireController {
 
     private static final Log _logger = LogFactory.getLog(QuestionnaireController.class);
