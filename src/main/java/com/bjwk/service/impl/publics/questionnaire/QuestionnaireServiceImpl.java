@@ -53,8 +53,8 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
         _logger.info("收集问卷调查信息");
         DataWrapper<Boolean> dataWrapper = new DataWrapper<Boolean>();
         _logger.info("收集问卷调查信息，数据为："+questionnaire.toString());
-        boolean result = questionnaireDao.insertQusetionnaireInfo(questionnaire);
-
+        int results = questionnaireDao.insertQusetionnaireInfo(questionnaire);
+        boolean result = results > 0;
         if (result) {
             dataWrapper.setMsg("填写问卷成功");
             dataWrapper.setCallStatus(CallStatusEnum.SUCCEED);

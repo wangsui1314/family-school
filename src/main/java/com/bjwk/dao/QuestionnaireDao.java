@@ -32,5 +32,5 @@ public interface QuestionnaireDao {
     /**
      * 调查问卷填写结果保存
      **/
-    boolean insertQusetionnaireInfo(Questionnaire questionnaire);
+    int insertQusetionnaireInfo(Questionnaire questionnaire);
 }
