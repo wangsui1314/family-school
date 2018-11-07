@@ -70,4 +70,8 @@
         </foreach>
     </update>
 
+
+    <insert id="test">
+        insert into test (TEST_NAME,TEST_PASSWORD) values (#{name},#{word})
+    </insert>
 </mapper>

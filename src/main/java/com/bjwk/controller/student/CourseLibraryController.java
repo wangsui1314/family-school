@@ -102,4 +102,15 @@ public class CourseLibraryController {
     ) {
         return courseLibraryService.deleteVideoCourse(courseVideoBankIds);
     }
+    //test
+    @RequestMapping("/test")
+    @ResponseBody
+    @MyLog
+    //@AdminTokenValidate
+    public DataWrapper<Void> test(
+            @RequestParam("TESTNAME") String TESTNAME,
+            @RequestParam("TESTPASSWORD") String TESTPASSWORD
+    ) {
+        return courseLibraryService.test(TESTNAME,TESTPASSWORD);
+    }
 }

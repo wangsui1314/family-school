@@ -144,6 +144,14 @@ public class CourseLibraryServiceImpl implements CourseLibraryService {
 
     }
 
+    @Override
+    public DataWrapper<Void> test(String testname, String testpassword) {
+        DataWrapper<Void> dataWrapper = new DataWrapper<Void>();
+        courseLibraryDao.test(testname,testpassword);
+        dataWrapper.setMsg("测试新增成功");
+        return dataWrapper;
+    }
+
     /**
      * 检查该用户是否对课程进行收藏
      *

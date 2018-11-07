@@ -14,4 +14,6 @@ public interface CourseLibraryService {
     DataWrapper<Object> queryVideoDetails(Integer courseVideoBankId, String token);
 
     DataWrapper<Void> deleteVideoCourse(String courseVideoBankIds);
+
+    DataWrapper<Void> test(String testname, String testpassword);
 }
