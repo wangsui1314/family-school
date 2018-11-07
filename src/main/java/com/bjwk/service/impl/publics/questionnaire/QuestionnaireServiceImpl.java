@@ -8,7 +8,6 @@ package com.bjwk.service.impl.publics.questionnaire;
 
 import com.bjwk.dao.QuestionnaireDao;
 import com.bjwk.model.questionnaire.Questionnaire;
-import com.bjwk.service.impl.student.ArticleServiceImpl;
 import com.bjwk.service.publics.questionnaire.QuestionnaireService;
 import com.bjwk.utils.CallStatusEnum;
 import com.bjwk.utils.DataWrapper;
@@ -16,6 +15,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -65,5 +66,13 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
             dataWrapper.setData(result);
         }
         return dataWrapper;
+    }
+
+    /**
+     * 查询问卷信息
+     **/
+    @Override
+    public List<Questionnaire> findNaireInfo() {
+        return this.questionnaireDao.findNaireInfo();
     }
 }

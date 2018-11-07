@@ -9,6 +9,8 @@ package com.bjwk.service.publics.questionnaire;
 import com.bjwk.model.questionnaire.Questionnaire;
 import com.bjwk.utils.DataWrapper;
 
+import java.util.List;
+
 /**
  * <p>
  * Title:
@@ -33,4 +35,9 @@ public interface QuestionnaireService {
      * 调查问卷填写结果保存
      **/
     DataWrapper<Boolean> insertQusetionnaireInfo(Questionnaire questionnaire);
+
+    /**
+     * 查询问卷信息
+     **/
+    List<Questionnaire> findNaireInfo();
 }

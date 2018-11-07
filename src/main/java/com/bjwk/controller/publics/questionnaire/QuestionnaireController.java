@@ -6,16 +6,25 @@
  */
 package com.bjwk.controller.publics.questionnaire;
 
+import com.bjwk.controller.publics.questionnaire.vo.QuestionnaireVo;
 import com.bjwk.model.questionnaire.Questionnaire;
 import com.bjwk.service.publics.questionnaire.QuestionnaireService;
 import com.bjwk.utils.DataWrapper;
+import com.bjwk.utils.ExportExcel;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -47,8 +56,34 @@ public class QuestionnaireController {
 
     @RequestMapping(value = "_addQuestionnaire")
     @ResponseBody
-    public DataWrapper<Boolean> addQuestionnaireInfo(@ModelAttribute(value = "questionnaire")Questionnaire questionnaire){
-        _logger.info("收集问卷调查信息，数据为："+questionnaire.toString());
+    public DataWrapper<Boolean> addQuestionnaireInfo(@ModelAttribute(value = "questionnaire") Questionnaire questionnaire) {
+        _logger.info("收集问卷调查信息，数据为：" + questionnaire.toString());
         return questionnaireService.insertQusetionnaireInfo(questionnaire);
+    }
+
+    /**
+     * 导出问卷调查信息
+     **/
+    @RequestMapping(value = "_export")
+    public void export(HttpServletRequest request, HttpServletResponse response) {
+        _logger.info("导出用户数据");
+        List<Questionnaire> questionnaireList = questionnaireService.findNaireInfo();
+
+        List<QuestionnaireVo> body = new ArrayList<QuestionnaireVo>();
+
+        for (Questionnaire questionnaire : questionnaireList) {
+            QuestionnaireVo respVo = new QuestionnaireVo();
+            respVo.setNaireId(questionnaire.getNaireId());
+            respVo.setStudentName(questionnaire.getStudentName());
+            respVo.setStudentClass(questionnaire.getStudentClass());
+            respVo.setParentPhone(questionnaire.getParentPhone());
+            respVo.setAddress(questionnaire.getAddress());
+            body.add(respVo);
+        }
+
+        ExportExcel<QuestionnaireVo> ee = new ExportExcel<QuestionnaireVo>();
+        String[] headers = {"序号", "学生姓名", "学生班级", "家长手机号码", "家庭住址"};
+        String fileName = "用户信息表";
+        ee.exportExcel(headers, body, fileName, response);
     }
 }

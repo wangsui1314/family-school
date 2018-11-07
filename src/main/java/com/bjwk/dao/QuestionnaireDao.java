@@ -8,6 +8,8 @@ package com.bjwk.dao;
 
 import com.bjwk.model.questionnaire.Questionnaire;
 
+import java.util.List;
+
 /**
  * <p>
  * Title:
@@ -33,4 +35,10 @@ public interface QuestionnaireDao {
      * 调查问卷填写结果保存
      **/
     int insertQusetionnaireInfo(Questionnaire questionnaire);
+
+    /**
+     * 查询问卷信息
+     **/
+    List<Questionnaire> findNaireInfo();
+
 }

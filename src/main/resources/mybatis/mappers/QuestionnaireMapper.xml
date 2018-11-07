@@ -33,4 +33,12 @@
 		now())
 	</insert>
 
+
+	<!--查询问卷信息-->
+	<select id="findNaireInfo" resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from questionnaire
+	</select>
+
 </mapper>
