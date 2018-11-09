@@ -59,38 +59,45 @@ public class TokenValidateAspect {
      */
     @Around("tokenAspect()")
     public Object around(ProceedingJoinPoint joinpoint) throws Throwable {
-
-        MethodSignature signature = (MethodSignature) joinpoint.getSignature();
-        Method method = signature.getMethod();
-        String methodName = method.getName();
-        String classType = joinpoint.getTarget().getClass().getName();
-        Class<?> clazz = Class.forName(classType);
-        String clazzName = clazz.getName();
-        //String methodName = signature.getName(); //获取方法名称
-        Object[] args = joinpoint.getArgs();//参数
-        //获取参数名称和值
-        Map<String, Object> nameAndArgs = getFieldsName(this.getClass(), clazzName, methodName, args);
-
-        String token = (String) nameAndArgs.get("token");
-
-        DataWrapper dataWrapper=new DataWrapper();
-        /**
-         * 1.验证该用户是否已登录，通过是否包含此token来判断
-         */
         Jedis jedis = RedisClient.getJedis();
-        String userName = jedis.hget("loginStatus", token);
-        Object obj = null;
-        if (userName != null) {
-            log.info("用户权限检查结果通知...--> {}.{} : token:{}。通过！", method.getDeclaringClass().getName(), methodName, nameAndArgs.get("token"));
-            //放行
-            obj = joinpoint.proceed();
-            return obj;
-        } else {
-            dataWrapper.setCallStatus(CallStatusEnum.FAILED);
-            dataWrapper.setMsg("用户权限检查结果通知:失败");
-            log.error("用户权限检查结果通知...--> {}.{} : token:{}。失败！", method.getDeclaringClass().getName(), methodName, nameAndArgs.get("token"));
-            return dataWrapper;
+        try {
+            MethodSignature signature = (MethodSignature) joinpoint.getSignature();
+            Method method = signature.getMethod();
+            String methodName = method.getName();
+            String classType = joinpoint.getTarget().getClass().getName();
+            Class<?> clazz = Class.forName(classType);
+            String clazzName = clazz.getName();
+            //String methodName = signature.getName(); //获取方法名称
+            Object[] args = joinpoint.getArgs();//参数
+            //获取参数名称和值
+            Map<String, Object> nameAndArgs = getFieldsName(this.getClass(), clazzName, methodName, args);
+
+            String token = (String) nameAndArgs.get("token");
+
+            DataWrapper dataWrapper = new DataWrapper();
+            /**
+             * 1.验证该用户是否已登录，通过是否包含此token来判断
+             */
+
+            String userName = jedis.hget("loginStatus", token);
+            Object obj = null;
+            if (userName != null) {
+                log.info("用户权限检查结果通知...--> {}.{} : token:{}。通过！", method.getDeclaringClass().getName(), methodName, nameAndArgs.get("token"));
+                //放行
+                obj = joinpoint.proceed();
+                return obj;
+            } else {
+                dataWrapper.setCallStatus(CallStatusEnum.FAILED);
+                dataWrapper.setMsg("用户权限检查结果通知:失败");
+                log.error("用户权限检查结果通知...--> {}.{} : token:{}。失败！", method.getDeclaringClass().getName(), methodName, nameAndArgs.get("token"));
+                return dataWrapper;
+            }
+        } catch (Exception e) {
+            e.getStackTrace();
+        } finally {
+            jedis.close();
         }
+        return null;
     }
 
     /**
