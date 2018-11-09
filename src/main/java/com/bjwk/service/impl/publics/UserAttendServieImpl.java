@@ -37,7 +37,6 @@ public class UserAttendServieImpl implements UserAttendServie {
     public DataWrapper<Void> attend(String token, Integer attendType) {
         DataWrapper<Void> dataWrapper = new DataWrapper<Void>();
         String userId = regLoginService.getUserIdByToken(token);
-
         /**
          * 检查当天  该用户 是否已经对该类型的签到
          */
