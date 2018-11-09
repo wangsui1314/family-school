@@ -60,6 +60,7 @@ public class TokenValidateAspect {
     @Around("tokenAspect()")
     public Object around(ProceedingJoinPoint joinpoint) throws Throwable {
         Jedis jedis = RedisClient.getJedis();
+        DataWrapper dataWrapper = new DataWrapper();
         try {
             MethodSignature signature = (MethodSignature) joinpoint.getSignature();
             Method method = signature.getMethod();
@@ -74,7 +75,6 @@ public class TokenValidateAspect {
 
             String token = (String) nameAndArgs.get("token");
 
-            DataWrapper dataWrapper = new DataWrapper();
             /**
              * 1.验证该用户是否已登录，通过是否包含此token来判断
              */
@@ -97,7 +97,9 @@ public class TokenValidateAspect {
         } finally {
             jedis.close();
         }
-        return null;
+        dataWrapper.setCallStatus(CallStatusEnum.FAILED);
+        dataWrapper.setMsg("用户权限检查发生代码错误");
+        return dataWrapper;
     }
 
     /**
