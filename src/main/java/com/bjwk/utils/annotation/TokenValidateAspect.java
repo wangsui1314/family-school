@@ -93,7 +93,7 @@ public class TokenValidateAspect {
                 return dataWrapper;
             }
         } catch (Exception e) {
-            e.getStackTrace();
+            e.printStackTrace();
         } finally {
             jedis.close();
         }
