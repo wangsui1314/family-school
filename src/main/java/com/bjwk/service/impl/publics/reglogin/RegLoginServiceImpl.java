@@ -244,10 +244,11 @@ public class RegLoginServiceImpl implements RegLoginService {
         if (lableId != null) {
             regLoginDao.insrtLable(userId, lableId.split(","));
         }
+
         //更改基本信息
         int state = regLoginDao.changeUserInfo(
-                token, headPortrait, sex, lableId, background, styleSignTure
-                , nickName,className,schoolName,headMaster
+                 headPortrait, sex,nickName,background,styleSignTure,userName
+                ,className,schoolName,headMaster
         );
         if (state != 0) {
             /**
