@@ -14,7 +14,7 @@
       #{userName},#{phone},#{passWord},#{email},#{sign},#{headPortrait},#{sex},#{nickName},#{studentId})
     </insert>
     
-    <select id="queryUserIsTrue" resultType="String">
+    <select id="queryUserIsTrue" resultType="java.lang.String">
      select user_name from users
      <where>
          <if test="userName!=null and userName!=''">
@@ -122,6 +122,10 @@
         <result column="created" property="created"/>
         <result column="update_time" property="updateTime"/>
        <result column="student_id" property="studentId"/>
+
+       <result column="class_name" property="className"/>
+       <result column="school_name" property="schoolName"/>
+       <result column="head_master" property="headMaster"/>
         <!-- lable -->
         
          <collection property="labelMap" ofType="java.util.Map">   
@@ -134,6 +138,7 @@
     <select id="queryUserInfoDetails" resultMap="queryUserInfoDetails">
       select user.user_id,user.user_name,user.email,user.phone,user.sign,user.coin,user.head_portrait,
       user.sex,user.nick_name,user.background,user.style_signature,user.created,user.update_time,user.gestrue_isok,user.student_id,
+      user.class_name,user.school_name,user.head_master
       lable.lable_name,lable.lable_type
        from users user  left join user_lable userlable on user.user_id=userlable.user_id 
       left join lable lable on userlable.labe_id=lable.id
