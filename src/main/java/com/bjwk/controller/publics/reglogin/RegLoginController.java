@@ -151,7 +151,7 @@ public class RegLoginController {
             @RequestParam(value = "styleSignTure", required = false) String styleSignTure,
             @RequestParam(value = "className", required = false) String className,
             @RequestParam(value = "schoolName", required = false) String schoolName,
-            @RequestParam(value = "nickName", required = false) String headMaster
+            @RequestParam(value = "headMaster", required = false) String headMaster
     ) {
         System.out.println(styleSignTure);//Connector标签增加useBodyEncodingForURI="true"
         return regLoginService.changeUserInfo(token, headPortrait, sex, lableId, background, styleSignTure
