@@ -1,6 +1,7 @@
 package com.bjwk.utils.annotation;
 
 import com.alibaba.fastjson.JSONObject;
+import com.bjwk.utils.*;
 import javassist.*;
 import javassist.bytecode.CodeAttribute;
 import javassist.bytecode.LocalVariableAttribute;
@@ -19,11 +20,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-
-import com.bjwk.utils.BeanUtil;
-import com.bjwk.utils.CallStatusEnum;
-import com.bjwk.utils.DataWrapper;
-import com.bjwk.utils.RedisClient;
 
 import redis.clients.jedis.Jedis;
 
@@ -99,11 +95,12 @@ public class TokenValidateAspect {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            dataWrapper.setCallStatus(CallStatusEnum.FAILED);
+            dataWrapper.setData(e.getMessage());
+            dataWrapper.setMsg("系统异常，请稍后在试");
         } finally {
             jedis.close();
         }
-        dataWrapper.setCallStatus(CallStatusEnum.FAILED);
-        dataWrapper.setMsg("用户权限检查发生代码错误");
         return dataWrapper;
     }
 

@@ -241,7 +241,7 @@ public class RegLoginServiceImpl implements RegLoginService {
          */
         //		String userId="1";
         //		lableId="1,2,3,4";
-        if (lableId != null) {
+        if (lableId != null && lableId != "") {
             regLoginDao.insrtLable(userId, lableId.split(","));
         }
 
