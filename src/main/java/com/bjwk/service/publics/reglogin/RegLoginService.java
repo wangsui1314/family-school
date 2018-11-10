@@ -20,7 +20,7 @@ public interface RegLoginService {
 	DataWrapper<String> userUpdateToPassWordCheck(Integer sign, String phone, String code);
 
 	DataWrapper<Void> changeUserInfo(String token, String headPortrait, String sex, String professionId,
-			String background, String styleSignTure, String nickName);
+									 String background, String styleSignTure, String nickName, String className, String schoolName, String headMaster);
 
 	DataWrapper<Users> queryUserInfoDetails(String token,Integer sign);
 

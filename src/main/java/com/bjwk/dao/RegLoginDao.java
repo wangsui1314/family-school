@@ -21,7 +21,10 @@ public interface RegLoginDao {
 	int changeUserInfo(@Param("headPortrait")String headPortrait, @Param("sex")String sex,
 			@Param("nickName") String nickName,
 			@Param("background")String background, @Param("styleSignTure")String styleSignTure,
-			@Param("userName")String userName);
+			@Param("userName")String userName,
+					   @Param("className")String className,
+					   @Param("schoolName")String schoolName,@Param("headMaster")String headMaster
+					   );
 	
 	String userUpdateToPassWordCheck(@Param("sign")Integer sign, @Param("phone")String phone);
 	

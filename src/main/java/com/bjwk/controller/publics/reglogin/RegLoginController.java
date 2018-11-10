@@ -142,17 +142,20 @@ public class RegLoginController {
     @TokenValidate
     @MyLog
     public DataWrapper<Void> changeUserInfo(
-            @RequestParam(value = "token", required = false) String token,
+            @RequestParam(value = "token") String token,
             @RequestParam(value = "headPortrait", required = false) String headPortrait,
             @RequestParam(value = "sex", required = false) String sex,
             @RequestParam(value = "nickName", required = false) String nickName,
             @RequestParam(value = "lableId", required = false) String lableId,//入参格式  1,2,3,4,5,7,12
             @RequestParam(value = "background", required = false) String background,
-            @RequestParam(value = "styleSignTure", required = false) String styleSignTure
+            @RequestParam(value = "styleSignTure", required = false) String styleSignTure,
+            @RequestParam(value = "className", required = false) String className,
+            @RequestParam(value = "schoolName", required = false) String schoolName,
+            @RequestParam(value = "nickName", required = false) String headMaster
     ) {
         System.out.println(styleSignTure);//Connector标签增加useBodyEncodingForURI="true"
         return regLoginService.changeUserInfo(token, headPortrait, sex, lableId, background, styleSignTure
-                , nickName);
+                , nickName,className,schoolName,headMaster);
     }
 
     /**

@@ -4,17 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.HashOperations;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.bjwk.dao.RegLoginDao;
 import com.bjwk.model.pojo.Users;
 import com.bjwk.service.publics.reglogin.RegLoginService;
-import com.bjwk.utils.BeanUtil;
 import com.bjwk.utils.CallStatusEnum;
 import com.bjwk.utils.DataWrapper;
 import com.bjwk.utils.ErrorCodeEnum;
@@ -232,7 +227,7 @@ public class RegLoginServiceImpl implements RegLoginService {
      */
     @Override
     public DataWrapper<Void> changeUserInfo(String token, String headPortrait, String sex, String lableId, String background,
-                                            String styleSignTure, String nickName) {
+                                            String styleSignTure, String nickName, String className, String schoolName, String headMaster) {
         // TODO Auto-generated method stub
         DataWrapper<Void> dataWrapper = new DataWrapper<Void>();
 
@@ -250,7 +245,10 @@ public class RegLoginServiceImpl implements RegLoginService {
             regLoginDao.insrtLable(userId, lableId.split(","));
         }
         //更改基本信息
-        int state = regLoginDao.changeUserInfo(headPortrait, sex, nickName, background, styleSignTure, userName);
+        int state = regLoginDao.changeUserInfo(
+                token, headPortrait, sex, lableId, background, styleSignTure
+                , nickName,className,schoolName,headMaster
+        );
         if (state != 0) {
             /**
              * 更改rongcloud 用户信息主要包括昵称与头像
