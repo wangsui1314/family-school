@@ -100,7 +100,7 @@ public class VerifyCodeU {
         
            // System.out.println("contain:"+redisTemplate.opsForHash().hasKey("USER_CODE_MAP",phoneNum));
             if(jedis.hexists("USER_CODE_MAP",phoneNum)){
-                if (checkTime(TimeUtil.changeStringToDate(((String) jedis.hget("USER_CODE_MAP", phoneNum)).substring(4)), new Date())> 50){
+                if (checkTime(TimeUtil.changeStringToDate((jedis.hget("USER_CODE_MAP", phoneNum)).substring(4)), new Date())> 50){
                     removePhoneCodeByPhoneNum(phoneNum);
                     return "overdue";
                 }else{
@@ -142,7 +142,7 @@ public class VerifyCodeU {
     	Jedis jedis=RedisClient.getJedis();
         if (jedis.hexists("USER_CODE_MAP",phoneNum)) {
         	
-        	jedis.hdel("USER_CODE_MAP","phoneNum");
+        	jedis.hdel("USER_CODE_MAP",phoneNum);
         }
         jedis.close();
     }
