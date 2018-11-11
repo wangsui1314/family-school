@@ -1,5 +1,6 @@
 package com.bjwk.controller.publics.reglogin;
 
+import com.bjwk.utils.annotation.MyLog;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
@@ -27,12 +28,12 @@ public class GetVerificationCodeController {
 
 	@RequestMapping(value="_getVcode")
 	@ResponseBody
+	@MyLog
 	public DataWrapper<Void> getVcode(
 			@RequestParam(value="phone",required=true) String phone
 			){
 		DataWrapper<Void> dataWrapper=new DataWrapper<Void>();
-		_logger.info(phone+"：用户开始获取验证码....");
-		
+
 		String code = new VerifyCodeU().newPhoneCode(phone);
 		if (code == null) {
 			dataWrapper.setErrorCode(ErrorCodeEnum.Verify_Code_5min);
