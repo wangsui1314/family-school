@@ -32,7 +32,7 @@ public class CourseVideoBankVO {
 
     private BigDecimal yuan;
 
-    private Integer category;
+    private String category;
 
     private Date updateTime;
 
