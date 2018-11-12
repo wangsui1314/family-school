@@ -59,4 +59,12 @@ public class BuildController {
     }
 
 
+
+    @RequestMapping("queryTest")
+    @ResponseBody
+    public String queryTest(
+    ) {
+        return "build ok";
+    }
+
 }
