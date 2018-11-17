@@ -62,10 +62,10 @@ public class ArticleController {
     @RequestMapping(value = "_getArticleDetails")
     @ResponseBody
     @MyLog
-    public DataWrapper<Article> getArticleDetails(Integer articleId) {
+    public DataWrapper<Article> getArticleDetails(String articleId) {
         _logger.info("获取美文详情，接收的美文Id为：" + articleId);
 
-        return articleService.getArticleDetails(articleId);
+        return articleService.getArticleDetails(Integer.parseInt(articleId));
     }
 
     /**
