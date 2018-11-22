@@ -20,6 +20,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -151,6 +156,62 @@ public class CourseLibraryServiceImpl implements CourseLibraryService {
         dataWrapper.setMsg("测试新增成功");
         return dataWrapper;
     }
+
+    /**
+     * @Description "下载"
+     * @Date 2018/11/22 15:10
+     * @Param [videoUrl]
+     * @return com.bjwk.utils.DataWrapper<java.lang.Void>
+     */
+    @Override
+    public DataWrapper<Void> downLoadVideoCourse(Integer courseVideoBankId, HttpServletResponse response) {
+        DataWrapper<Void> dataWrapper = new DataWrapper<Void>();
+        /**
+         * 查询课程相关信息
+         */
+        CourseVideoBankDetailVO courseVideoBankDetailVO = courseLibraryDao.queryVideoDetails(courseVideoBankId);
+
+        httpDownload(courseVideoBankDetailVO.getVideo(),response,courseVideoBankDetailVO.getTitle());
+        return dataWrapper;
+    }
+
+    public static boolean httpDownload(String httpUrl, HttpServletResponse response,String title) {
+        // 1.下载网络文件
+        int byteRead;
+        URL url;
+        try {
+            url = new URL(httpUrl);
+        } catch (MalformedURLException e1) {
+            e1.printStackTrace();
+            return false;
+        }
+        try {
+            //2.获取链接
+            URLConnection conn = url.openConnection();
+            //3.输入流
+            InputStream inStream = conn.getInputStream();
+            //3.写入文件
+            response.setContentType("video/avi");
+            response.addHeader("Content-Disposition", "attachment;filename="+title+".avi");
+
+            OutputStream fs = response.getOutputStream();
+            byte[] buffer = new byte[1024];
+            while ((byteRead = inStream.read(buffer)) != -1) {
+                fs.write(buffer, 0, byteRead);
+            }
+            inStream.close();
+            fs.close();
+            return true;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
 
     /**
      * 检查该用户是否对课程进行收藏

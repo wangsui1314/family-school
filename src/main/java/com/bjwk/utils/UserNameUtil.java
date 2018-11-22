@@ -16,6 +16,6 @@ public class UserNameUtil {
 	  Jedis jedis=RedisClient.getJedis();
 	 String userName=jedis.hget("loginStatus",token);
 	 jedis.close();
-	   return   userName ;
+	 return   userName ;
    }
 }

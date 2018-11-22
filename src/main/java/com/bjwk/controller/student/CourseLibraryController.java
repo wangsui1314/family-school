@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -101,6 +102,23 @@ public class CourseLibraryController {
             @RequestParam("courseVideoBankIds") String courseVideoBankIds
     ) {
         return courseLibraryService.deleteVideoCourse(courseVideoBankIds);
+    }
+
+
+    /**
+     * @Description "下载视屏课程"
+     * @Date 2018/11/22 15:09
+     * @Param [videoUrl]
+     * @return com.bjwk.utils.DataWrapper<java.lang.Void>
+     */
+    @RequestMapping("/downLoadVideoCourse")
+    @ResponseBody
+    @MyLog
+    public DataWrapper<Void> downLoadVideoCourse(
+            @RequestParam("courseVideoBankId") Integer courseVideoBankId,
+            HttpServletResponse response
+    ) {
+        return courseLibraryService.downLoadVideoCourse(courseVideoBankId,response);
     }
     //test
     @RequestMapping("/test")
