@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.MalformedURLException;
@@ -164,17 +165,17 @@ public class CourseLibraryServiceImpl implements CourseLibraryService {
      * @return com.bjwk.utils.DataWrapper<java.lang.Void>
      */
     @Override
-    public void downLoadVideoCourse(Integer courseVideoBankId, HttpServletResponse response) {
+    public void downLoadVideoCourse(Integer courseVideoBankId, HttpServletResponse response, HttpServletRequest request) {
         DataWrapper<Void> dataWrapper = new DataWrapper<Void>();
         /**
          * 查询课程相关信息
          */
         CourseVideoBankDetailVO courseVideoBankDetailVO = courseLibraryDao.queryVideoDetails(courseVideoBankId);
 
-        httpDownload(courseVideoBankDetailVO.getVideo(),response,courseVideoBankDetailVO.getTitle());
+        httpDownload(courseVideoBankDetailVO.getVideo(),response,courseVideoBankDetailVO.getTitle(),request);
     }
 
-    public  void httpDownload(String httpUrl, HttpServletResponse response,String title) {
+    public  void httpDownload(String httpUrl, HttpServletResponse response,String title,HttpServletRequest request) {
         // 1.下载网络文件
         int byteRead;
         URL url = null;
@@ -191,21 +192,29 @@ public class CourseLibraryServiceImpl implements CourseLibraryService {
             //3.输入流
              inStream = conn.getInputStream();
 
+            response.setContentType("multipart/form-data");
+            String userAgent = request.getHeader("User-Agent");
+            String oraFileName = title;
+            String formFileName=oraFileName;
+
+            // 针对IE或者以IE为内核的浏览器：
+            if (userAgent.contains("MSIE") || userAgent.contains("Trident")) {
+                formFileName = java.net.URLEncoder.encode(formFileName, "UTF-8");
+            } else {
+                // 非IE浏览器的处理：
+                formFileName = new String(formFileName.getBytes("UTF-8"), "ISO-8859-1");
+            }
+            response.setHeader("Content-disposition", String.format("attachment; filename=\"%s\"", formFileName));
+            response.setContentType("video/avi;charset=utf-8");
+            response.setCharacterEncoding("UTF-8");
 
 
-            response.setContentType("text/html;charset=UTF-8");
-            response.setContentType("application/octet-stream; charset=utf-8");
-//new String(fileName.getBytes("gb2312"),"ISO-8859-1") 中文编码，防止乱码
-//filename用""引起来，防止火狐截断
-            response.setHeader("Content-Disposition",
-                    "attachment; filename=\"" + new String(title.getBytes("gb2312"),"ISO-8859-1") + "\"");
-
-            //response.setContentType("video/avi");
-            //String  fileName = title +".avi";
-            //response.addHeader("Content-Disposition", "attachment;filename="+fileName);
-            //System.out.println(fileName);
+//            response.setContentType("video/avi");
+//            String  fileName = title +".avi";
+//            response.addHeader("Content-Disposition", "attachment;filename="+fileName);
+//            System.out.println(fileName);
              fs = response.getOutputStream();
-            byte[] buffer = new byte[1024];
+            byte[] buffer = new byte[2048];
             while ((byteRead = inStream.read(buffer)) != -1) {
                 fs.write(buffer, 0, byteRead);
             }

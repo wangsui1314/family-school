@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
@@ -116,9 +117,10 @@ public class CourseLibraryController {
     @MyLog
     public void downLoadVideoCourse(
             @RequestParam("courseVideoBankId") Integer courseVideoBankId,
-            HttpServletResponse response
+            HttpServletResponse response,
+            HttpServletRequest request
     ) {
-         courseLibraryService.downLoadVideoCourse(courseVideoBankId,response);
+         courseLibraryService.downLoadVideoCourse(courseVideoBankId,response,request);
     }
     //test
     @RequestMapping("/test")

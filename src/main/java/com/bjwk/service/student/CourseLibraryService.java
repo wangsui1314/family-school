@@ -4,6 +4,7 @@ import com.bjwk.model.CourseVideoBankVO;
 import com.bjwk.utils.DataWrapper;
 import com.github.pagehelper.PageInfo;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
@@ -18,5 +19,5 @@ public interface CourseLibraryService {
 
     DataWrapper<Void> test(String testname, String testpassword);
 
-    void downLoadVideoCourse(Integer courseVideoBankId, HttpServletResponse response);
+    void downLoadVideoCourse(Integer courseVideoBankId, HttpServletResponse response, HttpServletRequest request);
 }
