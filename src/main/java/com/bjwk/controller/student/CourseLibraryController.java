@@ -114,11 +114,11 @@ public class CourseLibraryController {
     @RequestMapping("/downLoadVideoCourse")
     @ResponseBody
     @MyLog
-    public DataWrapper<Void> downLoadVideoCourse(
+    public void downLoadVideoCourse(
             @RequestParam("courseVideoBankId") Integer courseVideoBankId,
             HttpServletResponse response
     ) {
-        return courseLibraryService.downLoadVideoCourse(courseVideoBankId,response);
+         courseLibraryService.downLoadVideoCourse(courseVideoBankId,response);
     }
     //test
     @RequestMapping("/test")

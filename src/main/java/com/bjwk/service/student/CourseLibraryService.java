@@ -18,5 +18,5 @@ public interface CourseLibraryService {
 
     DataWrapper<Void> test(String testname, String testpassword);
 
-    DataWrapper<Void> downLoadVideoCourse(Integer courseVideoBankId, HttpServletResponse response);
+    void downLoadVideoCourse(Integer courseVideoBankId, HttpServletResponse response);
 }
