@@ -175,6 +175,26 @@ public class CourseLibraryServiceImpl implements CourseLibraryService {
         httpDownload(courseVideoBankDetailVO.getVideo(),response,courseVideoBankDetailVO.getTitle(),request);
     }
 
+
+    /**
+     * @Description "我的课程"
+     * @Date 2018/11/22 15:10
+     * @Param [videoUrl]
+     * @return com.bjwk.utils.DataWrapper<java.lang.Void>
+     */
+    @Override
+    public DataWrapper<PageInfo<CourseVideoBankVO>> queryMyCourseList(String token,int currentPage,int numberPerPage) {
+        DataWrapper<PageInfo<CourseVideoBankVO>> dataWrapper = new DataWrapper<PageInfo<CourseVideoBankVO>>();
+        String userId = regLoginService.getUserIdByToken(token);
+        PageHelper.startPage(currentPage, numberPerPage);
+        List<CourseVideoBankVO> courseVideoBankVOList = courseLibraryDao.queryMyCourseList(userId);
+        PageInfo<CourseVideoBankVO> page = new PageInfo<CourseVideoBankVO>(courseVideoBankVOList);
+        dataWrapper.setData(page);
+        return dataWrapper;
+    }
+
+
+
     public  void httpDownload(String httpUrl, HttpServletResponse response,String title,HttpServletRequest request) {
         // 1.下载网络文件
         int byteRead;
@@ -208,11 +228,6 @@ public class CourseLibraryServiceImpl implements CourseLibraryService {
             response.setContentType("video/avi;charset=utf-8");
             response.setCharacterEncoding("UTF-8");
 
-
-//            response.setContentType("video/avi");
-//            String  fileName = title +".avi";
-//            response.addHeader("Content-Disposition", "attachment;filename="+fileName);
-//            System.out.println(fileName);
              fs = response.getOutputStream();
             byte[] buffer = new byte[2048];
             while ((byteRead = inStream.read(buffer)) != -1) {

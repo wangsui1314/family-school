@@ -70,6 +70,15 @@
         </foreach>
     </update>
 
+    <select id="queryMyCourseList" resultType="com.bjwk.model.CourseVideoBankVO">
+        select
+        cvb.id courseVideoBankId,cvb.coverMapImage,cvb.title,
+        cvb.lecturer,cvb.contentValidity,cvb.starLevel,cvb.videoTime,
+        cvb.isCharge,cvb.yuan,cvb.category,cvb.updateTime
+        FROM user_collection uc
+        left join course_video_bank cvb on uc.thingId = cvb.id
+        where uc.userId = #{userId}
+    </select>
 
     <insert id="test">
         insert into test (TEST_NAME,TEST_PASSWORD) values (#{name},#{word})

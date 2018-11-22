@@ -122,12 +122,35 @@ public class CourseLibraryController {
     ) {
          courseLibraryService.downLoadVideoCourse(courseVideoBankId,response,request);
     }
-    //test
+
+    /**
+     * @Description "查看我的课程"
+     * @Date 2018/11/22 16:48
+     * @Param [token]
+     * @return void
+     */
+    @RequestMapping("/queryMyCourseList")
+    @ResponseBody
+    @MyLog
+    @TokenValidate
+    public DataWrapper<PageInfo<CourseVideoBankVO>> queryMyCourseList(
+            @RequestParam(value = "token", required = false) String token,
+            @RequestParam(value = "currentPage", required = false,defaultValue = "1") int currentPage,
+             @RequestParam(value = "numberPerPage", required = false,defaultValue = "10") int numberPerPage
+    ) {
+        return courseLibraryService.queryMyCourseList(token,currentPage,numberPerPage);
+    }
+
+    /**
+     *
+     * @param TESTNAME
+     * @param TESTPASSWORD
+     * @return
+     */
     @RequestMapping("/test")
     @ResponseBody
     @MyLog
-    //@AdminTokenValidate
-    public DataWrapper<Void> test(
+    public DataWrapper<Void> test11(
             @RequestParam("TESTNAME") String TESTNAME,
             @RequestParam("TESTPASSWORD") String TESTPASSWORD
     ) {

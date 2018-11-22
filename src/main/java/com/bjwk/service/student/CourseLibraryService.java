@@ -20,4 +20,6 @@ public interface CourseLibraryService {
     DataWrapper<Void> test(String testname, String testpassword);
 
     void downLoadVideoCourse(Integer courseVideoBankId, HttpServletResponse response, HttpServletRequest request);
+
+    DataWrapper<PageInfo<CourseVideoBankVO>> queryMyCourseList(String token,int currentPage,int numberPerPage);
 }

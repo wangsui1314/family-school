@@ -27,4 +27,6 @@ public interface CourseLibraryDao {
     Integer deleteVideoCourse(@Param("array") String[] courseVideoBankStrIds);
 
     int test(@Param("name")String testname, @Param("word")String testpassword);
+
+    List<CourseVideoBankVO> queryMyCourseList(String userId);
 }
