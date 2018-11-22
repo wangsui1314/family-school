@@ -174,15 +174,14 @@ public class CourseLibraryServiceImpl implements CourseLibraryService {
         httpDownload(courseVideoBankDetailVO.getVideo(),response,courseVideoBankDetailVO.getTitle());
     }
 
-    public static boolean httpDownload(String httpUrl, HttpServletResponse response,String title) {
+    public  void httpDownload(String httpUrl, HttpServletResponse response,String title) {
         // 1.下载网络文件
         int byteRead;
-        URL url;
+        URL url = null;
         try {
             url = new URL(httpUrl);
         } catch (MalformedURLException e1) {
             e1.printStackTrace();
-            return false;
         }
         InputStream inStream = null;
         OutputStream fs = null;
@@ -191,11 +190,20 @@ public class CourseLibraryServiceImpl implements CourseLibraryService {
             URLConnection conn = url.openConnection();
             //3.输入流
              inStream = conn.getInputStream();
-            //3.写入文件
-            response.setContentType("video/avi");
-            String  fileName = title +".avi";
-            response.addHeader("Content-Disposition", "attachment;filename="+fileName);
-            System.out.println(fileName);
+
+
+
+            response.setContentType("text/html;charset=UTF-8");
+            response.setContentType("application/octet-stream; charset=utf-8");
+//new String(fileName.getBytes("gb2312"),"ISO-8859-1") 中文编码，防止乱码
+//filename用""引起来，防止火狐截断
+            response.setHeader("Content-Disposition",
+                    "attachment; filename=\"" + new String(title.getBytes("gb2312"),"ISO-8859-1") + "\"");
+
+            //response.setContentType("video/avi");
+            //String  fileName = title +".avi";
+            //response.addHeader("Content-Disposition", "attachment;filename="+fileName);
+            //System.out.println(fileName);
              fs = response.getOutputStream();
             byte[] buffer = new byte[1024];
             while ((byteRead = inStream.read(buffer)) != -1) {
@@ -203,10 +211,8 @@ public class CourseLibraryServiceImpl implements CourseLibraryService {
             }
             inStream.close();
             fs.close();
-            return true;
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
         }
     }
 
