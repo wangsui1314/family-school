@@ -77,10 +77,7 @@
         cvb.isCharge,cvb.yuan,cvb.category,cvb.updateTime
         FROM user_collection uc
         left join course_video_bank cvb on uc.thingId = cvb.id
-        where uc.userId = #{userId}
+        where uc.userId = #{userId} and uc.type = 0
     </select>
 
-    <insert id="test">
-        insert into test (TEST_NAME,TEST_PASSWORD) values (#{name},#{word})
-    </insert>
 </mapper>

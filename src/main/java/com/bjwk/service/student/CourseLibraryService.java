@@ -17,9 +17,10 @@ public interface CourseLibraryService {
 
     DataWrapper<Void> deleteVideoCourse(String courseVideoBankIds);
 
-    DataWrapper<Void> test(String testname, String testpassword);
 
     void downLoadVideoCourse(Integer courseVideoBankId, HttpServletResponse response, HttpServletRequest request);
 
     DataWrapper<PageInfo<CourseVideoBankVO>> queryMyCourseList(String token,int currentPage,int numberPerPage);
+
+    DataWrapper<Object> queryCourseByKeyword(String keyword, String scrollId);
 }

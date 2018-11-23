@@ -142,18 +142,20 @@ public class CourseLibraryController {
     }
 
     /**
-     *
-     * @param TESTNAME
-     * @param TESTPASSWORD
-     * @return
+     * @Description "关键字检索视屏课程库课程"
+     * @Date 2018/11/22 16:48
+     * @Param [token]
+     * @return void
      */
-    @RequestMapping("/test")
+    @RequestMapping("/queryCourseByKeyword")
     @ResponseBody
     @MyLog
-    public DataWrapper<Void> test11(
-            @RequestParam("TESTNAME") String TESTNAME,
-            @RequestParam("TESTPASSWORD") String TESTPASSWORD
+    @TokenValidate
+    public DataWrapper<Object> queryCourseByKeyword(
+            @RequestParam(value = "keyword") String keyword,
+            @RequestParam(value = "scrollId", required = false) String scrollId
     ) {
-        return courseLibraryService.test(TESTNAME,TESTPASSWORD);
+        return courseLibraryService.queryCourseByKeyword(keyword,scrollId);
     }
+
 }

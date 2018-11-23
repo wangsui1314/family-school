@@ -11,11 +11,22 @@ import com.bjwk.service.publics.reglogin.RegLoginService;
 import com.bjwk.service.student.CourseLibraryService;
 import com.bjwk.utils.CallStatusEnum;
 import com.bjwk.utils.DataWrapper;
+import com.bjwk.utils.JestClientConfiguration;
 import com.bjwk.utils.RedisClient;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
+import com.google.gson.internal.LinkedTreeMap;
+import io.searchbox.client.JestClient;
+import io.searchbox.client.JestResult;
+import io.searchbox.core.ClearScroll;
+import io.searchbox.core.Search;
+import io.searchbox.core.SearchScroll;
+import io.searchbox.params.Parameters;
 import lombok.extern.slf4j.Slf4j;
+import org.elasticsearch.index.query.Operator;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
@@ -40,6 +51,11 @@ import java.util.Map;
 @Slf4j
 public class CourseLibraryServiceImpl implements CourseLibraryService {
 
+    /**
+     * 搜索上下文的时间,用来支持该批次
+     */
+    private static final String SCROLL_ALIVE_TIME = "1m";
+
     @Autowired
     private CourseLibraryDao courseLibraryDao;
 
@@ -48,6 +64,10 @@ public class CourseLibraryServiceImpl implements CourseLibraryService {
 
     @Autowired
     private RegLoginService regLoginService;
+
+    @Autowired
+    private JestClientConfiguration jestClientConfiguration;
+
 
 
     @Override
@@ -150,13 +170,7 @@ public class CourseLibraryServiceImpl implements CourseLibraryService {
 
     }
 
-    @Override
-    public DataWrapper<Void> test(String testname, String testpassword) {
-        DataWrapper<Void> dataWrapper = new DataWrapper<Void>();
-        courseLibraryDao.test(testname,testpassword);
-        dataWrapper.setMsg("测试新增成功");
-        return dataWrapper;
-    }
+
 
     /**
      * @Description "下载"
@@ -193,7 +207,65 @@ public class CourseLibraryServiceImpl implements CourseLibraryService {
         return dataWrapper;
     }
 
+    /**
+     * @Description "关键字检索视屏课程库课程"
+     * @Date 2018/11/22 16:48
+     * @Param [token]
+     * @return void
+     */
+    @Override
+    public DataWrapper<Object> queryCourseByKeyword(String keyword, String scrollId) {
+        DataWrapper<Object> dataWrapper = new DataWrapper<Object>();
+        JestResult result = null;
+        JestClient jestClient = jestClientConfiguration.getClient();
+        try {
+            //首次查询或滚动时间超时,则重新查询
+            if (null == scrollId) {
+                System.out.println("没翻页");
+                //清除滚动ID
+                clearScrollIds();
+                //循环构造查询条件
+                SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+                searchSourceBuilder.query(QueryBuilders.multiMatchQuery(keyword, "title", "lecturer").operator(Operator.AND));
+                //构造查询条件,设置索引及类型
+                Search search = new Search.Builder(searchSourceBuilder.toString())
+                        .addIndex("course_video_bank").setParameter(Parameters.SCROLL, SCROLL_ALIVE_TIME)
+                        .build();
+                //第一次检索,拍下快照
+                result = jestClient.execute(search);
+            } else {
+                System.out.println("翻页了");
+                //只能向后滚动,不能向前滚动
+                //直接滚动
+                SearchScroll scroll = new SearchScroll.Builder(scrollId, SCROLL_ALIVE_TIME).build();
+                result = jestClient.execute(scroll);
 
+            }
+            if (result != null && !result.isSucceeded()) {
+                throw new RuntimeException("ESJestClient ScrollQuery Fail...");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Map map = new Gson().fromJson(result.getJsonString(), Map.class);
+        System.out.println(map);
+        System.out.print("数据量: " + ((List) ((LinkedTreeMap) map.get("hits")).get("hits")).size());
+        dataWrapper.setData(map);
+        return dataWrapper;
+    }
+
+    /**
+     * 清楚滚动ID
+     */
+    private void clearScrollIds() {
+        ClearScroll clearScroll = new ClearScroll.Builder().build();
+        JestClient jestClient = jestClientConfiguration.getClient();
+        try {
+            jestClient.execute(clearScroll);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public  void httpDownload(String httpUrl, HttpServletResponse response,String title,HttpServletRequest request) {
         // 1.下载网络文件
