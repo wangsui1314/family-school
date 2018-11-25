@@ -234,7 +234,7 @@ public class CourseLibraryServiceImpl implements CourseLibraryService {
                 //第一次检索,拍下快照
                 result = jestClient.execute(search);
             } else {
-                System.out.println("翻页了");
+                System.out.println("翻页");
                 //只能向后滚动,不能向前滚动
                 //直接滚动
                 SearchScroll scroll = new SearchScroll.Builder(scrollId, SCROLL_ALIVE_TIME).build();
@@ -249,8 +249,11 @@ public class CourseLibraryServiceImpl implements CourseLibraryService {
         }
         Map map = new Gson().fromJson(result.getJsonString(), Map.class);
         System.out.println(map);
-        System.out.print("数据量: " + ((List) ((LinkedTreeMap) map.get("hits")).get("hits")).size());
-        dataWrapper.setData(map);
+        String _scroll_id = (String) map.get("_scroll_id");
+        Map<String,Object>  resultMap =new HashMap<String, Object>(2);
+        resultMap.put("_scroll_id",_scroll_id);
+        resultMap.put("queryGoalList", ((LinkedTreeMap) map.get("hits")).get("hits"));
+        dataWrapper.setData(resultMap);
         return dataWrapper;
     }
 
