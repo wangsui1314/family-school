@@ -152,7 +152,7 @@ public class CourseLibraryController {
     @MyLog
     @TokenValidate
     public DataWrapper<Object> queryCourseByKeyword(
-            @RequestParam(value = "keyword") String keyword,
+            @RequestParam(value = "keyword", required = false) String keyword,
             @RequestParam(value = "scrollId", required = false) String scrollId
     ) {
         return courseLibraryService.queryCourseByKeyword(keyword,scrollId);
