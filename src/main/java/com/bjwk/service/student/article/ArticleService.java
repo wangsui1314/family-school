@@ -3,6 +3,7 @@ package com.bjwk.service.student.article;
 import java.util.List;
 
 import com.bjwk.model.Article;
+import com.bjwk.model.Category;
 import com.bjwk.utils.DataWrapper;
 import com.github.pagehelper.PageInfo;
 
@@ -29,5 +30,10 @@ public interface ArticleService {
 	 DataWrapper<Boolean> updateArticle(Article article);
 	
 	 DataWrapper<Boolean> deleteArticle(int articleId);
+
+	 /**
+	  * 查询美文类别
+	  **/
+	 DataWrapper<List<Category>> findCategory();
 
 }

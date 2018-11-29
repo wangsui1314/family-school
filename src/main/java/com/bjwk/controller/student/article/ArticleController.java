@@ -1,8 +1,5 @@
 package com.bjwk.controller.student.article;
 
-import java.util.List;
-
-import com.bjwk.utils.annotation.MyLog;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -61,7 +58,6 @@ public class ArticleController {
      */
     @RequestMapping(value = "_getArticleDetails")
     @ResponseBody
-    @MyLog
     public DataWrapper<Article> getArticleDetails(String articleId) {
         _logger.info("获取美文详情，接收的美文Id为：" + articleId);
 
@@ -102,8 +98,8 @@ public class ArticleController {
      */
     @RequestMapping(value = "_deleteArticle")
     @ResponseBody
-    public DataWrapper<Boolean> deleteArticle(Integer articleId) {
+    public DataWrapper<Boolean> deleteArticle(String articleId) {
         _logger.info("删除美文 ，删除的Id为：" + articleId);
-        return articleService.deleteArticle(articleId);
+        return articleService.deleteArticle(Integer.parseInt(articleId));
     }
 }

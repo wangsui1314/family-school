@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bjwk.dao.CategoryDao">
+    <resultMap id="BaseResultMap" type="com.bjwk.model.Category">
+        <id column="category_id" property="categoryId"/>
+        <result column="category_name" property="categoryName"/>
+        <result column="category_details" property="categoryDetails"/>
+        <result column="category_pid" property="categoryPid"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+		category_id,category_name,category_details,category_pid
+	</sql>
+
+    <select id="findCategory" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from category
+    </select>
+
+
+
+</mapper>
