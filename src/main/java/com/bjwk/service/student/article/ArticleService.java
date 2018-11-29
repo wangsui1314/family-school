@@ -37,4 +37,12 @@ public interface ArticleService {
 	  **/
 	 DataWrapper<List<Category>> findCategory();
 
+
+	/**
+	 * 收藏美文
+	 * @param articleId 美文ID
+	 * @param token  登录token
+	 **/
+	DataWrapper<Boolean> collectionArticle(String token, String articleId);
+
 }

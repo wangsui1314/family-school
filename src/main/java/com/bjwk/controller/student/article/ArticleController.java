@@ -116,4 +116,15 @@ public class ArticleController {
         _logger.info("查找美文类别" );
         return articleService.findCategory();
     }
+
+    /**
+     * 收藏美文
+     **/
+    @RequestMapping(value = "collection")
+    @ResponseBody
+    public DataWrapper<Boolean> collectionArticle(String token, String articleId){
+        _logger.info("用户收藏美文");
+        _logger.info("接收的美文：token:"+token + "美文Id:"+articleId);
+        return this.articleService.collectionArticle(token,articleId);
+    }
 }

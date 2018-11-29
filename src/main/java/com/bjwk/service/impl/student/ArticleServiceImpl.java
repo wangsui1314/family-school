@@ -3,9 +3,13 @@ package com.bjwk.service.impl.student;
 import java.util.List;
 
 import com.bjwk.dao.CategoryDao;
+import com.bjwk.dao.CourseLibraryDao;
+import com.bjwk.dao.RegLoginDao;
 import com.bjwk.model.Category;
+import com.bjwk.utils.RedisClient;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +20,9 @@ import com.bjwk.model.Article;
 import com.bjwk.service.student.article.ArticleService;
 import com.bjwk.utils.CallStatusEnum;
 import com.bjwk.utils.DataWrapper;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import redis.clients.jedis.Jedis;
 
 /**
  * @author Desolation
@@ -26,6 +32,7 @@ import org.springframework.util.CollectionUtils;
  * @date 创建时间：2018年4月29日 下午5:20:58
  */
 @Service
+@Slf4j
 public class ArticleServiceImpl implements ArticleService {
 
     private static final Log _logger = LogFactory.getLog(ArticleServiceImpl.class);
@@ -36,12 +43,18 @@ public class ArticleServiceImpl implements ArticleService {
     @Autowired
     private CategoryDao categoryDao;
 
+    @Autowired
+    private RegLoginDao regLoginDao;
+
+    @Autowired
+    private CourseLibraryDao courseLibraryDao;
+
 
     /**
      * 查询美文阅读实现方法
      *
-     * @param gradeId 年级Id
-     * @param categoryTypeId  类型Id
+     * @param gradeId        年级Id
+     * @param categoryTypeId 类型Id
      */
     @Override
     public DataWrapper<PageInfo<Article>> findArticle(String gradeId, String categoryTypeId, int numberPerPage, int currentPage) {
@@ -53,7 +66,7 @@ public class ArticleServiceImpl implements ArticleService {
             return dataWrapper;
         }
         PageHelper.startPage(currentPage, numberPerPage);
-        List<Article> articleList = articleDao.findArticle(gradeId,categoryTypeId);
+        List<Article> articleList = articleDao.findArticle(gradeId, categoryTypeId);
         if (!articleList.isEmpty()) {
             dataWrapper.setCallStatus(CallStatusEnum.SUCCEED);
             dataWrapper.setMsg("查询成功");
@@ -95,6 +108,7 @@ public class ArticleServiceImpl implements ArticleService {
      * @param article 美文实体类
      */
     @Override
+    @Transactional
     public DataWrapper<Boolean> addArticle(Article article) {
         _logger.info("添加美文");
         DataWrapper<Boolean> dataWrapper = new DataWrapper<Boolean>();
@@ -119,6 +133,7 @@ public class ArticleServiceImpl implements ArticleService {
      * @param article 美文Id
      */
     @Override
+    @Transactional
     public DataWrapper<Boolean> updateArticle(Article article) {
         _logger.info("修改美文");
         DataWrapper<Boolean> dataWrapper = new DataWrapper<Boolean>();
@@ -143,6 +158,7 @@ public class ArticleServiceImpl implements ArticleService {
      * @return
      */
     @Override
+    @Transactional
     public DataWrapper<Boolean> deleteArticle(int articleId) {
         _logger.info("删除指定美文");
         DataWrapper<Boolean> dataWrapper = new DataWrapper<Boolean>();
@@ -176,6 +192,37 @@ public class ArticleServiceImpl implements ArticleService {
             dataWrapper.setCallStatus(CallStatusEnum.SUCCEED);
             dataWrapper.setMsg("美文阅读类型查找成功");
             dataWrapper.setData(categorieList);
+        }
+        return dataWrapper;
+    }
+
+    /**
+     * 收藏美文
+     *
+     * @param token     登录token
+     * @param articleId 美文ID
+     **/
+    @Override
+    @Transactional
+    public DataWrapper<Boolean> collectionArticle(String token, String articleId) {
+        DataWrapper<Boolean> dataWrapper = new DataWrapper<Boolean>();
+
+        Jedis jedis = RedisClient.getJedis();
+        String userName = (String) jedis.hget("loginStatus", token);
+        String userId = regLoginDao.getUserIdByUserName(userName);
+
+        /*
+         * 2 代表美文
+         **/
+        int countLine = courseLibraryDao.insertCollection(userId, Integer.parseInt(articleId), 2);
+        if (countLine > 0) {
+            dataWrapper.setData(Boolean.TRUE);
+            dataWrapper.setMsg("收藏美文成功");
+            dataWrapper.setCallStatus(CallStatusEnum.SUCCEED);
+        } else {
+            dataWrapper.setData(Boolean.FALSE);
+            dataWrapper.setMsg("收藏美文失败");
+            dataWrapper.setCallStatus(CallStatusEnum.FAILED);
         }
         return dataWrapper;
     }
