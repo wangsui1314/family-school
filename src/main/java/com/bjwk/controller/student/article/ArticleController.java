@@ -110,7 +110,7 @@ public class ArticleController {
      *
      * @return
      */
-    @RequestMapping(value = "category/_serach")
+    @RequestMapping(value = "category/_search")
     @ResponseBody
     public DataWrapper<List<Category>> findCategory() {
         _logger.info("查找美文类别" );
