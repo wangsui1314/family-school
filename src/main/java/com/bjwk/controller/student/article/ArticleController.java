@@ -43,13 +43,13 @@ public class ArticleController {
     @RequestMapping(value = "_findArticle")
     @ResponseBody
     public DataWrapper<PageInfo<Article>> findArticle(
-            String gradeId, String typeId,
+            String gradeId, String typeId,String token,
             @RequestParam(value = "numberPerPage", defaultValue = "1") Integer numberPerPage,
             @RequestParam(value = "currentPage", defaultValue = "10") Integer currentPage)
     {
         _logger.info("查询指定条件的所有美文");
-        _logger.info("查询年级id为：" + gradeId + "，类型id为：" + typeId + "的所有美文");
-        return articleService.findArticle(gradeId,typeId, numberPerPage, currentPage);
+        _logger.info("查询用户token为："+token+",年级id为：" + gradeId + "，类型id为：" + typeId + "的所有美文");
+        return articleService.findArticle(token,gradeId,typeId, numberPerPage, currentPage);
     }
 
     /**

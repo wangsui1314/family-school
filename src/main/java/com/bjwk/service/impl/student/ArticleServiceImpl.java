@@ -53,13 +53,19 @@ public class ArticleServiceImpl implements ArticleService {
     /**
      * 查询美文阅读实现方法
      *
+     * @param token          用户token
      * @param gradeId        年级Id
      * @param categoryTypeId 类型Id
      */
     @Override
-    public DataWrapper<PageInfo<Article>> findArticle(String gradeId, String categoryTypeId, int numberPerPage, int currentPage) {
+    public DataWrapper<PageInfo<Article>> findArticle(String token, String gradeId, String categoryTypeId, int numberPerPage, int currentPage) {
         _logger.info("查询年级id为：" + gradeId + "，类型id为：" + categoryTypeId + "的所有美文");
         DataWrapper<PageInfo<Article>> dataWrapper = new DataWrapper<PageInfo<Article>>();
+
+        Jedis jedis = RedisClient.getJedis();
+        String userName = (String) jedis.hget("loginStatus", token);
+        String userId = regLoginDao.getUserIdByUserName(userName);
+
         if (numberPerPage <= 0 || currentPage <= 0) {
             dataWrapper.setCallStatus(CallStatusEnum.FAILED);
             dataWrapper.setMsg("传递的数据有误");
@@ -67,7 +73,15 @@ public class ArticleServiceImpl implements ArticleService {
         }
         PageHelper.startPage(currentPage, numberPerPage);
         List<Article> articleList = articleDao.findArticle(gradeId, categoryTypeId);
-        if (!articleList.isEmpty()) {
+        if (!CollectionUtils.isEmpty(articleList)) {
+            for (Article article : articleList) {
+                Integer num = courseLibraryDao.queryIsCollection(userId, article.getArticleId(), 2);
+                if (num > 0) {
+                    article.setArticleCollection(Boolean.TRUE);
+                } else {
+                    article.setArticleCollection(Boolean.FALSE);
+                }
+            }
             dataWrapper.setCallStatus(CallStatusEnum.SUCCEED);
             dataWrapper.setMsg("查询成功");
             //dataWrapper.setData(articleList);
@@ -214,16 +228,24 @@ public class ArticleServiceImpl implements ArticleService {
         /*
          * 2 代表美文
          **/
-        int countLine = courseLibraryDao.insertCollection(userId, Integer.parseInt(articleId), 2);
-        if (countLine > 0) {
-            dataWrapper.setData(Boolean.TRUE);
-            dataWrapper.setMsg("收藏美文成功");
-            dataWrapper.setCallStatus(CallStatusEnum.SUCCEED);
-        } else {
+        Integer num = courseLibraryDao.queryIsCollection(userId, Integer.parseInt(articleId), 2);
+        if (num > 0) {
             dataWrapper.setData(Boolean.FALSE);
-            dataWrapper.setMsg("收藏美文失败");
+            dataWrapper.setMsg("当前美文已经收藏");
             dataWrapper.setCallStatus(CallStatusEnum.FAILED);
+        } else {
+            int countLine = courseLibraryDao.insertCollection(userId, Integer.parseInt(articleId), 2);
+            if (countLine > 0) {
+                dataWrapper.setData(Boolean.TRUE);
+                dataWrapper.setMsg("收藏美文成功");
+                dataWrapper.setCallStatus(CallStatusEnum.SUCCEED);
+            } else {
+                dataWrapper.setData(Boolean.FALSE);
+                dataWrapper.setMsg("收藏美文失败");
+                dataWrapper.setCallStatus(CallStatusEnum.FAILED);
+            }
         }
+
         return dataWrapper;
     }
 }

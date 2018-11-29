@@ -40,6 +40,8 @@ public class Article implements Serializable {
 
     private String categoryTypeId;
 
+    private boolean articleCollection;
+
     public int getArticleId() {
         return articleId;
     }
@@ -139,6 +141,14 @@ public class Article implements Serializable {
         this.categoryTypeId = categoryTypeId;
     }
 
+    public boolean isArticleCollection() {
+        return articleCollection;
+    }
+
+    public void setArticleCollection(boolean articleCollection) {
+        this.articleCollection = articleCollection;
+    }
+
     @Override
     public String toString() {
         return "Article{" +
@@ -154,6 +164,7 @@ public class Article implements Serializable {
                 ", browseVolume=" + browseVolume +
                 ", gradeId='" + gradeId + '\'' +
                 ", categoryTypeId='" + categoryTypeId + '\'' +
+                ", articleCollection=" + articleCollection +
                 '}';
     }
 }

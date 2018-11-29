@@ -18,11 +18,12 @@ public interface ArticleService {
 
 	/**
 	 * @Desc : 查询美文列表
+	 * @param token 用户token
 	 * @param gradeId 年级ID
 	 * @param categoryTypeId 类型Id
 	 * @return :
 	 **/
-	 DataWrapper<PageInfo<Article>> findArticle(String gradeId, String categoryTypeId, int numberPerPage, int currentPage);
+	 DataWrapper<PageInfo<Article>> findArticle(String token,String gradeId, String categoryTypeId, int numberPerPage, int currentPage);
 
 	 DataWrapper<Article> getArticleDetails(int articleId);
 	
