@@ -120,7 +120,7 @@ public class ArticleController {
     /**
      * 收藏美文
      **/
-    @RequestMapping(value = "collection")
+    @RequestMapping(value = "_collection")
     @ResponseBody
     public DataWrapper<Boolean> collectionArticle(String token, String articleId){
         _logger.info("用户收藏美文");

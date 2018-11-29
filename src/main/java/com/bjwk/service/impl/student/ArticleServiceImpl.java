@@ -76,7 +76,7 @@ public class ArticleServiceImpl implements ArticleService {
         if (!CollectionUtils.isEmpty(articleList)) {
             for (Article article : articleList) {
                 Integer num = courseLibraryDao.queryIsCollection(userId, article.getArticleId(), 2);
-                if (num > 0) {
+                if (num != null) {
                     article.setArticleCollection(Boolean.TRUE);
                 } else {
                     article.setArticleCollection(Boolean.FALSE);
@@ -219,6 +219,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     @Transactional
     public DataWrapper<Boolean> collectionArticle(String token, String articleId) {
+        log.info("收藏美文，传递的参数为：token ； " + token + ",美文ID：articleId：" + articleId);
         DataWrapper<Boolean> dataWrapper = new DataWrapper<Boolean>();
 
         Jedis jedis = RedisClient.getJedis();
@@ -229,7 +230,7 @@ public class ArticleServiceImpl implements ArticleService {
          * 2 代表美文
          **/
         Integer num = courseLibraryDao.queryIsCollection(userId, Integer.parseInt(articleId), 2);
-        if (num > 0) {
+        if (num != null) {
             dataWrapper.setData(Boolean.FALSE);
             dataWrapper.setMsg("当前美文已经收藏");
             dataWrapper.setCallStatus(CallStatusEnum.FAILED);
