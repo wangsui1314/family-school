@@ -36,7 +36,9 @@ public class Article implements Serializable {
 
     private int browseVolume;
 
-    private String categoryType;
+    private String gradeId;
+
+    private String categoryTypeId;
 
     public int getArticleId() {
         return articleId;
@@ -121,19 +123,37 @@ public class Article implements Serializable {
         this.browseVolume = browseVolume;
     }
 
-    public String getCategoryType() {
-        return categoryType;
+    public String getGradeId() {
+        return gradeId;
     }
 
-    public void setCategoryType(String categoryType) {
-        this.categoryType = categoryType;
+    public void setGradeId(String gradeId) {
+        this.gradeId = gradeId;
+    }
+
+    public String getCategoryTypeId() {
+        return categoryTypeId;
+    }
+
+    public void setCategoryTypeId(String categoryTypeId) {
+        this.categoryTypeId = categoryTypeId;
     }
 
     @Override
     public String toString() {
-        return "Article [articleTitle=" + articleTitle + ", articleContent=" + articleContent + ", articleAuthor="
-                + articleAuthor + ", articleFrom=" + articleFrom + ", categoryType=" + categoryType + "]";
+        return "Article{" +
+                "articleId=" + articleId +
+                ", articleTitle='" + articleTitle + '\'' +
+                ", titleImg='" + titleImg + '\'' +
+                ", articleContent='" + articleContent + '\'' +
+                ", articleAuthor='" + articleAuthor + '\'' +
+                ", articleFrom='" + articleFrom + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", articleDownload=" + articleDownload +
+                ", browseVolume=" + browseVolume +
+                ", gradeId='" + gradeId + '\'' +
+                ", categoryTypeId='" + categoryTypeId + '\'' +
+                '}';
     }
-
-
 }

@@ -1,5 +1,6 @@
 package com.bjwk.controller.student.article;
 
+import com.bjwk.model.Category;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.bjwk.model.Article;
 import com.bjwk.service.student.article.ArticleService;
 import com.bjwk.utils.DataWrapper;
+
+import java.util.List;
 
 /**
  * @author Desolation
@@ -40,14 +43,13 @@ public class ArticleController {
     @RequestMapping(value = "_findArticle")
     @ResponseBody
     public DataWrapper<PageInfo<Article>> findArticle(
-            Integer gradeId, Integer typeId,
+            String gradeId, String typeId,
             @RequestParam(value = "numberPerPage", defaultValue = "1") Integer numberPerPage,
             @RequestParam(value = "currentPage", defaultValue = "10") Integer currentPage)
     {
         _logger.info("查询指定条件的所有美文");
         _logger.info("查询年级id为：" + gradeId + "，类型id为：" + typeId + "的所有美文");
-        String categoryType = gradeId + "," + typeId;
-        return articleService.findArticle(categoryType, numberPerPage, currentPage);
+        return articleService.findArticle(gradeId,typeId, numberPerPage, currentPage);
     }
 
     /**
@@ -101,5 +103,17 @@ public class ArticleController {
     public DataWrapper<Boolean> deleteArticle(String articleId) {
         _logger.info("删除美文 ，删除的Id为：" + articleId);
         return articleService.deleteArticle(Integer.parseInt(articleId));
+    }
+
+    /**
+     * 查找美文类别
+     *
+     * @return
+     */
+    @RequestMapping(value = "category/_serach")
+    @ResponseBody
+    public DataWrapper<List<Category>> findCategory() {
+        _logger.info("查找美文类别" );
+        return articleService.findCategory();
     }
 }

@@ -40,11 +40,12 @@ public class ArticleServiceImpl implements ArticleService {
     /**
      * 查询美文阅读实现方法
      *
-     * @param categoryType 类型
+     * @param gradeId 年级Id
+     * @param categoryTypeId  类型Id
      */
     @Override
-    public DataWrapper<PageInfo<Article>> findArticle(String categoryType, int numberPerPage, int currentPage) {
-        _logger.info("根据" + categoryType + "查询相关美文");
+    public DataWrapper<PageInfo<Article>> findArticle(String gradeId, String categoryTypeId, int numberPerPage, int currentPage) {
+        _logger.info("查询年级id为：" + gradeId + "，类型id为：" + categoryTypeId + "的所有美文");
         DataWrapper<PageInfo<Article>> dataWrapper = new DataWrapper<PageInfo<Article>>();
         if (numberPerPage <= 0 || currentPage <= 0) {
             dataWrapper.setCallStatus(CallStatusEnum.FAILED);
@@ -52,7 +53,7 @@ public class ArticleServiceImpl implements ArticleService {
             return dataWrapper;
         }
         PageHelper.startPage(currentPage, numberPerPage);
-        List<Article> articleList = articleDao.findArticle(categoryType);
+        List<Article> articleList = articleDao.findArticle(gradeId,categoryTypeId);
         if (!articleList.isEmpty()) {
             dataWrapper.setCallStatus(CallStatusEnum.SUCCEED);
             dataWrapper.setMsg("查询成功");

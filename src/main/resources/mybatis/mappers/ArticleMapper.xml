@@ -12,18 +12,19 @@
         <result column="update_time" property="updateTime"/>
         <result column="article_download" property="articleDownload"/>
         <result column="browse_volume" property="browseVolume"/>
-        <result column="category_type" property="categoryType"/>
+        <result column="grade_id" property="gradeId"/>
+        <result column="category_type_id" property="categoryTypeId"/>
     </resultMap>
     <sql id="Base_Column_List">
-		article_id,article_title,title_img,article_content,article_author,article_from,create_time,update_time,article_download,browse_volume,category_type
+		article_id,article_title,title_img,article_content,article_author,article_from,create_time,update_time,article_download,browse_volume,grade_id,category_type_id
 	</sql>
     <sql id="Base_insert_List">
-		article_title,article_content,article_author,article_from,create_time,category_type
+		article_title,article_content,article_author,article_from,create_time,grade_id,category_type_id
 	</sql>
     <!-- 添加文章 -->
     <insert id="insertArticle" parameterType="com.bjwk.model.Article">
 		insert into
-		article(article_title,title_img,article_content,article_author,article_from,create_time,category_type)
+		article(article_title,title_img,article_content,article_author,article_from,create_time,grade_id,category_type_id)
 		values
 		( #{articleTitle},
 		#{titleImg},
@@ -31,7 +32,9 @@
 		#{articleAuthor},
 		#{articleFrom},
 		now(),
-		#{categoryType})
+		#{gradeId},
+		#(categoryTypeId))
+
 	</insert>
 
 
@@ -66,8 +69,11 @@
                 article_from=#{articleFrom},
             </if>
             update_time=now(),
-            <if test="categoryType !=null and categoryType !=''">
-                category_type=#{categoryType}
+            <if test="gradeId !=null and gradeId !=''">
+                grade_id=#{gradeId}
+            </if>
+            <if test="categoryTypeId !=null and categoryTypeId !=''">
+                category_type_id=#{categoryTypeId}
             </if>
 
         </set>
@@ -81,7 +87,14 @@
         select count(*)
         from article
         <where>
-            category_type= #{categoryType,jdbcType=VARCHAR}
+            1=1
+            <if test="gradeId !=null and gradeId !=''">
+                and grade_id=#{gradeId}
+            </if>
+            <if test="categoryTypeId !=null and categoryTypeId !=''">
+                and category_type_id=#{categoryTypeId}
+            </if>
+
         </where>
     </select>
     <!-- 按条件查询指定文章 -->
@@ -90,8 +103,15 @@
         select
         <include refid="Base_Column_List"/>
         from article
-        where category_type= #{categoryType}
-
+        <where>
+            1=1
+            <if test="gradeId !=null and gradeId !=''">
+                and grade_id=#{gradeId}
+            </if>
+            <if test="categoryTypeId !=null and categoryTypeId !=''">
+                and category_type_id=#{categoryTypeId}
+            </if>
+        </where>
     </select>
 
     <!-- 文章详情 -->
