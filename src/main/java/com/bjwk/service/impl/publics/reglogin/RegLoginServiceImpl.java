@@ -91,9 +91,11 @@ public class RegLoginServiceImpl implements RegLoginService {
         user.setHeadPortrait(map.get("headPortrait"));
         user.setStudentId(user.getPhone());
         /**
-         * 更改为注册成功 不是登录成功状态
+         * 更改为注册成功 不是登录成功状态  密码微加密
+         *  解密 return new sun.misc.BASE64Decoder().decodeBuffer(source);
          */
-        int sign = regLoginDao.insertReg(user);
+        user.setPassWord(new sun.misc.BASE64Encoder().encode(user.getPassWord().getBytes()));
+        regLoginDao.insertReg(user);
 
         return dataWrapper;
     }

@@ -165,7 +165,7 @@ public class RegLoginController {
      * @Author: liqitian
      * @Date: 2018/6/14
      */
-    @RequestMapping(value = "_userUpdateToPassWordCheck")
+    @RequestMapping(value = "_getUpdatePwVoucher")
     @ResponseBody
     @MyLog
     public DataWrapper<String> _userUpdateToPassWordCheck(
