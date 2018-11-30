@@ -26,7 +26,7 @@ public interface RegLoginDao {
 					   @Param("schoolName")String schoolName,@Param("headMaster")String headMaster
 					   );
 	
-	String userUpdateToPassWordCheck(@Param("sign")Integer sign, @Param("phone")String phone);
+	Integer userUpdateToPassWordCheck(@Param("sign")Integer sign, @Param("phone")String phone);
 	
 	String getUserIdByUserName(@Param("userName")String userName);
 	

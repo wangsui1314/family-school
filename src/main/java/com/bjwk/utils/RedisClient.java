@@ -15,12 +15,10 @@ public class RedisClient {
     /**
      * Redis的端口号
      */
-    @Value("${redisPort}")
     private static int PORT = 6379;
     /**
      * 访问密码
      */
-    @Value("${redisPw}")
     private static String AUTH = "123";
 
     /**
