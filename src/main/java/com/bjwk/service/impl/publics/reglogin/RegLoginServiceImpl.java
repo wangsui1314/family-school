@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -263,7 +264,6 @@ public class RegLoginServiceImpl implements RegLoginService {
         jedis.close();
         return dataWrapper;
     }
-
     /**
      * 用户更改个人密码之验证阶段
      * (暂时须有不明确 待定)
@@ -294,7 +294,7 @@ public class RegLoginServiceImpl implements RegLoginService {
             }
 
             //为该用户颁发更改密码凭证(一次性)
-            String uuid = UUID.fromString(userName).toString();
+            String uuid = UUID.randomUUID().toString();
             String value = userName + "," + sign + "," + uuid;
             jedis.set(uuid, value);
             //失效时间 30分钟
