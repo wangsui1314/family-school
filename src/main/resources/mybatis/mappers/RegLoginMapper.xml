@@ -156,7 +156,7 @@
 
     <!--用户更改密码验证阶段-->
     <select id="userUpdateToPassWordCheck" resultType="java.lang.Integer">
-        select count(1) from users where phone=#{phone} and sign=#{sign}
+        select user_name from users where phone=#{phone} and sign=#{sign}
     </select>
 
     <!--更改密码-->
