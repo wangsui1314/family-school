@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bjwk.dao.PhotoDao">
+    <resultMap id="BaseResultMap" type="com.bjwk.model.photo.Photo">
+        <id column="photo_id" property="photoId"/>
+        <result column="photo_list_id" property="photoListId"/>
+        <result column="photo_url" property="photoUrl"/>
+        <result column="photo_name" property="photoName"/>
+        <result column="photo_describe" property="photoDescribe"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+		photo_id,photo_list_id,photo_url,photo_name,photo_describe,create_time,update_time
+	</sql>
+
+    <sql id="Base_insert_List">
+		photo_list_id,photo_url,photo_name,photo_describe,create_time,update_time
+	</sql>
+
+    <insert id="savePhoto" parameterType="com.bjwk.model.photo.Photo">
+        insert into
+        photo(photo_list_id,photo_url,photo_name,photo_describe,create_time,update_time)
+        values (
+        #(photoListId),
+        #(photoUrl),
+        #(photoName),
+        #(photoDescribe),
+        #(createTime),
+        #(updateTime)
+        )
+    </insert>
+
+    <update id="updatePhoto">
+        update
+          photo
+        <set>
+            <if test="photoListId != null">
+                photo_list_id = #{photoListId},
+            </if>
+            <if test="photoUrl != null  and photoUrl != ''">
+                photo_url = #{photoUrl},
+            </if>
+            <if test="photoName != null  and photoName != ''">
+                photo_name = #{photoName},
+            </if>
+            <if test="photoDescribe != null  and photoDescribe != ''">
+                photo_describe = #{photoDescribe},
+            </if>
+        </set>
+        <where> photo_id = #{photoId}</where>
+    </update>
+
+
+    <delete id="deletePhoto" parameterType="int">
+        delete
+        from photo
+        where photo_id = #{photoId}
+    </delete>
+
+    <select id="queryPhoto" parameterType="int" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        photo
+        where  photo_list_id = #{photoListId}
+
+    </select>
+
+</mapper>
