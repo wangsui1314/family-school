@@ -33,7 +33,6 @@ public class RegLoginServiceImpl implements RegLoginService {
      * @param token
      * @return
      */
-    @Override
     public String getUserIdByToken(String token) {
         Jedis jedis = RedisClient.getJedis();
         try {
