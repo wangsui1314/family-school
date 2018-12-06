@@ -18,7 +18,7 @@ public class CourseVideoBankDetailVO {
 
     private String video;
     private String title;
-
+    private String lecturerHeaderImg;
     private String lecturer;
 
     private String contentValidity;

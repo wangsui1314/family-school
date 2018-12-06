@@ -115,7 +115,9 @@ public class CourseLibraryController {
     @RequestMapping("/downLoadVideoCourse")
     @ResponseBody
     @MyLog
+    @TokenValidate
     public void downLoadVideoCourse(
+            @RequestParam(value = "token", required = false) String token,
             @RequestParam("courseVideoBankId") Integer courseVideoBankId,
             HttpServletResponse response,
             HttpServletRequest request

@@ -69,14 +69,13 @@ public class CourseLibraryServiceImpl implements CourseLibraryService {
     private JestClientConfiguration jestClientConfiguration;
 
 
-
     @Override
     public DataWrapper<Object> getCourseClassType() {
         DataWrapper<Object> dataWrapper = new DataWrapper<Object>();
         String strConfig = appConfigDao.getCourseClassType();
         Gson gson = new Gson();
 
-        Map map ;
+        Map map;
         map = gson.fromJson(strConfig, Map.class);
 
         dataWrapper.setData(map);
@@ -171,12 +170,11 @@ public class CourseLibraryServiceImpl implements CourseLibraryService {
     }
 
 
-
     /**
+     * @return com.bjwk.utils.DataWrapper<java.lang.Void>
      * @Description "下载"
      * @Date 2018/11/22 15:10
      * @Param [videoUrl]
-     * @return com.bjwk.utils.DataWrapper<java.lang.Void>
      */
     @Override
     public void downLoadVideoCourse(Integer courseVideoBankId, HttpServletResponse response, HttpServletRequest request) {
@@ -186,18 +184,18 @@ public class CourseLibraryServiceImpl implements CourseLibraryService {
          */
         CourseVideoBankDetailVO courseVideoBankDetailVO = courseLibraryDao.queryVideoDetails(courseVideoBankId);
 
-        httpDownload(courseVideoBankDetailVO.getVideo(),response,courseVideoBankDetailVO.getTitle(),request);
+        httpDownload(courseVideoBankDetailVO.getVideo(), response, courseVideoBankDetailVO.getTitle(), request);
     }
 
 
     /**
+     * @return com.bjwk.utils.DataWrapper<java.lang.Void>
      * @Description "我的课程"
      * @Date 2018/11/22 15:10
      * @Param [videoUrl]
-     * @return com.bjwk.utils.DataWrapper<java.lang.Void>
      */
     @Override
-    public DataWrapper<PageInfo<CourseVideoBankVO>> queryMyCourseList(String token,int currentPage,int numberPerPage) {
+    public DataWrapper<PageInfo<CourseVideoBankVO>> queryMyCourseList(String token, int currentPage, int numberPerPage) {
         DataWrapper<PageInfo<CourseVideoBankVO>> dataWrapper = new DataWrapper<PageInfo<CourseVideoBankVO>>();
         String userId = regLoginService.getUserIdByToken(token);
         PageHelper.startPage(currentPage, numberPerPage);
@@ -208,10 +206,10 @@ public class CourseLibraryServiceImpl implements CourseLibraryService {
     }
 
     /**
+     * @return void
      * @Description "关键字检索视屏课程库课程"
      * @Date 2018/11/22 16:48
      * @Param [token]
-     * @return void
      */
     @Override
     public DataWrapper<Object> queryCourseByKeyword(String keyword, String scrollId) {
@@ -250,8 +248,8 @@ public class CourseLibraryServiceImpl implements CourseLibraryService {
         Map map = new Gson().fromJson(result.getJsonString(), Map.class);
         System.out.println(map);
         String _scroll_id = (String) map.get("_scroll_id");
-        Map<String,Object>  resultMap =new HashMap<String, Object>(2);
-        resultMap.put("_scroll_id",_scroll_id);
+        Map<String, Object> resultMap = new HashMap<String, Object>(2);
+        resultMap.put("_scroll_id", _scroll_id);
         resultMap.put("queryGoalList", ((LinkedTreeMap) map.get("hits")).get("hits"));
         dataWrapper.setData(resultMap);
         return dataWrapper;
@@ -270,7 +268,7 @@ public class CourseLibraryServiceImpl implements CourseLibraryService {
         }
     }
 
-    public  void httpDownload(String httpUrl, HttpServletResponse response,String title,HttpServletRequest request) {
+    public void httpDownload(String httpUrl, HttpServletResponse response, String title, HttpServletRequest request) {
         // 1.下载网络文件
         int byteRead;
         URL url = null;
@@ -285,12 +283,12 @@ public class CourseLibraryServiceImpl implements CourseLibraryService {
             //2.获取链接
             URLConnection conn = url.openConnection();
             //3.输入流
-             inStream = conn.getInputStream();
+            inStream = conn.getInputStream();
 
             response.setContentType("multipart/form-data");
             String userAgent = request.getHeader("User-Agent");
             String oraFileName = title;
-            String formFileName=oraFileName;
+            String formFileName = oraFileName;
 
             // 针对IE或者以IE为内核的浏览器：
             if (userAgent.contains("MSIE") || userAgent.contains("Trident")) {
@@ -303,7 +301,7 @@ public class CourseLibraryServiceImpl implements CourseLibraryService {
             response.setContentType("video/avi;charset=utf-8");
             response.setCharacterEncoding("UTF-8");
 
-             fs = response.getOutputStream();
+            fs = response.getOutputStream();
             byte[] buffer = new byte[2048];
             while ((byteRead = inStream.read(buffer)) != -1) {
                 fs.write(buffer, 0, byteRead);
@@ -314,7 +312,6 @@ public class CourseLibraryServiceImpl implements CourseLibraryService {
             e.printStackTrace();
         }
     }
-
 
 
     /**
