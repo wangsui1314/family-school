@@ -32,6 +32,12 @@ public class PhotoController {
     @Autowired
     private PhotoService photoService;
 
+    /**
+     * @Desc : 查询相片
+     * @param photoListId 相册ID
+     * @param token 用户token
+     * @return :
+     **/
     @RequestMapping(value = "_list")
     @ResponseBody
     public DataWrapper<List<Photo>> findPhoto(@Param("photoListId") String photoListId, @Param("token")String token) {
@@ -39,6 +45,12 @@ public class PhotoController {
         return this.photoService.queryPhoto(Integer.parseInt(photoListId),token);
     }
 
+    /**
+     * @Desc : 添加相片
+     * @param photo 相片
+     * @param token 用户token
+     * @return :
+     **/
     @RequestMapping(value = "_save")
     @ResponseBody
     public DataWrapper<Boolean> savePhoto(Photo photo, @Param("token") String token){
@@ -47,6 +59,12 @@ public class PhotoController {
 
     }
 
+    /**
+     * @Desc : 修改相片
+     * @param photo 相片
+     * @param token 用户token
+     * @return :
+     **/
     @RequestMapping(value = "_update")
     @ResponseBody
     public DataWrapper<Boolean> updatePhoto( Photo photo, @Param("token") String token){
@@ -54,7 +72,12 @@ public class PhotoController {
         return this.photoService.updatePhoto(photo,token);
     }
 
-
+    /**
+     * @Desc : 删除相片
+     * @param photoId 相片ID
+     * @param token 用户token
+     * @return :
+     **/
     @RequestMapping(value = "_delete")
     @ResponseBody
     public DataWrapper<Boolean> deletePhoto(@Param("photoId") String photoId, @Param("token")String token){
