@@ -48,7 +48,7 @@
 
 
     <select id="queryVideoDetails" resultType="com.bjwk.model.CourseVideoBankDetailVO">
-		select id courseVideoBankId,video,title,contentValidity,lecturer,
+		select id courseVideoBankId,video,title,contentValidity,lecturer,lecturerHeaderImg,
 		  category,isCharge,yuan,videoTime,starLevel,packageNum
 		 from  course_video_bank
 		where id = #{courseVideoBankId}
