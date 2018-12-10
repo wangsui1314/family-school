@@ -288,7 +288,7 @@ public class CourseLibraryServiceImpl implements CourseLibraryService {
         List<HashMap<String, Object>> mapList = courseLibraryDao.downLoadVideoCourseList(map.keySet());
         for (HashMap<String, Object> map1 : mapList) {
             for (String courserVideoBank : map.keySet()) {
-                if (Integer.parseInt((String) map1.get("courseVideoBankId")) == Integer.parseInt(courserVideoBank)) {
+                if (((Long) map1.get("courseVideoBankId")).intValue() == Integer.parseInt(courserVideoBank)) {
                     map1.put("video", map.get(courserVideoBank));
                 }
             }
