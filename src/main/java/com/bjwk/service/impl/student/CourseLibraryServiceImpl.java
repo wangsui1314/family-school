@@ -285,8 +285,9 @@ public class CourseLibraryServiceImpl implements CourseLibraryService {
             dataWrapper.setData(Collections.emptyList());
             return dataWrapper;
         }
+        System.out.print("map"+map);
         List<HashMap<String, Object>> mapList = courseLibraryDao.downLoadVideoCourseList(map.keySet());
-
+        System.out.print("mapList"+mapList);
         for (HashMap<String, Object> map1 : mapList) {
             for (String courserVideoBank : map.keySet()) {
                 if (map1.get("courseVideoBankId").equals(courserVideoBank)){
