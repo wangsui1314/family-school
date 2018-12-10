@@ -112,7 +112,7 @@ public class CourseLibraryController {
      * @Param [videoUrl]
      * @return com.bjwk.utils.DataWrapper<java.lang.Void>
      */
-    @RequestMapping("/downLoadVideoCourseList")
+    @RequestMapping("/downLoadVideoCourse")
     @ResponseBody
     @MyLog
     @TokenValidate
@@ -122,6 +122,22 @@ public class CourseLibraryController {
             @RequestParam("courseDownLoadPath") String courseDownLoadPath
     ) {
          return courseLibraryService.downLoadVideoCourse(token,courseVideoBankId,courseDownLoadPath);
+    }
+
+    /**
+     * @Description "我的下载视屏列表"
+     * @Date 2018/11/22 15:09
+     * @Param [videoUrl]
+     * @return com.bjwk.utils.DataWrapper<java.lang.Void>
+     */
+    @RequestMapping("/downLoadVideoCourseList")
+    @ResponseBody
+    @MyLog
+    @TokenValidate
+    public DataWrapper<Object> downLoadVideoCourseList(
+            @RequestParam(value = "token") String token
+    ) {
+        return courseLibraryService.downLoadVideoCourseList(token);
     }
 
     /**

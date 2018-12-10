@@ -6,7 +6,9 @@ import com.bjwk.model.CourseVideoBankVO;
 import com.bjwk.model.pojo.UserCollection;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public interface CourseLibraryDao {
 
@@ -28,4 +30,6 @@ public interface CourseLibraryDao {
 
 
     List<CourseVideoBankVO> queryMyCourseList(String userId);
+
+    List<HashMap<String,Object>> downLoadVideoCourseList(@Param("array")Set<String> courseBankIdSet);
 }

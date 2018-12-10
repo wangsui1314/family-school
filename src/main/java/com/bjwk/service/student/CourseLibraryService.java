@@ -18,4 +18,6 @@ public interface CourseLibraryService {
     DataWrapper<PageInfo<CourseVideoBankVO>> queryMyCourseList(String token,int currentPage,int numberPerPage);
 
     DataWrapper<Object> queryCourseByKeyword(String keyword, String scrollId);
+
+    DataWrapper<Object> downLoadVideoCourseList(String token);
 }

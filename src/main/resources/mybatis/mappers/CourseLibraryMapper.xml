@@ -80,4 +80,14 @@
         where uc.userId = #{userId} and uc.type = 0
     </select>
 
+    <select id="downLoadVideoCourseList" resultType="java.util.HashMap">
+        select coverMapImage,id courseVideoBankId,title,lecturer,videoTime,isCharge,yuan,video
+        from course_video_bank
+        where
+        id in
+        <foreach collection="array" index="index" item="courseVideoBankId" open="(" close=")" separator=",">
+            #{courseVideoBankId}
+        </foreach>
+    </select>
+
 </mapper>
