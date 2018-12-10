@@ -145,7 +145,9 @@ public class CourseLibraryServiceImpl implements CourseLibraryService {
              * 检查该用户是否下载 if true替换 else 不做操作
              */
            String downLoadPath = jedis.hget("courseDownLoad_"+userId,String.valueOf(courseVideoBankId));
-           courseVideoBankDetailVO.setVideo(downLoadPath);
+           if (downLoadPath != null){
+               courseVideoBankDetailVO.setVideo(downLoadPath);
+           }
         }
         //目录
         List<CourseVideoBankCatalogDTO> catalogList = courseLibraryDao.queryVideoCourseCatalog(courseVideoBankDetailVO.getPackageNum());

@@ -117,7 +117,7 @@ public class CourseLibraryController {
     @MyLog
     @TokenValidate
     public DataWrapper<Void> downLoadVideoCourse(
-            @RequestParam(value = "token", required = false) String token,
+            @RequestParam(value = "token") String token,
             @RequestParam("courseVideoBankId") Integer courseVideoBankId,
             @RequestParam("courseDownLoadPath") String courseDownLoadPath
     ) {
