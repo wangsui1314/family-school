@@ -2,7 +2,6 @@ package com.bjwk.service.impl.student;
 
 import com.bjwk.dao.AppConfigDao;
 import com.bjwk.dao.CourseLibraryDao;
-import com.bjwk.dao.RegLoginDao;
 import com.bjwk.model.CourseVideoBankCatalogDTO;
 import com.bjwk.model.CourseVideoBankDetailVO;
 import com.bjwk.model.CourseVideoBankVO;
@@ -124,8 +123,9 @@ public class CourseLibraryServiceImpl implements CourseLibraryService {
         CourseVideoBankDetailVO courseVideoBankDetailVO = courseLibraryDao.queryVideoDetails(courseVideoBankId);
         Jedis jedis = RedisClient.getJedis();
         Long browseNumber = jedis.hincrBy("videoBrowseNumber", String.valueOf(courseVideoBankId), 1);
-        jedis.close();
+
         courseVideoBankDetailVO.setBrowseNumber(browseNumber);
+
         //是否收藏
         if (token == null) {
             courseVideoBankDetailVO.setIsCollection(false);
@@ -141,9 +141,16 @@ public class CourseLibraryServiceImpl implements CourseLibraryService {
                 }
 
             }
+            /**
+             * 检查该用户是否下载 if true替换 else 不做操作
+             */
+           String downLoadPath = jedis.hget("courseDownLoad_"+userId,String.valueOf(courseVideoBankId));
+           courseVideoBankDetailVO.setVideo(downLoadPath);
         }
         //目录
         List<CourseVideoBankCatalogDTO> catalogList = courseLibraryDao.queryVideoCourseCatalog(courseVideoBankDetailVO.getPackageNum());
+
+        jedis.close();
         HashMap<String, Object> hm = new HashMap<String, Object>(2);
         hm.put("videoCourseDetail", courseVideoBankDetailVO);
         hm.put("catalogList", catalogList);
@@ -175,16 +182,23 @@ public class CourseLibraryServiceImpl implements CourseLibraryService {
      * @Description "下载"
      * @Date 2018/11/22 15:10
      * @Param [videoUrl]
+     * @param courseVideoBankId
      */
     @Override
-    public void downLoadVideoCourse(Integer courseVideoBankId, HttpServletResponse response, HttpServletRequest request) {
+    public  DataWrapper<Void> downLoadVideoCourse(String token, Integer courseVideoBankId, String courseDownLoadPath) {
         DataWrapper<Void> dataWrapper = new DataWrapper<Void>();
         /**
          * 查询课程相关信息
          */
         CourseVideoBankDetailVO courseVideoBankDetailVO = courseLibraryDao.queryVideoDetails(courseVideoBankId);
 
-        httpDownload(courseVideoBankDetailVO.getVideo(), response, courseVideoBankDetailVO.getTitle(), request);
+        Jedis jedis = RedisClient.getJedis();
+        String userId = regLoginService.getUserIdByToken(token);
+        //放到redis里
+        jedis.hset("courseDownLoad_"+userId,String.valueOf(courseVideoBankId),courseDownLoadPath);
+        //httpDownload(courseVideoBankDetailVO.getVideo(), response, courseVideoBankDetailVO.getTitle(), request);
+        dataWrapper.setMsg("操作成功");
+        return dataWrapper;
     }
 
 

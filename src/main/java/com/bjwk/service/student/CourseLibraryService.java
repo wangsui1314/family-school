@@ -4,10 +4,6 @@ import com.bjwk.model.CourseVideoBankVO;
 import com.bjwk.utils.DataWrapper;
 import com.github.pagehelper.PageInfo;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.List;
-
 public interface CourseLibraryService {
     DataWrapper<Object> getCourseClassType();
 
@@ -17,7 +13,7 @@ public interface CourseLibraryService {
 
     DataWrapper<Void> deleteVideoCourse(String courseVideoBankIds);
 
-    void downLoadVideoCourse(Integer courseVideoBankId, HttpServletResponse response, HttpServletRequest request);
+    DataWrapper<Void> downLoadVideoCourse(String token, Integer courseVideoBankId, String courseDownLoadPath);
 
     DataWrapper<PageInfo<CourseVideoBankVO>> queryMyCourseList(String token,int currentPage,int numberPerPage);
 

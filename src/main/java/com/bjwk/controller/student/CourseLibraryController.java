@@ -112,17 +112,16 @@ public class CourseLibraryController {
      * @Param [videoUrl]
      * @return com.bjwk.utils.DataWrapper<java.lang.Void>
      */
-    @RequestMapping("/downLoadVideoCourse")
+    @RequestMapping("/downLoadVideoCourseList")
     @ResponseBody
     @MyLog
     @TokenValidate
-    public void downLoadVideoCourse(
+    public DataWrapper<Void> downLoadVideoCourse(
             @RequestParam(value = "token", required = false) String token,
             @RequestParam("courseVideoBankId") Integer courseVideoBankId,
-            HttpServletResponse response,
-            HttpServletRequest request
+            @RequestParam("courseDownLoadPath") String courseDownLoadPath
     ) {
-         courseLibraryService.downLoadVideoCourse(courseVideoBankId,response,request);
+         return courseLibraryService.downLoadVideoCourse(token,courseVideoBankId,courseDownLoadPath);
     }
 
     /**

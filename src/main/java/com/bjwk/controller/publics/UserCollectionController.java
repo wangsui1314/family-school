@@ -2,6 +2,7 @@ package com.bjwk.controller.publics;
 
 import com.bjwk.dao.CourseLibraryDao;
 import com.bjwk.dao.RegLoginDao;
+import com.bjwk.service.publics.reglogin.RegLoginService;
 import com.bjwk.utils.DataWrapper;
 import com.bjwk.utils.RedisClient;
 import com.bjwk.utils.annotation.MyLog;
@@ -29,6 +30,9 @@ public class UserCollectionController {
     @Autowired
     private RegLoginDao regLoginDao;
 
+    @Autowired
+    private RegLoginService regLoginService;
+
     @TokenValidate
     @ResponseBody
     @RequestMapping("/collection")
@@ -39,9 +43,8 @@ public class UserCollectionController {
             @RequestParam("type") Integer type
     ) {
         DataWrapper<Void> dataWrapper = new DataWrapper<Void>();
-        Jedis jedis = RedisClient.getJedis();
-        String userName = jedis.hget("loginStatus", token);
-        String userId = regLoginDao.getUserIdByUserName(userName);
+
+        String userId= regLoginService.getUserIdByToken(token);
         //检查该"课程" 该用户是否收藏 if true collection else cancle collection
         Integer count = courseLibraryDao.queryIsCollection(userId, thingId, type);
         if (count == null){
