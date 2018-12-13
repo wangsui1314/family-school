@@ -24,7 +24,6 @@ import com.bjwk.service.publics.luckydraw.LuckyDrawService;
 @RequestMapping("api/luckyDraw")
 public class LuckyDrawController {
 	
-	private static final Log _logger = LogFactory.getLog(LuckyDrawController.class);
 	@Autowired
 	private LuckyDrawService luckyDrawService;
 

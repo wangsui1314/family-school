@@ -15,7 +15,7 @@ import java.util.Date;
 public class JackpotVO {
     private Long  id;
     private String prizeName;
-    private BigDecimal getProba;
+    private BigDecimal getProbabi;
     private Integer stockNum;
     private BigDecimal marketPrice;
     private Integer status;
