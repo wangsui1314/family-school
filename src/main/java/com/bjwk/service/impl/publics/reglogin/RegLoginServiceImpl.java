@@ -275,6 +275,15 @@ public class RegLoginServiceImpl implements RegLoginService {
     public DataWrapper<String> userUpdateToPassWordCheck(Integer sign, String phone, String code) {
         // TODO Auto-generated method stub
         DataWrapper<String> dataWrapper = new DataWrapper<String>();
+
+        /**
+         * 学生不可修改密码
+         */
+        if (sign == 0 ){
+            dataWrapper.setCallStatus(CallStatusEnum.FAILED);
+            dataWrapper.setMsg("学生暂不可修改密码");
+            return dataWrapper;
+        }
         Jedis jedis = RedisClient.getJedis();
 
         ErrorCodeEnum codeEnum = VerifiCodeValidateUtil.verifiCodeValidate(phone, code);
