@@ -7,8 +7,8 @@
 		value (#{prizeName},#{getProbabi},#{stockNum},#{marketPrice})
 	</insert>
     <update id="removeStockNum">
-		update jackpot set stockNum = stockNum - ${removeNum}
-		where id = #{id} and  stockNum - ${removeNum} >=0
+		update jackpot set stockNum = stockNum + ${removeNum}
+		where id = #{id} and  stockNum + ${removeNum} >=0
 	</update>
 
 

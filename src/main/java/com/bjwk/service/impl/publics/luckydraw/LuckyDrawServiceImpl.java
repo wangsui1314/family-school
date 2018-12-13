@@ -60,7 +60,6 @@ public class LuckyDrawServiceImpl implements LuckyDrawService{
 			dataWrapper.setMsg("很遗憾，就差那么一点点");
 			return (T) dataWrapper;
 		}else {
-			log.info("中奖了，中奖了 id 是 "+id);
 			for (JackpotPO jackpotPO:jackpotPOList) {
 				 if (jackpotPO.getId().equals(id)){
 					dataWrapper.setData(jackpotPO);
@@ -97,7 +96,7 @@ public class LuckyDrawServiceImpl implements LuckyDrawService{
 		for (JackpotPO jackpotPO : jackpotPOList) {
 			Long prizeId = jackpotPO.getId();
 			// 划分区间
-			int currentScope = lastScope + jackpotPO.getGetProbali().multiply(new BigDecimal(mulriple)).intValue();
+			int currentScope = lastScope + jackpotPO.getGetProbabi().multiply(new BigDecimal(mulriple)).intValue();
 			prizeScopes.put(prizeId, new int[] { lastScope + 1, currentScope });
 			prizeQuantity.put(prizeId, jackpotPO.getStockNum());
 
@@ -118,7 +117,7 @@ public class LuckyDrawServiceImpl implements LuckyDrawService{
 			}
 		}
 		if (luckyPrizeId > 0) {
-			removeStockNum(luckyPrizeId, 1);
+			removeStockNum(luckyPrizeId, -1);
 		}
 		return luckyPrizeId;
 	}
