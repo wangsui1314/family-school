@@ -36,4 +36,9 @@ public class Config {
     @Value("${redisPw}")
     public String redisPw;
 
+    @Value("${go_easy_server_host}")
+    public String goEasyServerHost;
+
+    @Value("${go_easy_server_appKey}")
+    public String goEasyServerAppKey;
 }

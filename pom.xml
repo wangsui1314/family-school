@@ -325,6 +325,12 @@
 			<artifactId>elasticsearch</artifactId>
 			<version>5.5.2</version>
 		</dependency>
+
+		<dependency>
+			<groupId>io.goeasy</groupId>
+			<artifactId>goeasy-sdk</artifactId>
+			<version>0.3.8</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -381,6 +387,11 @@
 			<snapshots>
 				<enabled>true</enabled>
 			</snapshots>
+		</repository>
+		<repository>
+			<id>goeasy</id>
+			<name>goeasy</name>
+			<url>http://maven.goeasy.io/content/repositories/releases/</url>
 		</repository>
 	</repositories>
 	<pluginRepositories>
