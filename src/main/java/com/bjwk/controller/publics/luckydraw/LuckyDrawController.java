@@ -68,10 +68,11 @@ public class LuckyDrawController {
 	@RequestMapping("removeStockNum")
 	@ResponseBody
 	public <T> T removeStockNum(
+			//@RequestParam("adminToken") String adminToken
 			@RequestParam("id") Long id,
-			@RequestParam(value = "removeNum",required = false,defaultValue = "1") Integer removeNum
+			@RequestParam(value = "updateNum",required = false,defaultValue = "1") Integer updateNum
 	){
-		return luckyDrawService.removeStockNum(id,removeNum);
+		return luckyDrawService.removeStockNum(id,updateNum);
 	}
 
 

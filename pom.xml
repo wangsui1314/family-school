@@ -378,33 +378,9 @@
 	</build>
 	<repositories>
 		<repository>
-			<id>Center</id>
-			<name>Nexus</name>
-			<url>http://maven.xiqiao.io/content/groups/public/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-		<repository>
 			<id>goeasy</id>
 			<name>goeasy</name>
 			<url>http://maven.goeasy.io/content/repositories/releases/</url>
 		</repository>
 	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>Center</id>
-			<name>Nexus Repositories</name>
-			<url>http://maven.xiqiao.io/content/groups/public/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</pluginRepository>
-	</pluginRepositories>
 </project>

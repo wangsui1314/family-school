@@ -17,7 +17,7 @@ public class JackpotReq {
     @NonNull
     private String prizeName;
     @NonNull
-    private BigDecimal getProba;
+    private BigDecimal getProbabi;
     @NonNull
     private Integer stockNum;
     private BigDecimal marketPrice;

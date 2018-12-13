@@ -18,108 +18,112 @@ import com.bjwk.service.publics.luckydraw.LuckyDrawService;
 import java.math.BigDecimal;
 import java.util.*;
 
-/** 
-* @Description: 用户抽奖实现类
-* @author  Desolation
-* @email:1071680460@qq.com
-* @date 创建时间：2018年3月27日 下午11:51:00 
-* @version 1.0  
-*/
+/**
+ * @author Desolation
+ * @version 1.0
+ * @Description: 用户抽奖实现类
+ * @email:1071680460@qq.com
+ * @date 创建时间：2018年3月27日 下午11:51:00
+ */
 @Service
 @Slf4j
-public class LuckyDrawServiceImpl implements LuckyDrawService{
+public class LuckyDrawServiceImpl implements LuckyDrawService {
 
-	@Autowired
-	private LuckyDrawDao luckyDrawDao;
-	@Autowired
-	private RegLoginService regLoginService;
-	// 放大倍数
-	private static final int mulriple = 1000000;
-
-
-	@Override
-	public DataWrapper<Void>  setLuckyDrawInfo(JackpotReq jackpotReq) {
-		DataWrapper<Void>  dataWrapper = new DataWrapper<Void>();
-		luckyDrawDao.insertPrizeInfo(jackpotReq);
-		dataWrapper.setMsg("奖品新增成功");
-		return dataWrapper;
-	}
+    @Autowired
+    private LuckyDrawDao luckyDrawDao;
+    @Autowired
+    private RegLoginService regLoginService;
+    // 放大倍数
+    private static final int mulriple = 1000000;
 
 
-	@Override
-	public <T> T luckDraw(String token) {
-		DataWrapper<JackpotPO>  dataWrapper = new DataWrapper<JackpotPO>();
-		String userId =regLoginService.getUserIdByToken(token);
-		List<JackpotPO>  jackpotPOList = luckyDrawDao.selectPrizeInfo();
+    @Override
+    public DataWrapper<Void> setLuckyDrawInfo(JackpotReq jackpotReq) {
+        DataWrapper<Void> dataWrapper = new DataWrapper<Void>();
+        luckyDrawDao.insertPrizeInfo(jackpotReq);
+        dataWrapper.setMsg("奖品新增成功");
+        return dataWrapper;
+    }
 
-		Long  id = startLuckDraw(jackpotPOList);
 
-		if (id.intValue() == 0){
-			//未中奖
-			dataWrapper.setCallStatus(CallStatusEnum.FAILED);
-			dataWrapper.setMsg("很遗憾，就差那么一点点");
-			return (T) dataWrapper;
-		}else {
-			for (JackpotPO jackpotPO:jackpotPOList) {
-				 if (jackpotPO.getId().equals(id)){
-					dataWrapper.setData(jackpotPO);
-					return (T) dataWrapper;
-				 }
-			}
-		}
-		return (T) dataWrapper;
-	}
+    @Override
+    public <T> T luckDraw(String token) {
+        DataWrapper<JackpotPO> dataWrapper = new DataWrapper<JackpotPO>();
+        String userId = regLoginService.getUserIdByToken(token);
+        List<JackpotPO> jackpotPOList = luckyDrawDao.selectPrizeInfo();
 
-	@Override
-	public <T> T removeStockNum(Long id, Integer removeNum) {
-		DataWrapper<Void>  dataWrapper = new DataWrapper<Void>();
-		if (luckyDrawDao.removeStockNum(id,removeNum) ==0 ){
-			dataWrapper.setMsg("删除失败");
-			dataWrapper.setCallStatus(CallStatusEnum.FAILED);
-		}
-		return (T) dataWrapper;
-	}
+        Long id = startLuckDraw(jackpotPOList);
 
-	@Override
-	public <T> T queryJackpotDetailList() {
-		DataWrapper<Object>  dataWrapper =new DataWrapper<Object>();
-		dataWrapper.setData(luckyDrawDao.queryJackpotDetailList());
-		return (T) dataWrapper;
-	}
+        if (id.intValue() == 0) {
+            //未中奖
+            dataWrapper.setCallStatus(CallStatusEnum.FAILED);
+            dataWrapper.setMsg("很遗憾，就差那么一点点");
+            return (T) dataWrapper;
+        } else {
+            for (JackpotPO jackpotPO : jackpotPOList) {
+                if (jackpotPO.getId().equals(id)) {
+                    /**
+                     * 记录中奖信息
+                     */
+                    jackpotPO.setGetProbabi(null);
+                    dataWrapper.setData(jackpotPO);
+                    return (T) dataWrapper;
+                }
+            }
+        }
+        return (T) dataWrapper;
+    }
 
-	public Long startLuckDraw(List<JackpotPO> jackpotPOList) {
-		int lastScope = 0;
-		// 洗牌，打乱奖品次序
-		Collections.shuffle(jackpotPOList);
-		Map<Long, int[]> prizeScopes = new HashMap<Long, int[]>();
-		Map<Long, Integer> prizeQuantity = new HashMap<Long, Integer>();
-		for (JackpotPO jackpotPO : jackpotPOList) {
-			Long prizeId = jackpotPO.getId();
-			// 划分区间
-			int currentScope = lastScope + jackpotPO.getGetProbabi().multiply(new BigDecimal(mulriple)).intValue();
-			prizeScopes.put(prizeId, new int[] { lastScope + 1, currentScope });
-			prizeQuantity.put(prizeId, jackpotPO.getStockNum());
+    @Override
+    public <T> T removeStockNum(Long id, Integer removeNum) {
+        DataWrapper<Void> dataWrapper = new DataWrapper<Void>();
+        if (luckyDrawDao.removeStockNum(id, removeNum) == 0) {
+            dataWrapper.setMsg("删除失败");
+            dataWrapper.setCallStatus(CallStatusEnum.FAILED);
+        }
+        return (T) dataWrapper;
+    }
 
-			lastScope = currentScope;
-		}
-		// 获取1-1000000之间的一个随机数
-		int luckyNumber = new Random().nextInt(mulriple);
-		Long luckyPrizeId = 0L;
-		// 查找随机数所在的区间
-		if ((null != prizeScopes) && !prizeScopes.isEmpty()) {
-			Set<Map.Entry<Long, int[]>> entrySets = prizeScopes.entrySet();
-			for (Map.Entry<Long, int[]> m : entrySets) {
-				Long key = m.getKey();
-				if (luckyNumber >= m.getValue()[0] && luckyNumber <= m.getValue()[1] && prizeQuantity.get(key) > 0) {
-					luckyPrizeId = key;
-					break;
-				}
-			}
-		}
-		if (luckyPrizeId > 0) {
-			removeStockNum(luckyPrizeId, -1);
-		}
-		return luckyPrizeId;
-	}
+    @Override
+    public <T> T queryJackpotDetailList() {
+        DataWrapper<Object> dataWrapper = new DataWrapper<Object>();
+        dataWrapper.setData(luckyDrawDao.queryJackpotDetailList());
+        return (T) dataWrapper;
+    }
+
+    public Long startLuckDraw(List<JackpotPO> jackpotPOList) {
+        int lastScope = 0;
+        // 洗牌，打乱奖品次序
+        Collections.shuffle(jackpotPOList);
+        Map<Long, int[]> prizeScopes = new HashMap<Long, int[]>();
+        Map<Long, Integer> prizeQuantity = new HashMap<Long, Integer>();
+        for (JackpotPO jackpotPO : jackpotPOList) {
+            Long prizeId = jackpotPO.getId();
+            // 划分区间
+            int currentScope = lastScope + jackpotPO.getGetProbabi().multiply(new BigDecimal(mulriple)).intValue();
+            prizeScopes.put(prizeId, new int[]{lastScope + 1, currentScope});
+            prizeQuantity.put(prizeId, jackpotPO.getStockNum());
+
+            lastScope = currentScope;
+        }
+        // 获取1-1000000之间的一个随机数
+        int luckyNumber = new Random().nextInt(mulriple);
+        Long luckyPrizeId = 0L;
+        // 查找随机数所在的区间
+        if ((null != prizeScopes) && !prizeScopes.isEmpty()) {
+            Set<Map.Entry<Long, int[]>> entrySets = prizeScopes.entrySet();
+            for (Map.Entry<Long, int[]> m : entrySets) {
+                Long key = m.getKey();
+                if (luckyNumber >= m.getValue()[0] && luckyNumber <= m.getValue()[1] && prizeQuantity.get(key) > 0) {
+                    luckyPrizeId = key;
+                    break;
+                }
+            }
+        }
+        if (luckyPrizeId > 0) {
+            removeStockNum(luckyPrizeId, -1);
+        }
+        return luckyPrizeId;
+    }
 
 }
