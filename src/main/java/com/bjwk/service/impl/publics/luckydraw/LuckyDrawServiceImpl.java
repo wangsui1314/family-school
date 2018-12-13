@@ -97,7 +97,7 @@ public class LuckyDrawServiceImpl implements LuckyDrawService{
 		for (JackpotPO jackpotPO : jackpotPOList) {
 			Long prizeId = jackpotPO.getId();
 			// 划分区间
-			int currentScope = lastScope + jackpotPO.getGetProba().multiply(new BigDecimal(mulriple)).intValue();
+			int currentScope = lastScope + jackpotPO.getGetProbali().multiply(new BigDecimal(mulriple)).intValue();
 			prizeScopes.put(prizeId, new int[] { lastScope + 1, currentScope });
 			prizeQuantity.put(prizeId, jackpotPO.getStockNum());
 
