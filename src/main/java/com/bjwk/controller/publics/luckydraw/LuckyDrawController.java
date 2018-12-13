@@ -1,12 +1,12 @@
 package com.bjwk.controller.publics.luckydraw;
 
+import com.bjwk.model.req.JackpotReq;
+import com.bjwk.utils.annotation.MyLog;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.alibaba.fastjson.JSONObject;
 import com.bjwk.service.publics.luckydraw.LuckyDrawService;
@@ -27,37 +27,67 @@ public class LuckyDrawController {
 	private static final Log _logger = LogFactory.getLog(LuckyDrawController.class);
 	@Autowired
 	private LuckyDrawService luckyDrawService;
-	
+
 	/**
-	 * 设置用户抽奖信息，包括奖品等
-	 * @param request
-	 * @param
-	 * @param
-	 * @param
-	 * @return
+	 * @Description "设置奖品"
+	 * @Date 2018/12/13 13:20
+	 * @Param [jackpotReq]
+	 * @return T
 	 */
-	@RequestMapping("setLuckyDrawInfo")
+	@PostMapping("setLuckyDrawInfo")
 	@ResponseBody
-	public JSONObject setLuckyDrawInfo(@RequestBody JSONObject request){
-		_logger.info("设置用户抽奖信息");
-		String prizeName  = request.getString("prizeName");
-		String prizeGrade = request.getString("prizeGrade");
-		String prizeProbability = request.getString("prizeProbability");
-		_logger.info("设置的用户抽奖信息实现类的信息为：奖项名称："+prizeName+",奖项等级："+prizeGrade+",奖项概率："+prizeProbability);
-		return luckyDrawService.setLuckyDrawInfo(request);
+	@MyLog
+	public <T> T setLuckyDrawInfo(
+		//	@RequestParam("adminToken") String adminToken,
+			JackpotReq jackpotReq
+	){
+		return  luckyDrawService.setLuckyDrawInfo(jackpotReq);
 	}
-	
-	
+
 	/**
-	 * 获取用户抽奖信息
-	 * @param request
-	 * @return
+	 * @Description "抽奖入口"
+	 * @Date 2018/12/13 13:33
+	 * @Param [token]
+	 * @return T
 	 */
-	@RequestMapping("getLuckyDrawInfo")
+	@PostMapping("luckDraw")
 	@ResponseBody
-	public JSONObject getLuckyDrawInfo(@RequestBody JSONObject request){
-		_logger.info("获取用户抽奖信息");
-		return luckyDrawService.getLuckyDrawInfo();
+	@MyLog
+	public <T> T luckDraw(
+				@RequestParam("token") String token
+	){
+		return  luckyDrawService.luckDraw(token);
+	}
+
+
+	/**
+	 * @Description "删除奖池中特定商品的库存"
+	 * @Date 2018/12/13 13:46
+	 * @Param [id, removeNum]  removeNum：删除个数
+	 * @return com.alibaba.fastjson.JSONObject
+	 */
+	@RequestMapping("removeStockNum")
+	@ResponseBody
+	public <T> T removeStockNum(
+			@RequestParam("id") Long id,
+			@RequestParam(value = "removeNum",required = false,defaultValue = "1") Integer removeNum
+	){
+		return luckyDrawService.removeStockNum(id,removeNum);
+	}
+
+
+	/**
+	 * @Description "查看奖池详细信息"
+	 * @Date 2018/12/13 14:01
+	 * @Param [adminToken]
+	 * @return T
+	 */
+	@RequestMapping("queryJackpotDetailList")
+	@ResponseBody
+	public <T> T queryJackpotDetailList(
+			//@RequestParam("adminToken") String adminToken
+	){
+		return luckyDrawService.queryJackpotDetailList();
 	}
 
 }

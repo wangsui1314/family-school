@@ -1,6 +1,7 @@
 package com.bjwk.service.publics.luckydraw;
 
 import com.alibaba.fastjson.JSONObject;
+import com.bjwk.model.req.JackpotReq;
 
 /** 
 * @Description: 用户抽奖实现接口
@@ -10,9 +11,13 @@ import com.alibaba.fastjson.JSONObject;
 * @version 1.0  
 */
 public interface LuckyDrawService {
-	
-	public JSONObject setLuckyDrawInfo(JSONObject request);
-	
-	public JSONObject getLuckyDrawInfo();
 
+	<T> T setLuckyDrawInfo(JackpotReq jackpotReq);
+	
+
+	<T> T luckDraw(String token);
+
+	<T> T removeStockNum(Long id, Integer removeNum);
+
+	<T> T queryJackpotDetailList();
 }

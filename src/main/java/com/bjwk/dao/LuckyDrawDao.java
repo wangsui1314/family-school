@@ -3,9 +3,10 @@ package com.bjwk.dao;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.stereotype.Component;
-
-import com.bjwk.model.LuckyDraw;
+import com.bjwk.model.JackpotVO;
+import com.bjwk.model.pojo.JackpotPO;
+import com.bjwk.model.req.JackpotReq;
+import org.apache.ibatis.annotations.Param;
 
 /** 
 * @Description: 用户抽奖dao层
@@ -16,8 +17,11 @@ import com.bjwk.model.LuckyDraw;
 */
 public interface LuckyDrawDao {
 	
-	int insertPrizeInfo(LuckyDraw luckyDraw);
-	
-	List<Map<String, Object>> selectPrizeInfo();
+	int insertPrizeInfo(JackpotReq jackpotReq);
 
+	List<JackpotPO> selectPrizeInfo();
+
+	int removeStockNum(@Param("id") Long id, @Param("removeNum")Integer removeNum);
+
+	List<JackpotVO> queryJackpotDetailList();
 }
