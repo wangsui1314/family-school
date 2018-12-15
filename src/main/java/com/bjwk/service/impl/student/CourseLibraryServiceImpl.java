@@ -144,7 +144,7 @@ public class CourseLibraryServiceImpl implements CourseLibraryService {
              */
             String downLoadPath = jedis.hget("courseDownLoad_" + userId, String.valueOf(courseVideoBankId));
             if (downLoadPath != null) {
-                courseVideoBankDetailVO.setVideo(downLoadPath);
+                courseVideoBankDetailVO.setVideoLocalPath(downLoadPath);
             }
         }
         //目录

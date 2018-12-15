@@ -17,6 +17,7 @@ public class CourseVideoBankDetailVO {
     private int courseVideoBankId;
 
     private String video;
+    private String videoLocalPath;
     private String title;
     private String lecturerHeaderImg;
     private String lecturer;
