@@ -1,11 +1,10 @@
 package com.bjwk.utils;
 
-import com.github.pagehelper.PageInfo;
 import lombok.Data;
 
 
 @Data
-public class DataWrapper<T>  {
+public class DataWrapper<T> {
     private CallStatusEnum callStatus;
     private ErrorCodeEnum errorCode;
     private T data;
@@ -18,6 +17,12 @@ public class DataWrapper<T>  {
     public DataWrapper() {
         callStatus = CallStatusEnum.SUCCEED;
         errorCode = ErrorCodeEnum.No_Error;
+    }
+
+    public DataWrapper(CallStatusEnum callStatus, T data, String msg) {
+        this.callStatus = callStatus;
+        this.data = data;
+        this.msg = msg;
     }
 
     public CallStatusEnum getCallStatus() {
@@ -34,10 +39,10 @@ public class DataWrapper<T>  {
 
     public void setErrorCode(ErrorCodeEnum errorCode) {
         this.errorCode = errorCode;
-       if (!errorCode.equals(ErrorCodeEnum.No_Error)) {
-         this.callStatus = CallStatusEnum.FAILED;
-       }
-       this.msg=errorCode.getLabel();
+        if (!errorCode.equals(ErrorCodeEnum.No_Error)) {
+            this.callStatus = CallStatusEnum.FAILED;
+        }
+        this.msg = errorCode.getLabel();
 
     }
 
@@ -46,8 +51,7 @@ public class DataWrapper<T>  {
     }
 
 
-
-	public void setData(T data) {
+    public void setData(T data) {
         this.data = data;
     }
 
@@ -59,27 +63,36 @@ public class DataWrapper<T>  {
         this.token = token;
     }
 
-	public String getMsg() {
-		return msg;
-	}
+    public String getMsg() {
+        return msg;
+    }
 
-	public void setMsg(String msg) {
-		this.msg = msg;
-	}
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
 
-	public String getRongCloudToken() {
-		return rongCloudToken;
-	}
+    public String getRongCloudToken() {
+        return rongCloudToken;
+    }
 
-	public void setRongCloudToken(String rongCloudToken) {
-		this.rongCloudToken = rongCloudToken;
-	}
+    public void setRongCloudToken(String rongCloudToken) {
+        this.rongCloudToken = rongCloudToken;
+    }
 
-	public DataWrapper(ErrorCodeEnum errorCodeEnum,T data,String msg){
-	    this.setErrorCode(errorCodeEnum);
-	    this.data=data;
-	   // this.setPage(page,totalNumber);
-	    this.msg=msg;
+    public DataWrapper(ErrorCodeEnum errorCodeEnum, T data, String msg) {
+        this.setErrorCode(errorCodeEnum);
+        this.data = data;
+        // this.setPage(page,totalNumber);
+        this.msg = msg;
+    }
+
+    public  DataWrapper ok(T data, String msg) {
+
+        return new DataWrapper(CallStatusEnum.SUCCEED, data, msg);
+    }
+
+    public  DataWrapper error(T data, String msg) {
+        return new DataWrapper(CallStatusEnum.FAILED, data, msg);
     }
 
 }
