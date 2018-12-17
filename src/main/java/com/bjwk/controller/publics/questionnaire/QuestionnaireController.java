@@ -11,6 +11,7 @@ import com.bjwk.model.questionnaire.Questionnaire;
 import com.bjwk.service.publics.questionnaire.QuestionnaireService;
 import com.bjwk.utils.DataWrapper;
 import com.bjwk.utils.ExportExcel;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.ibatis.annotations.Param;
@@ -66,6 +67,9 @@ public class QuestionnaireController {
     @RequestMapping(value = "_export")
     public void export(String questionId, HttpServletRequest request, HttpServletResponse response) {
         _logger.info("导出用户数据");
+        if(StringUtils.isEmpty(questionId)){
+            questionId = "1";
+        }
         List<Questionnaire> questionnaireList = questionnaireService.findNaireInfo(Integer.parseInt(questionId));
 
         List<QuestionnaireVo> body = new ArrayList<QuestionnaireVo>();
