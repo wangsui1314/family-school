@@ -27,13 +27,13 @@ public interface QuestionDao {
     /**
      * 查询问卷
      **/
-    @Select("select * from question where questionId = :questionId")
+    @Select("select * from question where question_id = :questionId")
     Question findQuestion(@Param("questionId") int questionId);
 
     /**
      * 插入问卷
      **/
-    @Insert({"insert into question(question_title,question_content,other_content,create_time,update_time) set (#{questionTitle},#{questionContent},#{otherContent},#{createTime, jdbcType=TIMESTAMP},#{updateTime, jdbcType=TIMESTAMP})"})
+    @Insert({"insert into question(question_title,question_content,other_content,create_time,update_time) set values(#{questionTitle},#{questionContent},#{otherContent},#{createTime, jdbcType=TIMESTAMP},#{updateTime, jdbcType=TIMESTAMP})"})
     @Options(useGeneratedKeys = true, keyProperty = "question_id")
     int insertQuesetion(@Param("questionTitle") String questionTitle, @Param("questionContent") String questionContent, @Param("otherContent") String otherContent, @Param("createTime") Date createTime, @Param("updateTime") Date updateTime);
 }
