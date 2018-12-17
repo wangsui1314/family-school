@@ -12,6 +12,7 @@ import com.bjwk.utils.DataWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -40,7 +41,7 @@ public class QuestionController {
 
     @RequestMapping("_save")
     @ResponseBody
-    public DataWrapper<Boolean> saveQuestionInfo(Question question){
+    public DataWrapper<Boolean> saveQuestionInfo(@ModelAttribute(value = "questionnaire") Question question){
         log.info("添加问卷信息：{}",question.toString());
         return this.questionService.saveQuestion(question);
     }
