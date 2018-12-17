@@ -86,13 +86,13 @@ public class DataWrapper<T> {
         this.msg = msg;
     }
 
-    public  DataWrapper ok(T data, String msg) {
+    public  DataWrapper<T> ok(T data, String msg) {
 
-        return new DataWrapper(CallStatusEnum.SUCCEED, data, msg);
+        return new DataWrapper<T>(CallStatusEnum.SUCCEED, data, msg);
     }
 
-    public  DataWrapper error(T data, String msg) {
-        return new DataWrapper(CallStatusEnum.FAILED, data, msg);
+    public  DataWrapper<T> error(T data, String msg) {
+        return new DataWrapper<T>(CallStatusEnum.FAILED, data, msg);
     }
 
 }
