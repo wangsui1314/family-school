@@ -39,5 +39,5 @@ public interface QuestionnaireService {
     /**
      * 查询问卷信息
      **/
-    List<Questionnaire> findNaireInfo();
+    List<Questionnaire> findNaireInfo(int questionId);
 }

@@ -39,6 +39,7 @@
 		select
 			<include refid="Base_Column_List" />
 		from questionnaire
+		where question_id = #{questionId}
 	</select>
 
 </mapper>

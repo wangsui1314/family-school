@@ -72,7 +72,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
      * 查询问卷信息
      **/
     @Override
-    public List<Questionnaire> findNaireInfo() {
-        return this.questionnaireDao.findNaireInfo();
+    public List<Questionnaire> findNaireInfo(int questionId) {
+        return this.questionnaireDao.findNaireInfo(questionId);
     }
 }

@@ -7,6 +7,7 @@
 package com.bjwk.dao;
 
 import com.bjwk.model.questionnaire.Questionnaire;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -39,6 +40,6 @@ public interface QuestionnaireDao {
     /**
      * 查询问卷信息
      **/
-    List<Questionnaire> findNaireInfo();
+    List<Questionnaire> findNaireInfo(@Param("questionId") int questionId);
 
 }

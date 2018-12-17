@@ -13,6 +13,7 @@ import com.bjwk.utils.DataWrapper;
 import com.bjwk.utils.ExportExcel;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -63,9 +64,9 @@ public class QuestionnaireController {
      * 导出问卷调查信息
      **/
     @RequestMapping(value = "_export")
-    public void export(HttpServletRequest request, HttpServletResponse response) {
+    public void export(String questionId, HttpServletRequest request, HttpServletResponse response) {
         _logger.info("导出用户数据");
-        List<Questionnaire> questionnaireList = questionnaireService.findNaireInfo();
+        List<Questionnaire> questionnaireList = questionnaireService.findNaireInfo(Integer.parseInt(questionId));
 
         List<QuestionnaireVo> body = new ArrayList<QuestionnaireVo>();
 

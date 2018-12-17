@@ -6,6 +6,10 @@
  */
 package com.bjwk.model.questionnaire;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -27,6 +31,9 @@ import java.util.Date;
  * @create: 2018-11-04 13:58
  * @version：1.0
  */
+@Getter
+@Setter
+@ToString
 public class Questionnaire implements Serializable {
 
     private int naireId;
@@ -43,94 +50,11 @@ public class Questionnaire implements Serializable {
 
     private String answerKey;
 
+    private int questionId;
+
     private Date createTime;
 
     private Date updateTime;
 
-    public int getNaireId() {
-        return naireId;
-    }
 
-    public void setNaireId(int naireId) {
-        this.naireId = naireId;
-    }
-
-    public String getStudentName() {
-        return studentName;
-    }
-
-    public void setStudentName(String studentName) {
-        this.studentName = studentName;
-    }
-
-    public String getStudentClass() {
-        return studentClass;
-    }
-
-    public void setStudentClass(String studentClass) {
-        this.studentClass = studentClass;
-    }
-
-    public String getParentPhone() {
-        return parentPhone;
-    }
-
-    public void setParentPhone(String parentPhone) {
-        this.parentPhone = parentPhone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getSelectKey() {
-        return selectKey;
-    }
-
-    public void setSelectKey(String selectKey) {
-        this.selectKey = selectKey;
-    }
-
-    public String getAnswerKey() {
-        return answerKey;
-    }
-
-    public void setAnswerKey(String answerKey) {
-        this.answerKey = answerKey;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    @Override
-    public String toString() {
-        return "Questionnaire{" +
-                "naireId=" + naireId +
-                ", studentName='" + studentName + '\'' +
-                ", studentClass='" + studentClass + '\'' +
-                ", parentPhone='" + parentPhone + '\'' +
-                ", address='" + address + '\'' +
-                ", selectKey='" + selectKey + '\'' +
-                ", answerKey='" + answerKey + '\'' +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                '}';
-    }
 }
