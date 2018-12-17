@@ -18,7 +18,7 @@ import java.util.List;
  */
 public interface QuestionService {
 
-    DataWrapper<List<Question>> queryQuestion(int questionId);
+    DataWrapper<Question> queryQuestion(int questionId);
 
     DataWrapper<Boolean> saveQuestion(Question question);
 }

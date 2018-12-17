@@ -34,7 +34,7 @@ public class QuestionController {
 
     @RequestMapping("_find")
     @ResponseBody
-    public DataWrapper<List<Question>> findQuestion(String questionId){
+    public DataWrapper<Question> findQuestion(String questionId){
         log.info("问卷查询ID：{}",questionId);
         return this.questionService.queryQuestion(Integer.parseInt(questionId));
     }

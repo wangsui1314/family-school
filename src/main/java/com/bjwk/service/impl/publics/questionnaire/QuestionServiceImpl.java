@@ -14,10 +14,8 @@ import com.bjwk.utils.DataWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -34,13 +32,13 @@ public class QuestionServiceImpl implements QuestionService {
 
 
     @Override
-    public DataWrapper<List<Question>> queryQuestion(int questionId) {
+    public DataWrapper<Question> queryQuestion(int questionId) {
         log.info("查询问卷的ID为：{}", questionId);
-        List<Question> questionList = questionDao.findQuestion(questionId);
-        DataWrapper<List<Question>> dataWrapper = new DataWrapper<List<Question>>();
-        if(CollectionUtils.isEmpty(questionList)){
+        Question questionList = questionDao.findQuestion(questionId);
+        DataWrapper<Question> dataWrapper = new DataWrapper<Question>();
+        if(StringUtils.isEmpty(questionList)){
             dataWrapper.setCallStatus(CallStatusEnum.FAILED);
-            dataWrapper.setData(new ArrayList<Question>());
+            dataWrapper.setData(new Question());
             dataWrapper.setMsg("没有找到相关问卷");
         }else {
             dataWrapper.setMsg("查询成功");

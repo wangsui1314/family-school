@@ -28,7 +28,7 @@ public interface QuestionDao {
      * 查询问卷
      **/
     @Select("select * from question where questionId = :questionId")
-    List<Question> findQuestion(@Param("questionId") int questionId);
+    Question findQuestion(@Param("questionId") int questionId);
 
     /**
      * 插入问卷
