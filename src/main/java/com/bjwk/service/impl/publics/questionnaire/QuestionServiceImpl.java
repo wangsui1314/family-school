@@ -38,7 +38,7 @@ public class QuestionServiceImpl implements QuestionService {
         DataWrapper<Question> dataWrapper = new DataWrapper<Question>();
         if(StringUtils.isEmpty(questionList)){
             dataWrapper.setCallStatus(CallStatusEnum.FAILED);
-            dataWrapper.setData(new Question());
+            dataWrapper.setData(null);
             dataWrapper.setMsg("没有找到相关问卷");
         }else {
             dataWrapper.setMsg("查询成功");
