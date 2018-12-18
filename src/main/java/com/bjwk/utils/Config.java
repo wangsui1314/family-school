@@ -15,13 +15,13 @@ import org.springframework.stereotype.Component;
 @PropertySource(value = {"classpath:config.properties"})
 @Data
 public class Config {
-    @Value("${databaseurl}")
+    @Value("${jdbc.jdbcUrl}")
     public String databaseurl;
 
-    @Value("${username}")
+    @Value("${jdbc.user}")
     public String username;
 
-    @Value("${password}")
+    @Value("${jdbc.password}")
     public String password;
 
     @Value("${spring.elasticsearch.jest.uris}")
