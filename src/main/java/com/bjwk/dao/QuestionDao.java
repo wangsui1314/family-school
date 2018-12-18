@@ -27,5 +27,5 @@ public interface QuestionDao {
     /**
      * 插入问卷
      **/
-    int insertQuestion(@Param("questionTitle") String questionTitle, @Param("questionContent") String questionContent, @Param("otherContent") String otherContent, @Param("createTime") Date createTime, @Param("updateTime") Date updateTime);
+    int insertQuestion(Question question);
 }

@@ -23,8 +23,8 @@
 		( #{questionTitle},
 		#{questionContent},
 		#{otherContent},
-		#{createTime},
-		#{updateTime}
+		now(),
+		now())
 	</insert>
 
 

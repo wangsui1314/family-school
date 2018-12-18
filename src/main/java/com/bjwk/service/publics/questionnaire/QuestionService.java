@@ -9,7 +9,6 @@ package com.bjwk.service.publics.questionnaire;
 import com.bjwk.model.questionnaire.Question;
 import com.bjwk.utils.DataWrapper;
 
-import java.util.List;
 
 /**
  * @author: wangsui
