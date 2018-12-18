@@ -2,7 +2,9 @@ package com.bjwk.model;
 
 import com.bjwk.model.listener.BaseEntityListener;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;
@@ -16,9 +18,9 @@ import java.util.Date;
  * @Date : 16:57 2018/6/29
  **/
 
-@Data
-@NoArgsConstructor
-//@MappedSuperclass
+@Getter
+@Setter
+@MappedSuperclass
 @EntityListeners(BaseEntityListener.class)
 public abstract class BaseEntity implements Serializable {
 

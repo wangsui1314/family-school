@@ -38,7 +38,7 @@ public class QuestionServiceImpl implements QuestionService {
         DataWrapper<Question> dataWrapper = new DataWrapper<Question>();
         if(StringUtils.isEmpty(questionList)){
             dataWrapper.setCallStatus(CallStatusEnum.FAILED);
-            dataWrapper.setData(new Question());
+            dataWrapper.setData(null);
             dataWrapper.setMsg("没有找到相关问卷");
         }else {
             dataWrapper.setMsg("查询成功");
@@ -52,7 +52,7 @@ public class QuestionServiceImpl implements QuestionService {
     public DataWrapper<Boolean> saveQuestion(Question question) {
         log.info("插入问卷信息：{}", question.toString());
 
-        int insertNum = questionDao.insertQuesetion(question.getQuestionTitle(),question.getQuestionContent(),question.getOtherContent(),question.getCreateTime(),question.getUpdateTime());
+        int insertNum = questionDao.insertQuestion(question.getQuestionTitle(),question.getQuestionContent(),question.getOtherContent(),question.getCreateTime(),question.getUpdateTime());
         DataWrapper<Boolean> dataWrapper = new DataWrapper<Boolean>();
         if(insertNum > 0){
             dataWrapper.setData(Boolean.TRUE);
