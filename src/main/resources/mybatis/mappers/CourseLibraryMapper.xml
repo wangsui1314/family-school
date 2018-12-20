@@ -81,7 +81,7 @@
     </select>
 
     <select id="downLoadVideoCourseList" resultType="java.util.HashMap">
-        select coverMapImage,id courseVideoBankId,title,lecturer,videoTime,isCharge,yuan,video
+        select coverMapImage,id courseVideoBankId,title,lecturer,videoTime,isCharge,yuan,video,updateTime
         from course_video_bank
         where
         id in
