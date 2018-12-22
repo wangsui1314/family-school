@@ -43,7 +43,9 @@ public class ArticleController {
     @RequestMapping(value = "_findArticle")
     @ResponseBody
     public DataWrapper<PageInfo<Article>> findArticle(
-            String gradeId, String typeId,String token,
+            @RequestParam(value = "gradeId") String gradeId,
+            @RequestParam(value = "typeId") String typeId,
+            @RequestParam(value = "token") String token,
             @RequestParam(value = "numberPerPage", defaultValue = "1") Integer numberPerPage,
             @RequestParam(value = "currentPage", defaultValue = "10") Integer currentPage)
     {
@@ -100,7 +102,7 @@ public class ArticleController {
      */
     @RequestMapping(value = "_deleteArticle")
     @ResponseBody
-    public DataWrapper<Boolean> deleteArticle(String articleId) {
+    public DataWrapper<Boolean> deleteArticle(@RequestParam(value = "articleId") String articleId) {
         _logger.info("删除美文 ，删除的Id为：" + articleId);
         return articleService.deleteArticle(Integer.parseInt(articleId));
     }
@@ -122,7 +124,9 @@ public class ArticleController {
      **/
     @RequestMapping(value = "_collection")
     @ResponseBody
-    public DataWrapper<Boolean> collectionArticle(String token, String articleId){
+    public DataWrapper<Boolean> collectionArticle(
+            @RequestParam(value = "token") String token,
+            @RequestParam(value = "articleId") String articleId){
         _logger.info("用户收藏美文");
         _logger.info("接收的美文：token:"+token + "美文Id:"+articleId);
         return this.articleService.collectionArticle(token,articleId);
