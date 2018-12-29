@@ -18,6 +18,7 @@ public class JackpotVO {
     private BigDecimal getProbabi;
     private Integer stockNum;
     private BigDecimal marketPrice;
+    private String prizeImg;
     private Integer status;
     private String createTime;
     private String updateTime;

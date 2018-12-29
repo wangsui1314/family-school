@@ -13,12 +13,12 @@
 
 
     <select id="selectPrizeInfo" resultType="com.bjwk.model.pojo.JackpotPO">
-		select id,prizeName,getProbabi,stockNum,marketPrice from jackpot
-		where status = 1 and  stockNum > 0
+		select id,prizeName,getProbabi,stockNum,prizeImg,marketPrice from jackpot
+		where status = 1 and  stockNum > 0 order by  id asc
 	</select>
 
     <select id="queryJackpotDetailList" resultType="com.bjwk.model.JackpotVO">
-		select id,prizeName,getProbabi,stockNum,marketPrice,status,
+		select id,prizeName,getProbabi,stockNum,marketPrice,prizeImg,status,
 		 DATE_FORMAT(createTime,'%Y-%m-%d %H:%i:%S') createTime,
 		  DATE_FORMAT(updateTime,'%Y-%m-%d %H:%i:%S') updateTime
 		  from jackpot

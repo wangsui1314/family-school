@@ -34,7 +34,7 @@ public class LuckyDrawServiceImpl implements LuckyDrawService {
     @Autowired
     private RegLoginService regLoginService;
     // 放大倍数
-    private static final int mulriple = 1000000;
+    private static final int mulriple = 100000;
 
 
     @Override
@@ -57,6 +57,7 @@ public class LuckyDrawServiceImpl implements LuckyDrawService {
         if (id.intValue() == 0) {
             //未中奖
             dataWrapper.setCallStatus(CallStatusEnum.FAILED);
+            dataWrapper.setData(noWinning());
             dataWrapper.setMsg("很遗憾，就差那么一点点");
             return (T) dataWrapper;
         } else {
@@ -126,4 +127,10 @@ public class LuckyDrawServiceImpl implements LuckyDrawService {
         return luckyPrizeId;
     }
 
+    public JackpotPO noWinning(){
+        JackpotPO jackpotPO = new JackpotPO();
+        jackpotPO.setPrizeName("很遗憾，就差那么一点点");
+        jackpotPO.setPrizeImg("");
+        return jackpotPO;
+    }
 }
