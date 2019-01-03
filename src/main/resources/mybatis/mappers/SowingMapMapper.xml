@@ -11,14 +11,14 @@
           (#{imageUrl},#{type},#{isEnable})
       </insert>
       <!--轮播图查询-->
-      <select id="querySowingMapList" resultType="java.lang.String">
-          select imageUrl from sowing_map
+      <select id="querySowingMapList" resultType="java.util.Map">
+          select imageUrl,linkUrl from sowing_map
           where
           type=#{type} and isEnable=1
       </select>
 
         <!--后台轮播图查询-->
-      <select id="querySowingMapListToBackstage" resultType="map">
+      <select id="querySowingMapListToBackstage" resultType="java.util.HashMap">
           select * from sowing_map
          <where>
               <if test="type != null">
@@ -38,7 +38,5 @@
             id=#{id}
         </update>
 
-        <select id="test" resultType="map">
-            select * from  question_bank
-        </select>
+
 </mapper>       

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @program: family-school
@@ -56,7 +57,7 @@ public class SowingMapController {
      */
     @RequestMapping(value="_querySowingMapList")
     @ResponseBody
-    public DataWrapper<List<String>> querySowingMapList(
+    public DataWrapper<List<Map<String,Object>>> querySowingMapList(
             @RequestParam(value="type",required=true) Integer type
     ){
         return imagesManageService.querySowingMapList(type);
@@ -96,20 +97,6 @@ public class SowingMapController {
         return imagesManageService.updatEnableOper(id,isEnable);
     }
 
-    /**
-     * @Description:题库列表展示测试
-     * @Param: []
-     * @return: com.bjwk.utils.DataWrapper<java.lang.Void>
-     * @Author: liqitian
-     * @Date: 2018/6/20
-     */
-    @RequestMapping(value="_test")
-    @ResponseBody
-    @AdminTokenValidate
-    public DataWrapper<List<HashMap<String,Object>>> test(
-    ){
-        return imagesManageService.test();
-    }
     /**
      * > set
      * global  time_zone = '+8:00'; ##修改mysql全局时区为北京时间，即我们所在的东8区

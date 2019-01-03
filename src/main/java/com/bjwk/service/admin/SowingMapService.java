@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @program: family-school
@@ -17,11 +18,10 @@ public interface SowingMapService {
 
     DataWrapper<Void> insertSowingMap(String imageUrl,Integer type,Integer isEnable);
 
-    DataWrapper<List<String>> querySowingMapList(Integer type);
+    DataWrapper<List<Map<String,Object>>> querySowingMapList(Integer type);
 
     DataWrapper<PageInfo<HashMap<String,Object>>>  querySowingMapListToBackstage(Integer type, Integer isEnable);
 
     DataWrapper<Void> updatEnableOper(Integer id, Integer isEnable);
 
-    DataWrapper<List<HashMap<String,Object>>> test();
 }

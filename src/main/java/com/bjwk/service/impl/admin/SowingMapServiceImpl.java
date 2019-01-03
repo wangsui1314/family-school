@@ -9,9 +9,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * @program: family-school
@@ -52,13 +50,13 @@ public class SowingMapServiceImpl implements SowingMapService {
      * @Date: 2018/6/20
      */
     @Override
-    public DataWrapper<List<String>> querySowingMapList(Integer type) {
-        DataWrapper<List<String>> dataWrapper=new DataWrapper<List<String>>();
-        List<String> sowingMapList=sowingMapDao.querySowingMapList(type);
+    public DataWrapper<List<Map<String,Object>>> querySowingMapList(Integer type) {
+        DataWrapper<List<Map<String,Object>>> dataWrapper=new DataWrapper();
+        List<Map<String,Object>> sowingMapList=sowingMapDao.querySowingMapList(type);
         if(sowingMapList!=null&&!sowingMapList.isEmpty()){
             dataWrapper.setData(sowingMapList);
         }else{
-            dataWrapper.setData(new ArrayList<String>());
+            dataWrapper.setData(Collections.<Map<String, Object>>emptyList());
         }
         return dataWrapper;
     }
@@ -102,13 +100,5 @@ public class SowingMapServiceImpl implements SowingMapService {
         dataWrapper.setMsg("修改成功");
         return dataWrapper;
     }
-
-    @Override
-    public DataWrapper<List<HashMap<String,Object>>> test() {
-        DataWrapper<List<HashMap<String,Object>>> dataWrapper=new DataWrapper<List<HashMap<String, Object>>>();
-        dataWrapper.setData(sowingMapDao.test());
-        return dataWrapper;
-    }
-
 
 }
