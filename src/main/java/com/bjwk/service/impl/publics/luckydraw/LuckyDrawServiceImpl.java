@@ -80,7 +80,7 @@ public class LuckyDrawServiceImpl implements LuckyDrawService {
             /**
              * 扣除积分
              */
-            luckyDrawDao.subCoin(userId,20);
+            luckyDrawDao.subCoin(userId,-20);
 
             return (T) dataWrapper;
         } else {
@@ -91,12 +91,12 @@ public class LuckyDrawServiceImpl implements LuckyDrawService {
                      */
                     jackpotPO.setGetProbabi(null);
                     dataWrapper.setData(jackpotPO);
-                    luckyDrawDao.subCoin(userId,40);
+                    luckyDrawDao.subCoin(userId,-40);
                     return (T) dataWrapper;
                 }
             }
         }
-        luckyDrawDao.subCoin(userId,40);
+        luckyDrawDao.subCoin(userId,-40);
         return (T) dataWrapper;
     }
 
@@ -122,6 +122,8 @@ public class LuckyDrawServiceImpl implements LuckyDrawService {
         Map<String,Object> jsonMap = new Gson().fromJson(gsonContent,HashMap.class);
         ActivityVO activityVO = new ActivityVO();
         activityVO.setActivityName(activityPO.getActivityName());
+        activityVO.setStartTime(activityPO.getStartTime());
+        activityVO.setEndTime(activityPO.getEndTime());
         activityVO.setContentJson(jsonMap);
         activityVO.setId(activityPO.getId());
         Map<String,Object> ma= new HashMap<String, Object>(2);

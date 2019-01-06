@@ -30,7 +30,7 @@
 	</select>
 
 	<select id="queryCheckUserIsJackOk" resultType="java.lang.Integer">
-		select coin  users  where user_id = #{userId}
+		select coin from  users  where user_id = #{userId}
 	</select>
 
 	<update id="subCoin">
