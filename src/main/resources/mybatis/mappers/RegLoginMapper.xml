@@ -10,8 +10,8 @@
         <selectKey resultType="int" order="AFTER" keyProperty="userId">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        insert into users(user_name,phone,pass_word,email,sign,head_portrait,sex,nick_name,student_id) values(
-        #{userName},#{phone},#{passWord},#{email},#{sign},#{headPortrait},#{sex},#{nickName},#{studentId})
+        insert into users(user_name,phone,pass_word,email,coin,sign,head_portrait,sex,nick_name,student_id) values(
+        #{userName},#{phone},#{passWord},#{email},#{coin},#{sign},#{headPortrait},#{sex},#{nickName},#{studentId})
     </insert>
 
     <select id="queryUserIsTrue" resultType="java.lang.String">

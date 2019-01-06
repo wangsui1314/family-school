@@ -96,6 +96,7 @@ public class RegLoginServiceImpl implements RegLoginService {
          *  解密 return new sun.misc.BASE64Decoder().decodeBuffer(source);
          */
         //user.setPassWord(new sun.misc.BASE64Encoder().encode(user.getPassWord().getBytes()));
+        user.setCoin(100);
         regLoginDao.insertReg(user);
 
         return dataWrapper;

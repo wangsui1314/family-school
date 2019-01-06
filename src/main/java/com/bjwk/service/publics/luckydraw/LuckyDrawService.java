@@ -19,5 +19,5 @@ public interface LuckyDrawService {
 
 	<T> T removeStockNum(Long id, Integer removeNum);
 
-	<T> T queryJackpotDetailList();
+	<T> T queryJackpotDetailList(Integer linkActivityId);
 }

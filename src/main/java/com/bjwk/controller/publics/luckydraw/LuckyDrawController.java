@@ -77,7 +77,7 @@ public class LuckyDrawController {
 
 
 	/**
-	 * @Description "查看奖池详细信息"
+	 * @Description "查看活动详细信息"
 	 * @Date 2018/12/13 14:01
 	 * @Param [adminToken]
 	 * @return T
@@ -85,9 +85,9 @@ public class LuckyDrawController {
 	@RequestMapping("queryJackpotDetailList")
 	@ResponseBody
 	public <T> T queryJackpotDetailList(
-			//@RequestParam("adminToken") String adminToken
+			@RequestParam("linkActivityId") Integer linkActivityId
 	){
-		return luckyDrawService.queryJackpotDetailList();
+		return luckyDrawService.queryJackpotDetailList(linkActivityId);
 	}
 
 }

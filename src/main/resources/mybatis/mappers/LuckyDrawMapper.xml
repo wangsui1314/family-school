@@ -21,7 +21,11 @@
 		select id,prizeName,getProbabi,stockNum,marketPrice,prizeImg,status,
 		 DATE_FORMAT(createTime,'%Y-%m-%d %H:%i:%S') createTime,
 		  DATE_FORMAT(updateTime,'%Y-%m-%d %H:%i:%S') updateTime
-		  from jackpot
+		  from jackpot where  status = 1
+	</select>
+
+	<select id="queryActivityDetail" resultType="com.bjwk.model.pojo.ActivityPO">
+		select * from activity where id = #{activityId}
 	</select>
 
 

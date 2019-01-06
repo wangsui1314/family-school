@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.bjwk.model.JackpotVO;
+import com.bjwk.model.pojo.ActivityPO;
 import com.bjwk.model.pojo.JackpotPO;
 import com.bjwk.model.req.JackpotReq;
 import org.apache.ibatis.annotations.Param;
@@ -24,4 +25,7 @@ public interface LuckyDrawDao {
 	int removeStockNum(@Param("id") Long id, @Param("removeNum")Integer removeNum);
 
 	List<JackpotVO> queryJackpotDetailList();
+
+    ActivityPO queryActivityDetail(Integer linkActivityId);
+
 }

@@ -1,11 +1,15 @@
 package com.bjwk.service.impl.publics.luckydraw;
 
 import com.bjwk.dao.LuckyDrawDao;
+import com.bjwk.model.ActivityVO;
+import com.bjwk.model.JackpotVO;
+import com.bjwk.model.pojo.ActivityPO;
 import com.bjwk.model.pojo.JackpotPO;
 import com.bjwk.model.req.JackpotReq;
 import com.bjwk.service.publics.reglogin.RegLoginService;
 import com.bjwk.utils.CallStatusEnum;
 import com.bjwk.utils.DataWrapper;
+import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -86,9 +90,28 @@ public class LuckyDrawServiceImpl implements LuckyDrawService {
     }
 
     @Override
-    public <T> T queryJackpotDetailList() {
+    public <T> T queryJackpotDetailList(Integer linkActivityId) {
         DataWrapper<Object> dataWrapper = new DataWrapper<Object>();
-        dataWrapper.setData(luckyDrawDao.queryJackpotDetailList());
+
+        /**
+         * 查询活动信息
+         */
+        ActivityPO activityPO = luckyDrawDao.queryActivityDetail(linkActivityId);
+        String  gsonContent = activityPO.getContentJson();
+        Map<String,Object> jsonMap = new Gson().fromJson(gsonContent,HashMap.class);
+        ActivityVO activityVO = new ActivityVO();
+        activityVO.setActivityName(activityPO.getActivityName());
+        activityVO.setContentJson(jsonMap);
+        activityVO.setId(activityPO.getId());
+        Map<String,Object> ma= new HashMap<String, Object>(2);
+        ma.put("activityRules",activityVO);
+
+        /**
+         * 奖品
+         */
+        List<JackpotVO> jackpotVOList = luckyDrawDao.queryJackpotDetailList();
+        ma.put("activityGoodDetails",jackpotVOList);
+        dataWrapper.setData(ma);
         return (T) dataWrapper;
     }
 

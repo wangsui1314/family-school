@@ -12,7 +12,7 @@
       </insert>
       <!--轮播图查询-->
       <select id="querySowingMapList" resultType="java.util.Map">
-          select imageUrl,linkUrl from sowing_map
+          select imageUrl,linkActivityId from sowing_map
           where
           type=#{type} and isEnable=1
       </select>
