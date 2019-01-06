@@ -54,6 +54,19 @@ public class LuckyDrawServiceImpl implements LuckyDrawService {
     public <T> T luckDraw(String token) {
         DataWrapper<JackpotPO> dataWrapper = new DataWrapper<JackpotPO>();
         String userId = regLoginService.getUserIdByToken(token);
+
+        /**
+         * 检查用户  积分是否大于等于1000 具有抽奖资格
+         */
+        int coin = luckyDrawDao.queryCheckUserIsJackOk(userId);
+
+
+        if (coin < 1000){
+            dataWrapper.setCallStatus(CallStatusEnum.FAILED);
+            dataWrapper.setMsg("积分小于1000不具有抽奖资格");
+            return (T) dataWrapper;
+        }
+
         List<JackpotPO> jackpotPOList = luckyDrawDao.selectPrizeInfo();
 
         Long id = startLuckDraw(jackpotPOList);
@@ -63,6 +76,12 @@ public class LuckyDrawServiceImpl implements LuckyDrawService {
             dataWrapper.setCallStatus(CallStatusEnum.FAILED);
             dataWrapper.setData(noWinning());
             dataWrapper.setMsg("很遗憾，就差那么一点点");
+
+            /**
+             * 扣除积分
+             */
+            luckyDrawDao.subCoin(userId,20);
+
             return (T) dataWrapper;
         } else {
             for (JackpotPO jackpotPO : jackpotPOList) {
@@ -72,10 +91,12 @@ public class LuckyDrawServiceImpl implements LuckyDrawService {
                      */
                     jackpotPO.setGetProbabi(null);
                     dataWrapper.setData(jackpotPO);
+                    luckyDrawDao.subCoin(userId,40);
                     return (T) dataWrapper;
                 }
             }
         }
+        luckyDrawDao.subCoin(userId,40);
         return (T) dataWrapper;
     }
 

@@ -28,4 +28,7 @@ public interface LuckyDrawDao {
 
     ActivityPO queryActivityDetail(Integer linkActivityId);
 
+	int queryCheckUserIsJackOk(String userId);
+
+	int subCoin(@Param("userId")String userId, @Param("aCoin")int aCoin);
 }

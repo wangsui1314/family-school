@@ -12,7 +12,8 @@
 	</update>
 
 
-    <select id="selectPrizeInfo" resultType="com.bjwk.model.pojo.JackpotPO">
+
+	<select id="selectPrizeInfo" resultType="com.bjwk.model.pojo.JackpotPO">
 		select id,prizeName,getProbabi,stockNum,prizeImg,marketPrice from jackpot
 		where status = 1 and  stockNum > 0 order by  id asc
 	</select>
@@ -28,5 +29,13 @@
 		select * from activity where id = #{activityId}
 	</select>
 
+	<select id="queryCheckUserIsJackOk" resultType="java.lang.Integer">
+		select coin  users  where user_id = #{userId}
+	</select>
+
+	<update id="subCoin">
+
+		update users set coin =coin + #{aCoin} where user_id = #{userId}
+	</update>
 
 </mapper>
