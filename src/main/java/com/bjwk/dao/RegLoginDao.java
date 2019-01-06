@@ -1,9 +1,12 @@
 package com.bjwk.dao;
 
+import com.bjwk.model.pojo.CoinObtainChannelRecordsPO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import com.bjwk.model.pojo.Users;
+
+import java.util.List;
 
 public interface RegLoginDao {
 
@@ -38,4 +41,10 @@ public interface RegLoginDao {
 	int queryUserIsTrueByPhoneSign(@Param("phone")String phone, @Param("sign")String sign);
 
 	int userUpdateToPassWord(@Param("userName")String param, @Param("sign")String param1, @Param("newPassWd")String newPassWd);
+
+	Integer queryUserCoins(String userId);
+
+	List<CoinObtainChannelRecordsPO> queryUserObtainChannelRecords(String userId);
+
+	int addCoinObtainChannelRecords(@Param("userId")String userId, @Param("num")Integer num,@Param("channelName") String channelName);
 }

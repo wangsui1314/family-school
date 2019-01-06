@@ -26,4 +26,7 @@ public interface RegLoginService {
 
 	DataWrapper<Void> userUpdateToPassWord(String passWdVoucher,String newPassWd);
 
+    <T> T queryUserCoins(String token);
+
+	<T> T addOrSubMyCoin(String adminToken,String userId,Integer num,String channelName);
 }

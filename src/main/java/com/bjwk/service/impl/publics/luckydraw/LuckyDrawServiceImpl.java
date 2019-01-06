@@ -80,7 +80,7 @@ public class LuckyDrawServiceImpl implements LuckyDrawService {
             /**
              * 扣除积分
              */
-            luckyDrawDao.subCoin(userId,-20);
+            regLoginService.addOrSubMyCoin("adminToken",userId,-20,"积分抽奖");
 
             return (T) dataWrapper;
         } else {
@@ -91,12 +91,13 @@ public class LuckyDrawServiceImpl implements LuckyDrawService {
                      */
                     jackpotPO.setGetProbabi(null);
                     dataWrapper.setData(jackpotPO);
-                    luckyDrawDao.subCoin(userId,-40);
+                    regLoginService.addOrSubMyCoin("adminToken",userId,-40,"积分抽奖");
+
                     return (T) dataWrapper;
                 }
             }
         }
-        luckyDrawDao.subCoin(userId,-40);
+        regLoginService.addOrSubMyCoin("adminToken",userId,-40,"积分抽奖");
         return (T) dataWrapper;
     }
 

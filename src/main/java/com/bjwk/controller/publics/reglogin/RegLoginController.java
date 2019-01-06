@@ -243,6 +243,43 @@ public class RegLoginController {
     }
 
 
+    /**
+     * @Description: 我的积分
+     * @Param: [token]
+     * @return: T
+     * @Author: liqitian
+     * @Date: 2019/1/6
+     */
+    @RequestMapping(value = "queryUserCoins")
+    @ResponseBody
+    @MyLog
+    public <T> T queryUserCoins(
+            @RequestParam(value = "token") String token
+    ) {
+
+        return regLoginService.queryUserCoins(token);
+    }
+
+    /**
+     * @Description: 添加或者减少我的积分
+     * @Param: [token]
+     * @return: T
+     * @Author: liqitian
+     * @Date: 2019/1/6
+     */
+    @RequestMapping(value = "addOrSubMyCoin")
+    @ResponseBody
+    @MyLog
+    public <T> T addOrSubMyCoin(
+            @RequestParam(value = "adminToken") String adminToken,
+            @RequestParam(value = "userId") String userId,
+            @RequestParam(value = "num") Integer num,
+            @RequestParam(value = "channelName") String channelName
+    ) {
+
+        return regLoginService.addOrSubMyCoin(adminToken,userId,num,channelName);
+    }
+
     @MyLog(description = "测试的AAAAAAAAAAAAAA")
     @RequestMapping(value = "/UserDemo")
     public @ResponseBody

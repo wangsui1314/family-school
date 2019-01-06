@@ -1,9 +1,9 @@
 package com.bjwk.service.impl.publics.reglogin;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
+import com.bjwk.dao.LuckyDrawDao;
+import com.bjwk.model.pojo.CoinObtainChannelRecordsPO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -355,6 +355,41 @@ public class RegLoginServiceImpl implements RegLoginService {
         jedis.close();
         return dataWrapper;
 
+    }
+
+    @Override
+    public <T> T queryUserCoins(String token) {
+        String userId = getUserIdByToken(token);
+        Integer coin = regLoginDao.queryUserCoins(userId);
+        List<CoinObtainChannelRecordsPO> obtainChannelRecordsPOList = regLoginDao.queryUserObtainChannelRecords(userId);
+        Map<String,Object> map =new HashMap<String, Object>();
+        map.put("coin",coin);
+        map.put("obtainChannelRecordsPOList",obtainChannelRecordsPOList == null?Collections.emptyList():obtainChannelRecordsPOList);
+        return (T) DataWrapper.ok(map,"");
+    }
+
+    @Autowired
+    private LuckyDrawDao luckyDrawDao;
+    @Override
+    public <T> T addOrSubMyCoin(String adminToken,String userId,Integer num,String channelName) {
+
+        if ("adminToken".endsWith(adminToken)){
+            /**
+             * 程序内部调用
+             */
+            int sign = luckyDrawDao.subCoin(userId,num);
+            if (sign > 0){
+                /**
+                 * 记录积分获取
+                 */
+                regLoginDao.addCoinObtainChannelRecords(userId,num,channelName);
+            }
+            return (T) DataWrapper.ok("","");
+        }
+        /**
+         * 程序外部调用逻辑 暂不实现
+         */
+        return null;
     }
 
     /**

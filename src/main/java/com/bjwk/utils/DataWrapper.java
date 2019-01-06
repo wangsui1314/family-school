@@ -39,13 +39,13 @@ public class DataWrapper<T> {
         this.msg = msg;
     }
 
-    public  DataWrapper<T> ok(T data, String msg) {
+    public static <R>  DataWrapper<R> ok(R data, String msg) {
 
-        return new DataWrapper<T>(CallStatusEnum.SUCCEED, data, msg);
+        return new DataWrapper<R>(CallStatusEnum.SUCCEED, data, msg);
     }
 
-    public  DataWrapper<T> error(T data, String msg) {
-        return new DataWrapper<T>(CallStatusEnum.FAILED, data, msg);
+    public static <R> DataWrapper<R> error(R data, String msg) {
+        return new DataWrapper<R>(CallStatusEnum.FAILED, data, msg);
     }
 
 }

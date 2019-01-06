@@ -79,6 +79,7 @@
             )
         </foreach>
     </insert>
+
     <update id="changeUserInfo">
         update users
         <set>
@@ -158,6 +159,10 @@
     <select id="userUpdateToPassWordCheck" resultType="java.lang.String">
         select user_name from users where phone=#{phone} and sign=#{sign}
     </select>
+    <select id="queryUserCoins" resultType="java.lang.Integer">
+
+        select coin from users where user_id = #{userId}
+    </select>
 
     <!--更改密码-->
     <update id="userUpdateToPassWord">
@@ -166,5 +171,16 @@
         where
         user_name=#{userName} and sign=#{sign}
     </update>
+
+    <select id="queryUserObtainChannelRecords" resultType="com.bjwk.model.pojo.CoinObtainChannelRecordsPO">
+
+        select id,userId,num,currentNum,channelName,DATE_FORMAT(createTime,'%Y-%m-%d %H:%i:%s') createTime from coin_obtain_channel_records where userId = #{userId}
+        ORDER BY createTime desc
+    </select>
+
+    <insert id="addCoinObtainChannelRecords">
+        insert  into coin_obtain_channel_records(userId,num,currentNum,channelName,createTime)
+        values (#{userId},#{num},(select coin from users where user_id = #{userId}),#{channelName},now())
+    </insert>
 
 </mapper>       
