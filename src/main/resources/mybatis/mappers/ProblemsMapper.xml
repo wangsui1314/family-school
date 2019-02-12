@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bjwk.dao.problems.ProblemsDao">
+
+<!--auto generated Code-->
+    <resultMap id="AllColumnMap" type="com.bjwk.model.problems.Problems">
+        <result column="id" property="id"/>
+        <result column="problem_title" property="problemTitle"/>
+        <result column="problem_content" property="problemContent"/>
+        <result column="problem_details" property="problemDetails"/>
+        <result column="problem_option" property="problemOption"/>
+        <result column="problem_key" property="problemKey"/>
+        <result column="key_analysis" property="keyAnalysis"/>
+        <result column="is_single_election" property="isSingleElection"/>
+        <result column="problem_from" property="problemFrom"/>
+        <result column="facility_value" property="facilityValue"/>
+        <result column="problem_type" property="problemType"/>
+        <result column="grade" property="grade"/>
+        <result column="subject" property="subject"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+<!--auto generated Code-->
+    <sql id="all_column">
+        id,
+        problem_title,
+        problem_content,
+        problem_details,
+        problem_option,
+        problem_key,
+        key_analysis,
+        is_single_election,
+        problem_from,
+        facility_value,
+        problem_type,
+        grade,
+        subject,
+        create_time,
+        update_time
+    </sql>
+
+<!--auto generated Code-->
+    <insert id="insert">
+        INSERT INTO problems
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pojo.id != null"> id, </if>
+            <if test="pojo.problemTitle != null"> problem_title, </if>
+            <if test="pojo.problemContent != null"> problem_content, </if>
+            <if test="pojo.problemDetails != null"> problem_details, </if>
+            <if test="pojo.problemOption != null"> problem_option, </if>
+            <if test="pojo.problemKey != null"> problem_key, </if>
+            <if test="pojo.keyAnalysis != null"> key_analysis, </if>
+            <if test="pojo.isSingleElection != null"> is_single_election, </if>
+            <if test="pojo.problemFrom != null"> problem_from, </if>
+            <if test="pojo.facilityValue != null"> facility_value, </if>
+            <if test="pojo.problemType != null"> problem_type, </if>
+            <if test="pojo.grade != null"> grade, </if>
+            <if test="pojo.subject != null"> subject, </if>
+            <if test="pojo.createTime != null"> create_time, </if>
+            <if test="pojo.updateTime != null"> update_time, </if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pojo.id != null"> #{pojo.id}, </if>
+            <if test="pojo.problemTitle != null"> #{pojo.problemTitle}, </if>
+            <if test="pojo.problemContent != null"> #{pojo.problemContent}, </if>
+            <if test="pojo.problemDetails != null"> #{pojo.problemDetails}, </if>
+            <if test="pojo.problemOption != null"> #{pojo.problemOption}, </if>
+            <if test="pojo.problemKey != null"> #{pojo.problemKey}, </if>
+            <if test="pojo.keyAnalysis != null"> #{pojo.keyAnalysis}, </if>
+            <if test="pojo.isSingleElection != null"> #{pojo.isSingleElection}, </if>
+            <if test="pojo.problemFrom != null"> #{pojo.problemFrom}, </if>
+            <if test="pojo.facilityValue != null"> #{pojo.facilityValue}, </if>
+            <if test="pojo.problemType != null"> #{pojo.problemType}, </if>
+            <if test="pojo.grade != null"> #{pojo.grade}, </if>
+            <if test="pojo.subject != null"> #{pojo.subject}, </if>
+            <if test="pojo.createTime != null"> #{pojo.createTime}, </if>
+            <if test="pojo.updateTime != null"> #{pojo.updateTime}, </if>
+        </trim>
+    </insert>
+
+<!--auto generated Code-->
+    <insert id="insertList">
+        INSERT INTO problems(
+        <include refid="all_column"/>
+        )VALUES
+        <foreach collection="pojos" item="pojo" index="index" separator=",">
+            (
+            #{pojo.id},
+            #{pojo.problemTitle},
+            #{pojo.problemContent},
+            #{pojo.problemDetails},
+            #{pojo.problemOption},
+            #{pojo.problemKey},
+            #{pojo.keyAnalysis},
+            #{pojo.isSingleElection},
+            #{pojo.problemFrom},
+            #{pojo.facilityValue},
+            #{pojo.problemType},
+            #{pojo.grade},
+            #{pojo.subject},
+            #{pojo.createTime},
+            #{pojo.updateTime}
+            )
+        </foreach>
+    </insert>
+
+<!--auto generated Code-->
+    <update id="update">
+        UPDATE problems
+        <set>
+            <if test="pojo.id != null"> id = #{pojo.id}, </if>
+            <if test="pojo.problemTitle != null"> problem_title = #{pojo.problemTitle}, </if>
+            <if test="pojo.problemContent != null"> problem_content = #{pojo.problemContent}, </if>
+            <if test="pojo.problemDetails != null"> problem_details = #{pojo.problemDetails}, </if>
+            <if test="pojo.problemOption != null"> problem_option = #{pojo.problemOption}, </if>
+            <if test="pojo.problemKey != null"> problem_key = #{pojo.problemKey}, </if>
+            <if test="pojo.keyAnalysis != null"> key_analysis = #{pojo.keyAnalysis}, </if>
+            <if test="pojo.isSingleElection != null"> is_single_election = #{pojo.isSingleElection}, </if>
+            <if test="pojo.problemFrom != null"> problem_from = #{pojo.problemFrom}, </if>
+            <if test="pojo.facilityValue != null"> facility_value = #{pojo.facilityValue}, </if>
+            <if test="pojo.problemType != null"> problem_type = #{pojo.problemType}, </if>
+            <if test="pojo.grade != null"> grade = #{pojo.grade}, </if>
+            <if test="pojo.subject != null"> subject = #{pojo.subject}, </if>
+            <if test="pojo.createTime != null"> create_time = #{pojo.createTime}, </if>
+        </set>
+         WHERE id = #{pojo.id}
+    </update>
+
+<!--auto generated Code-->
+    <select id="select" resultMap="AllColumnMap">
+        SELECT <include refid="all_column"/>
+        FROM problems
+        <where>
+            <if test="pojo.id != null"> AND id = #{pojo.id} </if>
+            <if test="pojo.problemTitle != null"> AND problem_title = #{pojo.problemTitle} </if>
+            <if test="pojo.problemContent != null"> AND problem_content = #{pojo.problemContent} </if>
+            <if test="pojo.problemDetails != null"> AND problem_details = #{pojo.problemDetails} </if>
+            <if test="pojo.problemOption != null"> AND problem_option = #{pojo.problemOption} </if>
+            <if test="pojo.problemKey != null"> AND problem_key = #{pojo.problemKey} </if>
+            <if test="pojo.keyAnalysis != null"> AND key_analysis = #{pojo.keyAnalysis} </if>
+            <if test="pojo.isSingleElection != null"> AND is_single_election = #{pojo.isSingleElection} </if>
+            <if test="pojo.problemFrom != null"> AND problem_from = #{pojo.problemFrom} </if>
+            <if test="pojo.facilityValue != null"> AND facility_value = #{pojo.facilityValue} </if>
+            <if test="pojo.problemType != null"> AND problem_type = #{pojo.problemType} </if>
+            <if test="pojo.grade != null"> AND grade = #{pojo.grade} </if>
+            <if test="pojo.subject != null"> AND subject = #{pojo.subject} </if>
+            <if test="pojo.createTime != null"> AND create_time = #{pojo.createTime} </if>
+            <if test="pojo.updateTime != null"> AND update_time = #{pojo.updateTime} </if>
+        </where>
+        LIMIT 1000 
+    </select>
+
+<!--auto generated Code-->
+    <delete id="delete">
+        DELETE FROM problems where id = #{id}
+    </delete>
+</mapper>
