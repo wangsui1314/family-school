@@ -46,7 +46,7 @@ public class Problems implements Serializable {
     //题目答案分析
     private String keyAnalysis;
 
-    //是否单选题
+    //是否单选题（0单选 1多选）
     private Integer isSingleElection;
 
     //题目来源

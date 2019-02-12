@@ -149,7 +149,6 @@
             <if test="pojo.createTime != null"> AND create_time = #{pojo.createTime} </if>
             <if test="pojo.updateTime != null"> AND update_time = #{pojo.updateTime} </if>
         </where>
-        LIMIT 1000 
     </select>
 
 <!--auto generated Code-->

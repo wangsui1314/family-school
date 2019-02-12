@@ -49,12 +49,12 @@ public class ProblemsController {
     @RequestMapping("/_list")
     public DataWrapper<PageInfo<Problems>> list(
             @RequestParam(value = "token") String token,
-            @RequestParam(value = "problemDetails") String problemDetails,
-            @RequestParam(value = "isSingleElection") String isSingleElection,
-            @RequestParam(value = "facilityValue") String facilityValue,
-            @RequestParam(value = "grade") String grade,
-            @RequestParam(value = "subject") String subject,
-            @RequestParam(value = "problemType") String problemType,
+            @RequestParam(required = false,value = "problemDetails") String problemDetails,
+            @RequestParam(required = false,value = "isSingleElection") String isSingleElection,
+            @RequestParam(required = false,value = "facilityValue") String facilityValue,
+            @RequestParam(required = false,value = "grade") String grade,
+            @RequestParam(required = false,value = "subject") String subject,
+            @RequestParam(required = false,value = "problemType") String problemType,
             @RequestParam(value = "numberPerPage", defaultValue = "1") Integer numberPerPage,
             @RequestParam(value = "currentPage", defaultValue = "10") Integer currentPage) {
         log.info("接收到的参数为：题目类型：" + problemDetails + "，是否单选题：" + isSingleElection + "，难易程度：" + facilityValue + ",年级：" + grade + ",科目：" + subject);
@@ -101,6 +101,7 @@ public class ProblemsController {
 
         }
         List<Problems> problemsList = this.problemsService.select(pojo);
+        log.info("查询出来的数据为：{}",problemsList);
         if(CollectionUtils.isEmpty(problemsList)){
             dataWrapper.setCallStatus(CallStatusEnum.FAILED);
             dataWrapper.setMsg("暂未有该数据");
